@@ -59,7 +59,7 @@ Caso a sua dúvida envolva uma regra de negócio, comportamento ou decisão de p
 
 ### Exemplo 3: Dúvida de Testes com `@qa`
 **Seu comentário:**
-> `@qa No card DAC-14, o critério diz que o token expira em 15 minutos. Como posso estruturar o teste unitário mockando o Clock?`
+> `@qa No card 014, o critério diz que o token expira em 15 minutos. Como posso estruturar o teste unitário mockando o Clock?`
 
 **Resposta do @qa:**
 > Exemplo prático de teste unitário com JUnit 5 e Mockito demonstrando a injeção do `Clock`.

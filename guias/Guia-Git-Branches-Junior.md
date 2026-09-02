@@ -110,7 +110,7 @@ git push -u origin feature/005-tela-login
 3. ⚠️ **ATENÇÃO CRÍTICA (Base Repository):**
    - **`base branch`**: selecione **`dev`** *(NUNCA selecione `main`)*.
    - **`compare branch`**: selecione a sua branch (ex: `feature/005-tela-login`).
-4. **Título do PR:** `[DAC-<ID>] Título descritivo da tarefa` (ex: `[DAC-005] Implementação da Tela de Login`).
+4. **Título do PR:** `[<ID>] Título descritivo da tarefa` (ex: `[005] Implementação da Tela de Login`).
 5. **Descrição do PR:** Preencha o resumo do que foi feito e marque os critérios de aceite atendidos:
    ```markdown
    ## 📌 Resumo da Entrega

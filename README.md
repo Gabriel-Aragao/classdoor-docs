@@ -8,21 +8,20 @@ Este repositório reúne todos os artefatos de produto, especificações arquite
 
 ## 🧭 Mapa de Documentação
 
-### 1. 🎯 Produto & Requisitos
-* [**User Stories**](User-Stories.md): Detalhamento funcional de todas as histórias de usuário, fluxos, regras de negócio e critérios de aceitação (Gherkin/BDD).
-* [**Planejamento de Sprints**](Planejamento-Sprints.md): Fatiamento do MVP em incrementos lógicos, definição de escopo e roadmap de entregas por Sprint.
+### 1. 🎯 Especificações de Produto & Arquitetura (`especificacoes/`)
+* [**User Stories**](especificacoes/User-Stories.md): Detalhamento funcional de todas as histórias de usuário, fluxos, regras de negócio e critérios de aceitação (Gherkin/BDD).
+* [**Planejamento de Sprints**](especificacoes/Planejamento-Sprints.md): Fatiamento do MVP em incrementos lógicos, definição de escopo e roadmap de entregas por Sprint.
+* [**Especificação Técnica & Arquitetura**](especificacoes/Especificacao-Tecnica-Arquitetura.md): Definição de stack (Spring Boot 3 + Java / React 19 + Bootswatch), padrões de projeto, modelagem relacional e infraestrutura.
+* [**Contratos de Integração**](especificacoes/Contratos-Integracao-User-Stories.md): Especificação dos endpoints REST, payloads de request/response, DTOs e códigos de status HTTP para cada User Story.
+* [**Especificação do Design System no Penpot**](especificacoes/Especificacao-Design-System-Penpot.md): Tokens de design (cores, tipografia, espaçamentos, elevações), componentes e links para o protótipo no Penpot.
 
-### 2. 🏗️ Arquitetura & Engenharia
-* [**Especificação Técnica & Arquitetura**](Especificacao-Tecnica-Arquitetura.md): Definição de stack (Spring Boot 3 + Java / React 19 + Bootswatch), padrões de projeto, modelagem relacional e infraestrutura.
-* [**Contratos de Integração**](Contratos-Integracao-User-Stories.md): Especificação dos endpoints REST, payloads de request/response, DTOs e códigos de status HTTP para cada User Story.
+### 2. 📖 Guias Práticos & Operacionais (`guias/`)
+* [**Guia de Git & Branches para Desenvolvedores**](guias/Guia-Git-Branches-Junior.md): Padrões de branch (`feature/<id>-desc`), fluxo de trabalho com a branch `dev`, comandos para Windows/Linux e abertura de Pull Requests (`[<ID>] Título`).
+* [**Guia de Suporte com Especialistas de IA no Trello**](guias/Guia-Comunicacao-Agentes-Devs-Junior.md): Manual de suporte nos cards do Trello, catálogo de especialistas (@dijkstra, @peter, @aria, @iris, @qa, @atlas) e esclarecimento de dúvidas.
 
-### 3. 🎨 Design System & UI/UX
-* [**Especificação do Design System no Penpot**](Especificacao-Design-System-Penpot.md): Tokens de design (cores, tipografia, espaçamentos, elevações), componentes e links para o protótipo navegável no Penpot.
+### 3. 🎨 Protótipos & Scripts
 * [**Protótipo Interativo**](prototypes/classdoor-interactive-prototype.html): Protótipo navegável HTML standalone para validação rápida de layout (Desktop & Mobile).
-
-### 4. 📖 Guias Operacionais & Colaboração
-* [**Guia de Git & Branches para Desenvolvedores**](Guia-Git-Branches-Junior.md): Padrões de branch (`feature/<id>-desc`), fluxo de trabalho com a branch `dev`, comandos para Windows/Linux e abertura de Pull Requests.
-* [**Guia de Suporte com Especialistas de IA no Trello**](Guia-Comunicacao-Agentes-Devs-Junior.md): Manual de suporte nos cards do Trello, catálogo de especialistas (@dijkstra, @peter, @aria, @iris, @qa, @atlas) e esclarecimento de dúvidas.
+* [**Scripts de Geração**](scripts/penpot-generator.js): Utilitários e automações de layout.
 
 ---
 
