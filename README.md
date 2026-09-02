@@ -21,7 +21,7 @@ Este repositório reúne todos os artefatos de produto, especificações arquite
 * [**Protótipo Interativo**](prototypes/classdoor-interactive-prototype.html): Protótipo navegável HTML standalone para validação rápida de layout (Desktop & Mobile).
 
 ### 4. 📖 Guias Operacionais & Colaboração
-* [**Guia de Git & Branches para Desenvolvedores**](Guia-Git-Branches-Junior.md): Padrões de branch (`feature/dac-<id>-desc`), fluxo de trabalho com a branch `dev`, comandos para Windows/Linux e abertura de Pull Requests.
+* [**Guia de Git & Branches para Desenvolvedores**](Guia-Git-Branches-Junior.md): Padrões de branch (`feature/<id>-desc`), fluxo de trabalho com a branch `dev`, comandos para Windows/Linux e abertura de Pull Requests.
 * [**Guia de Suporte com Especialistas de IA no Trello**](Guia-Comunicacao-Agentes-Devs-Junior.md): Manual de suporte nos cards do Trello, catálogo de especialistas (@dijkstra, @peter, @aria, @iris, @qa, @atlas) e esclarecimento de dúvidas.
 
 ---
