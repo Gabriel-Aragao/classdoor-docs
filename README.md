@@ -21,18 +21,18 @@ Este repositório reúne todos os artefatos de produto, especificações arquite
 * [**Protótipo Interativo**](prototypes/classdoor-interactive-prototype.html): Protótipo navegável HTML standalone para validação rápida de layout (Desktop & Mobile).
 
 ### 4. 📖 Guias Operacionais & Colaboração
-* [**Guia de Git & Branches para Desenvolvedores Júnior**](Guia-Git-Branches-Junior.md): Padrões de branch (`feature/dac-<id>-desc`), fluxo de trabalho com a branch `dev`, convenções de commits e abertura de Pull Requests.
-* [**Guia de Comunicação: Desenvolvedores Júnior & Agentes de IA**](Guia-Comunicacao-Agentes-Devs-Junior.md): Manual de suporte nos cards do Trello, catálogo de especialistas (@dijkstra, @peter, @aria, @iris, @qa, @atlas) e regras de escalonamento com o PO/CTO (@domaragao).
+* [**Guia de Git & Branches para Desenvolvedores**](Guia-Git-Branches-Junior.md): Padrões de branch (`feature/dac-<id>-desc`), fluxo de trabalho com a branch `dev`, comandos para Windows/Linux e abertura de Pull Requests.
+* [**Guia de Suporte com Especialistas de IA no Trello**](Guia-Comunicacao-Agentes-Devs-Junior.md): Manual de suporte nos cards do Trello, catálogo de especialistas (@dijkstra, @peter, @aria, @iris, @qa, @atlas) e esclarecimento de dúvidas.
 
 ---
 
-## 🔄 Diretrizes de Sincronização e Manutenção
+## 🔄 Diretrizes de Sincronização e Padrões de Commit
 
 1. **Sincronização Bidirecional Obrigatória:**
    * Qualquer alteração realizada na documentação deve ser refletida tanto no **Obsidian Vault** quanto neste repositório GitHub (`Gabriel-Aragao/classdoor-docs`).
 2. **Atualizações Passivas:**
-   * Sempre antes de realizar edições na documentação, execute um `git pull` neste repositório para incorporar eventuais alterações submetidas pelos desenvolvedores humanos (@andreyrian3 / @jenniferrebecaalvesdebarros).
+   * Antes de realizar edições na documentação, execute um `git pull` neste repositório para incorporar eventuais alterações submetidas pelos desenvolvedores.
    * Replique as novidades para o Obsidian Vault antes de subir novas alterações.
 3. **Padrão de Commits:**
-   * Mensagens de commit devem seguir o padrão: `[agente/autor] - descrição da alteração`.
-   * Exemplos: `[atlas] - atualiza contratos da US02`, `[dijkstra] - adiciona ADR sobre autenticação JWT`.
+   * **Agentes de IA:** utilizam o padrão `[agente] - mensagem` (ex: `[atlas] - atualiza contratos da US02`).
+   * **Desenvolvedores:** utilizam Conventional Commits identificados pela sua conta GitHub (ex: `feat(auth): adiciona validacao de email`).

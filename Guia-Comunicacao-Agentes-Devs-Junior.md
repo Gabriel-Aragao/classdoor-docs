@@ -1,96 +1,72 @@
-# Guia de Comunicação e Suporte: Agentes de IA & Desenvolvedores
+# Guia de Comunicação e Suporte: Como Acionar os Agentes de IA no Trello
 
-Este guia define as diretrizes, papéis e fluxos de interação entre os desenvolvedores júnior não-agentes (**@andreyrian3** e **@jenniferrebecaalvesdebarros**) e a equipe de agentes especialistas do ecossistema XIUD/Hermes.
-
----
-
-## 1. Visão Geral e Canal de Comunicação
-
-O canal oficial de suporte operacional para os desenvolvedores é a **seção de comentários dos cards no Trello**.
-Quando um desenvolvedor tiver dúvidas, precisar de auxílio passo a passo ou necessitar de pequenas correções de código, ele pode acionar diretamente o agente especialista marcando o `@handle` correspondente no comentário do card.
-
-### Como funciona o fluxo:
-1. O desenvolvedor escreve um comentário no card do Trello marcando o agente (ex: `@peter pode me ajudar com a validação deste DTO?`).
-2. O **@dispatcher** intercepta o comentário no Trello e encaminha a demanda ao agente correspondente.
-3. O agente analisa o contexto da tarefa, o repositório/branch e responde diretamente no card com a orientação ou código.
+Este guia orienta os desenvolvedores do projeto (**@andreyrian3** e **@jenniferrebecaalvesdebarros**) sobre como solicitar auxílio, tirar dúvidas e receber suporte técnico da equipe de agentes especialistas de IA durante o desenvolvimento das tarefas.
 
 ---
 
-## 2. Regra Crítica de Incerteza e Escalonamento (Fallback para o PO/CTO)
+## 💬 1. Como Solicitar Ajuda
 
-> ⚠️ **REGRA DE OURO PARA TODOS OS AGENTES:**
-> Caso o agente **não tenha certeza absoluta** da resposta, encontre ambiguidade no escopo ou a ação envolva uma decisão de produto/arquitetura não documentada:
-> 
-> 1. **No Trello:** O agente deve responder imediatamente ao desenvolvedor informando:
->    > *"Essa questão necessita de alinhamento com o PO/CTO (@domaragao). Vou acioná-lo para definirmos o direcionamento exato."*
-> 2. **No Telegram:** O agente deve enviar uma notificação para o **@domaragao** via **@friday** (@hermes), detalhando a dúvida, o desenvolvedor solicitante e o link do card correspondente.
+O canal oficial para suporte técnico é a **seção de comentários dos cards no quadro Dac (Trello)**.
+
+Quando você encontrar um bloqueio, tiver dúvida sobre a arquitetura, precisar de ajuda para debugar um erro ou necessitar de orientações sobre o design:
+1. Abra o card no Trello referente à tarefa em que está trabalhando.
+2. Escreva um comentário marcando o `@handle` do especialista desejado (veja a tabela abaixo).
+3. Descreva sua dúvida, incluindo trechos de código, logs de erro ou referências de tela.
+4. O especialista responderá diretamente no comentário do card com a solução, explicação passo a passo ou snippet de código.
 
 ---
 
-## 3. Catálogo de Agentes, Responsabilidades e Tipos de Apoio
+## 👥 2. Catálogo de Especialistas e Tipos de Apoio
 
-| Agente | Handle Trello | Especialidade | Tipos de Auxílio Prestados |
+| Especialista | Menção no Trello | Especialidade | Como pode te ajudar |
 | :--- | :--- | :--- | :--- |
-| **Dijkstra** | `@dijkstra` | Tech Lead & Arquiteto | - Dúvidas sobre arquitetura geral e divisão de módulos.<br>- Definição de padrões de projeto e estrutura de diretórios.<br>- Contratos de API (OpenAPI/Swagger) e modelagem relacional.<br>- Resolução de impasses técnicos conceituais. |
-| **Peter** | `@peter` | Backend Sênior (Spring Boot / Java & Django) | - Passo a passo para criação de Controllers, Services, DTOs e Repositories.<br>- Depuração de erros de compilação, exceções e logs no Spring Boot.<br>- Orientação para queries JPA/Hibernate e migrations Liquibase/Flyway.<br>- Suporte na implementação de regras de negócio no backend. |
-| **Aria** | `@aria` | Frontend Sênior (React / Bootswatch) | - *Nota:* Atuação sob demanda em tasks atribuídas a @domaragao.<br>- Dúvidas sobre componentes funcionais React, Hooks e gerenciamento de estado.<br>- Integração com classes e estilos Bootswatch (Bootstrap 5).<br>- Consumo de APIs REST via Fetch/Axios. |
-| **Iris** | `@iris` | UI/UX Designer (Penpot & Design System) | - Dúvidas sobre tokens de cores, tipografia, grids e espaçamentos.<br>- Alinhamento sobre comportamentos responsivos (Desktop vs. Mobile).<br>- Esclarecimento sobre estados de componentes (hover, focus, disabled).<br>- Exportação e fornecimento de assets/ícones do Penpot. |
-| **QA** | `@qa` | QA Sênior Full Stack | - Esclarecimento sobre critérios de aceite e regras de negócio da User Story.<br>- Auxílio na escrita de testes unitários e de integração.<br>- Pré-validação de código antes da abertura de Pull Request (PR).<br>- Diagnóstico de cenários de borda e validações de input. |
-| **Atlas** | `@atlas` | Gerente de Produto (PM) | - Esclarecimento sobre regras de negócio e objetivos da User Story.<br>- Fatiamento de escopo e priorização de requisitos.<br>- Dúvidas sobre o fluxo funcional do usuário final. |
-| **Dispatcher** | `@dispatcher` | Trello Router | - Roteador central: monitora e distribui menções do Trello aos agentes. |
-| **Friday** | `@friday` / `@hermes` | Hub Central / Secretária | - Notificações diretas ao PO/CTO (@domaragao) no Telegram em caso de impedimentos e dúvidas de escopo. |
+| **Dijkstra** | `@dijkstra` | Tech Lead & Arquiteto | • Dúvidas sobre estrutura de pastas, pacotes e padrões de projeto.<br>• Contratos de API (REST/OpenAPI) e modelagem de banco de dados.<br>• Decisões técnicas e resolução de impasses arquiteturais. |
+| **Peter** | `@peter` | Backend Sênior (Spring Boot / Java) | • Passo a passo para criação de Controllers, Services, DTOs e Repositories.<br>• Resolução de exceções, erros de compilação e validações (`@Valid`).<br>• Dúvidas de persistência JPA/Hibernate e migrations.<br>• Exemplos práticos de código e implementação de regras de negócio no backend. |
+| **Aria** | `@aria` | Frontend Sênior (React / Bootswatch) | • Dúvidas conceituais sobre componentes funcionais React, Hooks e estado.<br>• Dicas de aplicação de classes CSS Bootswatch (Bootstrap 5).<br>• Consumo de endpoints REST via Fetch / Axios. |
+| **Iris** | `@iris` | UI/UX Designer (Penpot) | • Dúvidas sobre tokens de design (cores, tipografia, espaçamentos, elevações).<br>• Alinhamento sobre comportamentos responsivos (Desktop vs. Mobile).<br>• Estados de componentes (hover, active, disabled) e fluxo dos protótipos. |
+| **QA** | `@qa` | QA Sênior Full Stack | • Esclarecimento sobre critérios de aceitação da User Story.<br>• Auxílio na escrita de testes unitários e de integração.<br>• Pré-avaliação do seu código antes da abertura do Pull Request.<br>• Validação de cenários de borda e regras de formulário. |
+| **Atlas** | `@atlas` | Product Manager (PM) | • Dúvidas sobre o escopo, priorização e jornada do usuário final.<br>• Esclarecimento sobre regras de negócio funcionais e requisitos do MVP. |
 
 ---
 
-## 4. Exemplos Práticos de Interação
+## ⚖️ 3. Dúvidas sobre Escopo ou Regras de Negócio Não Definidas
+
+Caso a sua dúvida envolva uma regra de negócio, comportamento ou decisão de produto que ainda não esteja documentada nas User Stories:
+* O agente responderá no comentário informando que o ponto foi encaminhado para alinhamento com o **PO/CTO (@domaragao)**.
+* Assim que a liderança definir o direcionamento, a resposta será publicada no próprio card para que você continue o desenvolvimento com total clareza.
+
+---
+
+## 📝 4. Exemplos de Interações no Trello
 
 ### Exemplo 1: Dúvida de Backend com `@peter`
-**Comentário do Dev (@andreyrian3):**
+**Seu comentário:**
 > `@peter Estou implementando o endpoint de cadastro de usuário, mas o Spring está retornando 400 Bad Request sem mensagem clara. Como configuro o @Valid no DTO para detalhar os erros de validação?`
 
 **Resposta do @peter:**
-> `@andreyrian3 Para capturar e formatar os erros de validação com @Valid, você precisa:
-> 1. Garantir as anotações no DTO (ex: \`@NotBlank(message = "O email é obrigatório")\`).
-> 2. Criar ou estender um \`@RestControllerAdvice\` com o método \`handleMethodArgumentNotValid\`.
-> Segue o snippet de exemplo para o nosso padrão de retorno:
-> \`\`\`java
-> @ExceptionHandler(MethodArgumentNotValidException.class)
-> public ResponseEntity<ApiErrorResponse> handleValidation(MethodArgumentNotValidException ex) { ... }
-> \`\`\``
+> Explicação de `@RestControllerAdvice` e método `handleMethodArgumentNotValid` com o snippet pronto para inclusão no projeto.
 
 ---
 
 ### Exemplo 2: Dúvida de Design/Tokens com `@iris`
-**Comentário da Dev (@jenniferrebecaalvesdebarros):**
-> `@iris Qual é o token de cor e a classe Bootswatch para o botão de ação secundária na tela de Recuperação de Senha (1C)?`
+**Seu comentário:**
+> `@iris Qual é a classe Bootswatch e o token de cor para o botão secundário na tela de Recuperação de Senha (1C)?`
 
 **Resposta da @iris:**
-> `@jenniferrebecaalvesdebarros Na tela 1C utilizamos o token \`--color-secondary-action\` (#6C757D). No nosso tema Bootswatch, você deve utilizar a classe \`btn btn-outline-primary\` para ações secundárias ou \`btn btn-link\` para o botão 'Voltar ao login'. O protótipo pode ser consultado na página Mobile do Penpot.`
+> Indicação do token `--color-secondary-action` e da classe `btn btn-outline-primary` com base na especificação do Penpot.
 
 ---
 
-### Exemplo 3: Dúvida de Critérios de Aceite com `@qa`
-**Comentário do Dev (@andreyrian3):**
-> `@qa No card DAC-14, o critério de aceite diz que o token expira em 15 minutos. Devo testar isso via teste de unidade mockando o Clock?`
+### Exemplo 3: Dúvida de Testes com `@qa`
+**Seu comentário:**
+> `@qa No card DAC-14, o critério diz que o token expira em 15 minutos. Como posso estruturar o teste unitário mockando o Clock?`
 
 **Resposta do @qa:**
-> `@andreyrian3 Exato! Recomendamos injetar um \`Clock\` no serviço para testar o cenário de token válido e token expirado sem depender de \`Thread.sleep\`. Se precisar, posso fornecer a estrutura do teste de unidade com JUnit 5 e Mockito.`
+> Exemplo prático de teste unitário com JUnit 5 e Mockito demonstrando a injeção do `Clock`.
 
 ---
 
-### Exemplo 4: Cenário com Incerteza (Fallback para o PO via `@friday`)
-**Comentário do Dev (@jenniferrebecaalvesdebarros):**
-> `@atlas O usuário deve conseguir reenviar o email de recuperação sem limite de tentativas ou devemos implementar um rate limit de 3 tentativas por hora?`
-
-**Resposta do @atlas no Trello:**
-> `@jenniferrebecaalvesdebarros Essa regra de rate limit de recuperação não está fechada na US02. Essa decisão precisa de alinhamento com o PO/CTO (@domaragao). Vou acioná-lo imediatamente para definirmos o direcionamento exato.`
-
-**Ação de background do @atlas:**
-> Envia mensagem via `message_agent` para `@hermes` solicitando envio de alerta no Telegram para @domaragao com a pergunta e o link do card.
-
----
-
-## 5. Boas Práticas para os Desenvolvedores
-1. **Seja específico:** Inclua trecho de código, logs de erro ou print do comportamento inesperado.
-2. **Indique a branch:** Informe em qual branch (`feature/dac-<id>-desc`) a dúvida está ocorrendo.
-3. **Mencione o agente correto:** Use a tabela acima para direcionar a pergunta ao especialista adequado.
+## 💡 5. Dicas para Obter Respostas Rápidas e Precisas
+1. **Compartilhe o contexto:** Mencione a branch em que está trabalhando e o arquivo em questão.
+2. **Envie os erros completos:** Copie a stack trace ou mensagem do console no comentário.
+3. **Mencione o especialista correto:** Utilize a tabela da Seção 2 para direcionar ao agente ideal.

@@ -1,20 +1,19 @@
 # Guia Prático de Git e Fluxo de Branches — Time Classdoor
 
-**Público-alvo:** Desenvolvedores Júnior (@andreyrian3 e @jenniferrebecaalvesdebarros) e Toda a Equipe de Engenharia  
+**Público-alvo:** Desenvolvedores Júnior (@andreyrian3 e @jenniferrebecaalvesdebarros)  
 **Projeto:** Classdoor (Frontend & Backend)  
-**Autor:** @Dijkstra (Tech Lead)  
-**Data:** 2026-09-01  
-**Repositório Base:** `Gabriel-Aragao/classdoor-frontend`  
+**Repositório Base Frontend:** `Gabriel-Aragao/classdoor-frontend`  
+**Repositório Base Backend:** `Gabriel-Aragao/classdoor-backend`  
 
 ---
 
-## 🎯 1. Visão Geral do Nosso Fluxo (Git Flow Simplificado)
+## 🎯 1. Visão Geral do Fluxo (Git Flow Simplificado)
 
 Para manter o código seguro, organizado e sem conflitos, adotamos o seguinte modelo de branches:
 
 - **`main`**: Código em produção (estável, testado e aprovado). Ninguém commita direto na `main`.
 - **`dev`**: Branch principal de desenvolvimento e integração contínua. **Todas as novas tarefas saem da `dev` e retornam para a `dev` via Pull Request (PR)**.
-- **`feature/dac-<id>-<descricao-curta>`**: Suas branches de trabalho individual criadas a partir da `dev`.
+- **`feature/dac-<id>-<descricao-curta>`**: Sua branch de trabalho individual criada a partir da `dev`.
 
 ```text
        (Criação da Feature)
@@ -61,37 +60,43 @@ git checkout -b feature/dac-005-tela-login
 
 ---
 
-### Passo 3: Desenvolver e Commitar no Padrão da Equipe
-Faça as alterações necessárias no código (seguindo React 19 + JS puro + Bootswatch).
+### Passo 3: Desenvolver e Commitar no Padrão do Projeto
+Faça as alterações necessárias no código (seguindo React 19 + JS puro + Bootswatch no Frontend ou Spring Boot 3 + Java no Backend).
 
-Ao commitar, utilize o **padrão obrigatório de mensagens**:  
-`[seu_identificador] - tipo: descrição clara da alteração`
+Como você já é identificado pela sua conta do GitHub nos commits, utilize o padrão semântico de mensagens (**Conventional Commits**):  
+`tipo(escopo-opcional): descrição clara da alteração no imperativo`
 
-Exemplos de commits:
+#### Exemplos de commits para desenvolvedores:
 ```bash
-# Exemplo para o Andrey:
+# Adição de nova funcionalidade:
 git add .
-git commit -m "[andrey] - feat: adicionar formulario de cadastro com validacao bootswatch"
+git commit -m "feat(auth): adicionar formulario de cadastro com validacao bootswatch"
 
-# Exemplo para a Jennifer:
+# Implementação de tela e integração:
 git add .
-git commit -m "[jennifer] - feat: implementar tela de login e integracao com api de auth"
+git commit -m "feat(login): implementar tela de login e integracao com api de auth"
 
-# Exemplo de correção de bug / ajuste:
-git commit -m "[andrey] - fix: ajustar responsividade dos inputs no mobile"
+# Correção de bug / ajuste visual:
+git add .
+git commit -m "fix(layout): ajustar responsividade dos inputs no mobile"
+
+# Adição de testes:
+git add .
+git commit -m "test(auth): adicionar testes unitarios para validacao de email"
 ```
 
-> 💡 **Tipos comuns de commits:**
-> - `feat:` Nova funcionalidade ou componente.
-> - `fix:` Correção de bug ou erro.
-> - `style:` Ajustes puramente visuais/CSS sem alterar lógica.
-> - `refactor:` Melhoria de código sem alterar comportamento.
+> 💡 **Tipos mais comuns de commits:**
+> - `feat:` Nova funcionalidade, página ou componente.
+> - `fix:` Correção de bug ou comportamento incorreto.
+> - `style:` Ajustes puramente visuais/CSS sem alteração de lógica.
+> - `refactor:` Melhoria na estrutura do código sem alterar a funcionalidade.
+> - `test:` Criação ou ajuste de testes automatizados.
 > - `docs:` Alterações em documentação ou comentários.
 
 ---
 
 ### Passo 4: Publicar sua branch no GitHub
-Após terminar e testar seu código localmente (`npm run build` e `npm run lint` passando com zero erros):
+Após terminar e testar seu código localmente (`npm run build` e `npm run lint` no frontend ou `mvn clean test` no backend):
 
 ```bash
 git push -u origin feature/dac-005-tela-login
@@ -100,13 +105,13 @@ git push -u origin feature/dac-005-tela-login
 ---
 
 ### Passo 5: Abrir o Pull Request (PR) apontando para a `dev`
-1. Acesse o repositório no GitHub: `https://github.com/Gabriel-Aragao/classdoor-frontend`
+1. Acesse o repositório no GitHub.
 2. Clique no botão verde **"Compare & pull request"**.
 3. ⚠️ **ATENÇÃO CRÍTICA (Base Repository):**
-   - **`base branch`**: selecione **`dev`** *(NÃO selecione `main`)*.
+   - **`base branch`**: selecione **`dev`** *(NUNCA selecione `main`)*.
    - **`compare branch`**: selecione a sua branch (ex: `feature/dac-005-tela-login`).
 4. **Título do PR:** `[DAC-<ID>] Título descritivo da tarefa` (ex: `[DAC-005] Implementação da Tela de Login`).
-5. **Descrição do PR:** Preencha o resumo do que foi feito e liste os critérios de aceite atendidos:
+5. **Descrição do PR:** Preencha o resumo do que foi feito e marque os critérios de aceite atendidos:
    ```markdown
    ## 📌 Resumo da Entrega
    Implementada a tela de login utilizando React 19 e componentes Bootswatch.
@@ -124,27 +129,77 @@ git push -u origin feature/dac-005-tela-login
 ### Passo 6: Notificar no Trello e Aguardar o Review do @qa
 1. Vá até o card correspondente no quadro **Dac** do Trello.
 2. Mova o card para a coluna **"Review"**.
-3. Adicione um comentário no card marcando seu identificador e o link do PR:
+3. Adicione um comentário no card com o link do PR:
    ```text
-   @Nome (Função): Tarefa concluída e PR #XX aberto apontando para a branch dev.
+   Tarefa concluída e PR #XX aberto apontando para a branch dev.
    Link do PR: https://github.com/Gabriel-Aragao/classdoor-frontend/pull/XX
-   Critérios de aceite validados e build 100% verde. Pronto para review do @QA (Quality Assurance).
+   Critérios de aceite validados e build 100% verde. Pronto para review do @qa.
    ```
-4. O **@qa** realizará o review oficial (8 pilares de qualidade). 
+4. O **@qa** realizará a validação dos critérios de qualidade. 
    - Se aprovado: o @qa autoriza o merge na `dev` e move o card para **Done**.
    - Se houver ajustes: o @qa apontará as correções no card e você fará novos commits na sua mesma branch.
 
 ---
 
-## 🛠️ 3. Dicas de Ouro & Comandos Úteis
+## 🛠️ 3. Comandos Úteis e Operações de Terminal (Windows & Linux)
 
-| Situação | Comando |
-| :--- | :--- |
-| Ver em qual branch você está | `git status` ou `git branch` |
-| Descartar alterações não salvas | `git restore .` |
-| Trazer atualizações da dev para sua feature | `git checkout dev && git pull && git checkout sua-branch && git merge dev` |
-| Ver histórico resumido de commits | `git log --oneline -n 5` |
+Para facilitar o dia a dia, confira os comandos para operações comuns de sistema e Git:
+
+### A. Navegação e Manipulação de Arquivos
+
+#### Criar diretórios
+```cmd
+:: Windows (PowerShell / CMD)
+mkdir src\components\auth
+```
+```bash
+# Linux / macOS (Bash)
+mkdir -p src/components/auth
+```
+
+#### Mover ou Renomear Arquivos
+```cmd
+:: Windows (PowerShell / CMD)
+move src\temp\Componente.jsx src\components\Componente.jsx
+```
+```bash
+# Linux / macOS (Bash)
+mv src/temp/Componente.jsx src/components/Componente.jsx
+```
+
+#### Copiar Arquivos
+```cmd
+:: Windows (PowerShell / CMD)
+copy .env.example .env
+```
+```bash
+# Linux / macOS (Bash)
+cp .env.example .env
+```
+
+#### Limpar dependências (`node_modules`)
+```cmd
+:: Windows (PowerShell / CMD)
+rmdir /s /q node_modules
+```
+```bash
+# Linux / macOS (Bash)
+rm -rf node_modules
+```
 
 ---
 
-Se tiverem qualquer dúvida técnica sobre arquitetura, contratos de API ou Git, podem me acionar (@dijkstra) a qualquer momento no Bot Chat! Boa codificação a todos! 🚀
+### B. Comandos Git Frequentes
+
+| Objetivo | Comando Git |
+| :--- | :--- |
+| **Verificar status da branch** | `git status` |
+| **Listar branches locais** | `git branch` |
+| **Descartar alterações locais não salvas** | `git restore .` |
+| **Trazer atualizações da dev para sua feature** | `git checkout dev && git pull && git checkout sua-branch && git merge dev` |
+| **Histórico resumido de commits** | `git log --oneline -n 5` |
+| **Desfazer o último commit mantendo os arquivos** | `git reset --soft HEAD~1` |
+
+---
+
+Se precisar de auxílio em qualquer etapa, basta marcar o especialista no comentário do card no Trello (ex: `@dijkstra`, `@peter`, `@iris`, `@qa`).
