@@ -13,11 +13,11 @@ Para manter o código seguro, organizado e sem conflitos, adotamos o seguinte mo
 
 - **`main`**: Código em produção (estável, testado e aprovado). Ninguém commita direto na `main`.
 - **`dev`**: Branch principal de desenvolvimento e integração contínua. **Todas as novas tarefas saem da `dev` e retornam para a `dev` via Pull Request (PR)**.
-- **`feature/<id>-<descricao-curta>`**: Sua branch de trabalho individual criada a partir da `dev`.
+- **`feat/<id>-<descricao-curta>`**: Sua branch de trabalho individual criada a partir da `dev`.
 
 ```text
        (Criação da Feature)
- [dev] ───────────────> [feature/005-tela-login]
+ [dev] ───────────────> [feat/005-tela-login]
    │                               │
    │                        (Desenvolve & Commita)
    │                               │
@@ -45,17 +45,17 @@ git pull origin dev
 
 ### Passo 2: Criar sua branch de trabalho
 O nome da sua branch **DEVE** seguir o padrão oficial do projeto:  
-`feature/<id>-<descricao-curta>`
+`feat/<id>-<descricao-curta>`
 
 Exemplos:
-- `feature/005-tela-login`
-- `feature/006-cadastro-usuario`
-- `feature/007-busca-professores`
+- `feat/005-tela-login`
+- `feat/006-cadastro-usuario`
+- `feat/007-busca-professores`
 
 Para criar e entrar na nova branch a partir da `dev`:
 
 ```bash
-git checkout -b feature/005-tela-login
+git checkout -b feat/005-tela-login
 ```
 
 ---
@@ -99,7 +99,7 @@ git commit -m "test(auth): adicionar testes unitarios para validacao de email"
 Após terminar e testar seu código localmente (`npm run build` e `npm run lint` no frontend ou `mvn clean test` no backend):
 
 ```bash
-git push -u origin feature/005-tela-login
+git push -u origin feat/005-tela-login
 ```
 
 ---
@@ -109,7 +109,7 @@ git push -u origin feature/005-tela-login
 2. Clique no botão verde **"Compare & pull request"**.
 3. ⚠️ **ATENÇÃO CRÍTICA (Base Repository):**
    - **`base branch`**: selecione **`dev`** *(NUNCA selecione `main`)*.
-   - **`compare branch`**: selecione a sua branch (ex: `feature/005-tela-login`).
+   - **`compare branch`**: selecione a sua branch (ex: `feat/005-tela-login`).
 4. **Título do PR:** `[<ID>] Título descritivo da tarefa` (ex: `[005] Implementação da Tela de Login`).
 5. **Descrição do PR:** Preencha o resumo do que foi feito e marque os critérios de aceite atendidos:
    ```markdown
