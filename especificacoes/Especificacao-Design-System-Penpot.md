@@ -75,6 +75,5 @@ Os tokens e ativos foram formalmente cadastrados no painel nativo de **Assets (A
 ---
 
 ## 🌐 Entregáveis Sincronizados
-1. 🎨 **Arquivo Penpot:** 3 páginas completas com 12 pranchetas responsivas + vitrine de tokens e ativos de biblioteca.
-2. 📄 **Documentação no Obsidian:** `/home/ubuntu/obsidian-vault/Classdoor/Especificacao-Design-System-Penpot.md`
-3. 🌐 **Protótipo Interativo HTML:** `/home/ubuntu/obsidian-vault/Classdoor/prototypes/classdoor-interactive-prototype.html`
+1. 🎨 **Arquivo Penpot (Fonte Única da Verdade):** 3 páginas completas com 12 pranchetas responsivas + vitrine de tokens, biblioteca de componentes e fluxos interativos.
+2. 📄 **Documentação Técnica:** [`especificacoes/Especificacao-Design-System-Penpot.md`](Especificacao-Design-System-Penpot.md) sincronizada entre GitHub Docs e Obsidian Vault.
