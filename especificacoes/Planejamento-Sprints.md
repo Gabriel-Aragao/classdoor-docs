@@ -57,4 +57,4 @@ Sprint 4: 23/09/2026 a 30/09/2026 — Painel Docente, Dashboard Analítico & Hom
 ## 5. Governança no Trello (Board Classdoor / Dac)
 1. **Atribuição:** Aberta no início do ciclo no Trello.
 2. **Comunicação:** Padrão `@Nome (Função)` em todos os comentários.
-3. **Git Workflow:** Branch por card (`feature/<id>-descricao`) criada a partir de `dev` -> PR para `dev` -> Aprovação exclusiva pelo **@qa**.
+3. **Git Workflow:** Branch por card (`feat/<id>-descricao`) criada a partir de `dev` -> PR para `dev` -> Aprovação exclusiva pelo **@qa**.
