@@ -90,7 +90,7 @@
     <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
       <div class="d-flex align-items-center gap-2">
         <span class="badge bg-success">UI/UX Iris</span>
-        <strong>Classdoor — Navegador de Telas do Protótipo</strong>
+        <strong>Classdoor — Navegador de Telas do Protótipo (Bootswatch Flatly)</strong>
       </div>
       <div class="btn-group flex-wrap" role="group">
         <button class="btn btn-sm btn-outline-light active" onclick="switchScreen('screen-login')">1A. Login</button>
@@ -120,23 +120,23 @@
             <div class="card-header bg-white border-0 pt-4 px-4 pb-0">
               <div class="btn-group w-100 p-1 bg-light rounded-3" role="group">
                 <button class="btn btn-primary fw-semibold active" type="button">Acessar Conta</button>
-                <button class="btn btn-light fw-semibold text-muted" type="button" onclick="switchScreen('screen-register')">Criar Conta</button>
+                <button class="btn btn-light fw-semibold text-muted" type="button" onclick="switchScreen('screen-register')">Criar Nova Conta</button>
               </div>
             </div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Entrar no Sistema</h5>
-              <p class="small text-muted mb-4">Informe suas credenciais institucionais autenticadas.</p>
+              <p class="small text-muted mb-4">Informe seu e-mail para acessar sua conta.</p>
               
               <form onsubmit="event.preventDefault(); switchScreen('screen-home');">
                 <div class="mb-3">
-                  <label class="form-label small fw-semibold">E-mail Institucional</label>
+                  <label class="form-label small fw-semibold">E-mail</label>
                   <div class="input-group">
                     <span class="input-group-text"><i class="bi bi-envelope"></i></span>
                     <input type="email" class="form-control" placeholder="estudante@universidade.edu" required>
                   </div>
                 </div>
                 <div class="mb-3">
-                  <label class="form-label small fw-semibold">Senha</label>
+                  <label class="form-label small fw-semibold">Senha de Acesso</label>
                   <div class="input-group">
                     <span class="input-group-text"><i class="bi bi-lock"></i></span>
                     <input type="password" class="form-control" placeholder="••••••••" required>
@@ -151,9 +151,14 @@
                 </div>
                 <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold mb-3">Entrar no Classdoor</button>
                 
-                <div class="alert alert-info py-2 px-3 small border-0 d-flex align-items-center gap-2 mb-0">
+                <div class="alert alert-info py-2 px-3 small border-0 d-flex align-items-center gap-2 mb-3">
                   <i class="bi bi-shield-lock-fill text-primary"></i>
-                  <span>Autenticação segura via tokens JWT criptografados.</span>
+                  <span>Acesso Seguro e Protegido. Sua identidade é mantida em sigilo total.</span>
+                </div>
+
+                <div class="text-center">
+                  <span class="small text-muted">Ainda não possui uma conta? </span>
+                  <a href="#" class="small text-decoration-none fw-semibold text-success" onclick="switchScreen('screen-register')">Criar Nova Conta</a>
                 </div>
               </form>
             </div>
@@ -172,19 +177,19 @@
         <div class="col-12 col-md-8 col-lg-5">
           <div class="text-center mb-4">
             <h2 class="fw-bold text-primary"><i class="bi bi-mortarboard-fill me-2 text-success"></i>Classdoor</h2>
-            <p class="text-muted">Crie sua conta para participar da comunidade acadêmica.</p>
+            <p class="text-muted">Crie sua conta para avaliar professores e disciplinas.</p>
           </div>
 
           <div class="card shadow-sm border-0 rounded-4">
             <div class="card-header bg-white border-0 pt-4 px-4 pb-0">
               <div class="btn-group w-100 p-1 bg-light rounded-3" role="group">
                 <button class="btn btn-light fw-semibold text-muted" type="button" onclick="switchScreen('screen-login')">Acessar Conta</button>
-                <button class="btn btn-success fw-semibold active" type="button">Criar Conta</button>
+                <button class="btn btn-success fw-semibold active" type="button">Criar Nova Conta</button>
               </div>
             </div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Cadastro Acadêmico</h5>
-              <p class="small text-muted mb-3">Cadastre-se com seu e-mail institucional.</p>
+              <p class="small text-muted mb-3">Crie sua conta para avaliar professores e disciplinas.</p>
 
               <form onsubmit="event.preventDefault(); alert('Cadastro realizado com sucesso! Redirecionando para a Home...'); switchScreen('screen-home');">
                 <div class="mb-3">
@@ -192,27 +197,28 @@
                   <input type="text" class="form-control" placeholder="Lucas Mendes Silva" required>
                 </div>
                 <div class="mb-3">
-                  <label class="form-label small fw-semibold">E-mail Institucional (@edu / @br)</label>
+                  <label class="form-label small fw-semibold">E-mail ou e-mail institucional</label>
                   <input type="email" class="form-control is-valid" value="lucas.silva@universidade.edu" required>
-                  <div class="valid-feedback small">Domínio universitário validado com sucesso!</div>
+                  <div class="valid-feedback small">E-mail verificado com sucesso!</div>
                 </div>
                 <div class="mb-3">
-                  <label class="form-label small fw-semibold d-block">Tipo de Perfil</label>
+                  <label class="form-label small fw-semibold d-block">Tipo de Perfil Universitário</label>
                   <div class="btn-group w-100" role="group">
                     <input type="radio" class="btn-check" name="regRole" id="regStudent" autocomplete="off" checked>
-                    <label class="btn btn-outline-primary" for="regStudent"><i class="bi bi-person-fill me-1"></i>Estudante</label>
+                    <label class="btn btn-outline-primary" for="regStudent"><i class="bi bi-person-fill me-1"></i>🎓 Sou Estudante</label>
                     <input type="radio" class="btn-check" name="regRole" id="regProf" autocomplete="off">
-                    <label class="btn btn-outline-primary" for="regProf"><i class="bi bi-person-badge-fill me-1"></i>Professor</label>
+                    <label class="btn btn-outline-primary" for="regProf"><i class="bi bi-person-badge-fill me-1"></i>👨‍🏫 Sou Professor</label>
                   </div>
                 </div>
                 <div class="mb-3">
-                  <label class="form-label small fw-semibold">Senha (mínimo 8 caracteres)</label>
+                  <label class="form-label small fw-semibold">Criar Senha de Acesso</label>
                   <input type="password" class="form-control" placeholder="••••••••••••" required>
                   <span class="small text-success d-block mt-1"><i class="bi bi-check-circle-fill me-1"></i>Mínimo 8 dígitos, letras e números</span>
                 </div>
                 <button type="submit" class="btn btn-success w-100 py-2 fw-semibold mb-3">Criar Minha Conta</button>
                 <div class="text-center">
-                  <a href="#" class="small text-decoration-none text-muted" onclick="switchScreen('screen-login')">Já possui uma conta? Acesse aqui</a>
+                  <span class="small text-muted">Já possui conta cadastrada? </span>
+                  <a href="#" class="small text-decoration-none fw-semibold text-primary" onclick="switchScreen('screen-login')">Entrar com Conta Existente</a>
                 </div>
               </form>
             </div>
@@ -240,11 +246,11 @@
                 🔑
               </div>
               <h4 class="fw-bold mb-1">Esqueceu sua senha?</h4>
-              <p class="small text-muted mb-4">Insira seu e-mail universitário cadastrado e enviaremos um link de redefinição seguro com validade de 24 horas.</p>
+              <p class="small text-muted mb-4">Insira seu e-mail cadastrado e enviaremos um link de redefinição seguro com validade de 24 horas.</p>
 
-              <form onsubmit="event.preventDefault(); alert('Link de recuperação enviado com sucesso para o seu e-mail institucional!'); switchScreen('screen-login');">
+              <form onsubmit="event.preventDefault(); alert('Link de recuperação enviado com sucesso para o seu e-mail verificado!'); switchScreen('screen-login');">
                 <div class="mb-4 text-start">
-                  <label class="form-label small fw-semibold">E-mail Institucional</label>
+                  <label class="form-label small fw-semibold">E-mail</label>
                   <div class="input-group">
                     <span class="input-group-text"><i class="bi bi-envelope"></i></span>
                     <input type="email" class="form-control" placeholder="estudante@universidade.edu" required>
