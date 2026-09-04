@@ -42,7 +42,7 @@ Sprint 4: 23/09/2026 a 30/09/2026 — Painel Docente, Dashboard Analítico & Hom
 | **004** | `004 - [Frontend] Serviço de Autenticação Mockado e Estado Global de Sessão (US01 & US02)` | US01 & US02 | `src/services/mockAuthService.js` (cadastro, login, validações e recuperação simulada) + `src/store/userStore.js` (Zustand com persistência no `localStorage`). |
 | **005** | `005 - [Frontend] Tela e Fluxo de Cadastro de Usuário com Mock (US01)` | US01 | Rota `/register` com `RegisterPage.jsx`, seleção de perfil (`Estudante`/`Professor`), validações visuais em tempo real, integração com mock e responsividade Desktop/Mobile. |
 | **006** | `006 - [Frontend] Tela e Fluxo de Login e Recuperação de Senha com Mock (US02)` | US02 | Rota `/login` com `LoginPage.jsx`, validações, modal "Esqueci minha senha", integração com mock, persistência de sessão e redirecionamento para a Home. |
-| **007** | `007 - [QA] Validação de Testes dos Fluxos de Autenticação Mockados (US01 & US02)` | US01 & US02 | Homologação visual (confronto com Penpot 1440px e 390px), validação de cenários de teste (fluxo feliz e exceções) e aprovação exclusiva dos PRs para a branch `dev`. |
+| **007** | `007 - [QA] Validação de Testes dos Fluxos de Autenticação Mockados (US01 & US02)` | US01 & US02 | Homologação visual (confronto com Figma 1440px e 390px), validação de cenários de teste (fluxo feliz e exceções) e aprovação exclusiva dos PRs para a branch `dev`. |
 
 ---
 

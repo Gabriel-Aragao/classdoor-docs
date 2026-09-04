@@ -2,7 +2,7 @@
 
 Bem-vindo ao repositório central de documentação e engenharia do **Classdoor**.
 
-Este repositório reúne todos os artefatos de produto, especificações arquiteturais, contratos de integração, guias de design system (Penpot) e manuais de colaboração entre desenvolvedores júnior e a equipe de agentes especialistas de IA.
+Este repositório reúne todos os artefatos de produto, especificações arquiteturais, contratos de integração, guias de design system (Figma) e manuais de colaboração entre desenvolvedores júnior e a equipe de agentes especialistas de IA.
 
 ---
 
@@ -13,15 +13,14 @@ Este repositório reúne todos os artefatos de produto, especificações arquite
 * [**Planejamento de Sprints**](especificacoes/Planejamento-Sprints.md): Fatiamento do MVP em incrementos lógicos, definição de escopo e roadmap de entregas por Sprint.
 * [**Especificação Técnica & Arquitetura**](especificacoes/Especificacao-Tecnica-Arquitetura.md): Definição de stack (Spring Boot 3 + Java / React 19 + Bootswatch), padrões de projeto, modelagem relacional e infraestrutura.
 * [**Contratos de Integração**](especificacoes/Contratos-Integracao-User-Stories.md): Especificação dos endpoints REST, payloads de request/response, DTOs e códigos de status HTTP para cada User Story.
-* [**Especificação do Design System no Penpot**](especificacoes/Especificacao-Design-System-Penpot.md): Tokens de design (cores, tipografia, espaçamentos, elevações), componentes e diretrizes visuais no Penpot.
+* [**Especificação do Design System no Figma**](especificacoes/Especificacao-Design-System-Figma.md): Tokens de design (cores, tipografia, espaçamentos, elevações), componentes e diretrizes visuais no Figma.
 
 ### 2. 📖 Guias Práticos & Operacionais (`guias/`)
 * [**Guia de Git & Branches para Desenvolvedores**](guias/Guia-Git-Branches-Junior.md): Padrões de branch (`feat/<id>-desc`), fluxo de trabalho com a branch `dev`, comandos para Windows/Linux e abertura de Pull Requests (`[<ID>] Título`).
 * [**Guia de Suporte com Especialistas de IA no Trello**](guias/Guia-Comunicacao-Agentes-Devs-Junior.md): Manual de suporte nos cards do Trello, catálogo de especialistas (@dijkstra, @peter, @aria, @iris, @qa, @atlas) e esclarecimento de dúvidas.
 
-### 3. 🎨 Design & Layout (Penpot)
-* O **Penpot** é a **Fonte Única da Verdade (Single Source of Truth)** oficial para todos os layouts, componentes, tokens visuais e fluxos navegáveis Desktop e Mobile do projeto Classdoor.
-* [**Scripts de Apoio ao Penpot**](scripts/penpot-generator.js): Utilitários e scripts de automação do canvas.
+### 3. 🎨 Design & Layout (Figma)
+* O **[Figma](https://www.figma.com/design/LxCytRCFqQGshvVnVnDxum/Classdoor?t=SFiBuyhBNLwICYN1-0)** é a **Fonte Única da Verdade (Single Source of Truth)** oficial para todos os layouts, componentes, tokens visuais e fluxos navegáveis Desktop e Mobile do projeto Classdoor.
 
 ---
 

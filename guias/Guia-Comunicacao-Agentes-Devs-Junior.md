@@ -23,7 +23,7 @@ Quando você encontrar um bloqueio, tiver dúvida sobre a arquitetura, precisar 
 | **Dijkstra** | `@dijkstra` | Tech Lead & Arquiteto | • Dúvidas sobre estrutura de pastas, pacotes e padrões de projeto.<br>• Contratos de API (REST/OpenAPI) e modelagem de banco de dados.<br>• Decisões técnicas e resolução de impasses arquiteturais. |
 | **Peter** | `@peter` | Backend Sênior (Spring Boot / Java) | • Passo a passo para criação de Controllers, Services, DTOs e Repositories.<br>• Resolução de exceções, erros de compilação e validações (`@Valid`).<br>• Dúvidas de persistência JPA/Hibernate e migrations.<br>• Exemplos práticos de código e implementação de regras de negócio no backend. |
 | **Aria** | `@aria` | Frontend Sênior (React / Bootswatch) | • Dúvidas conceituais sobre componentes funcionais React, Hooks e estado.<br>• Dicas de aplicação de classes CSS Bootswatch (Bootstrap 5).<br>• Consumo de endpoints REST via Fetch / Axios. |
-| **Iris** | `@iris` | UI/UX Designer (Penpot) | • Dúvidas sobre tokens de design (cores, tipografia, espaçamentos, elevações).<br>• Alinhamento sobre comportamentos responsivos (Desktop vs. Mobile).<br>• Estados de componentes (hover, active, disabled) e fluxo dos protótipos. |
+| **Iris** | `@iris` | UI/UX Designer (Figma) | • Dúvidas sobre tokens de design (cores, tipografia, espaçamentos, elevações).<br>• Alinhamento sobre comportamentos responsivos (Desktop vs. Mobile).<br>• Estados de componentes (hover, active, disabled) e fluxo dos protótipos no Figma. |
 | **QA** | `@qa` | QA Sênior Full Stack | • Esclarecimento sobre critérios de aceitação da User Story.<br>• Auxílio na escrita de testes unitários e de integração.<br>• Pré-avaliação do seu código antes da abertura do Pull Request.<br>• Validação de cenários de borda e regras de formulário. |
 | **Atlas** | `@atlas` | Product Manager (PM) | • Dúvidas sobre o escopo, priorização e jornada do usuário final.<br>• Esclarecimento sobre regras de negócio funcionais e requisitos do MVP. |
 
@@ -53,7 +53,7 @@ Caso a sua dúvida envolva uma regra de negócio, comportamento ou decisão de p
 > `@iris Qual é a classe Bootswatch e o token de cor para o botão secundário na tela de Recuperação de Senha (1C)?`
 
 **Resposta da @iris:**
-> Indicação do token `--color-secondary-action` e da classe `btn btn-outline-primary` com base na especificação do Penpot.
+> Indicação do token `--color-secondary-action` e da classe `btn btn-outline-primary` com base na especificação do Figma.
 
 ---
 

@@ -105,13 +105,13 @@ src/
 
 ---
 
-## 4. Diretrizes de Design & Handoff (Penpot com @iris)
+## 4. Diretrizes de Design & Handoff (Figma com @iris)
 
 1. **Design System Alinhado ao Bootstrap / Bootswatch:**
-   - @iris deve adotar a grade de 12 colunas padrão do Bootstrap e componentes com especificações nativas de espaçamento (`gap`, `m-*`, `p-*`), cores semânticas (`primary`, `secondary`, `success`, `danger`, `warning`, `info`, `light`, `dark`) e raios de borda padronizados pelo tema Bootswatch selecionado.
-2. **Component-Driven:** Componentes no Penpot com variantes explícitas e nomes em PascalCase alinhados aos componentes React/Bootstrap.
+   - @iris deve adotar a grade de 12 colunas padrão do Bootstrap e componentes com especificações nativas de espaçamento (`gap`, `m-*`, `p-*`), cores semânticas (`primary`, `secondary`, `success`, `danger`, `warning`, `info`, `light`, `dark`) e raios de borda padronizados pelo tema Bootswatch selecionado no [Figma](https://www.figma.com/design/LxCytRCFqQGshvVnVnDxum/Classdoor?t=SFiBuyhBNLwICYN1-0) (SSOT).
+2. **Component-Driven:** Componentes no Figma com variantes explícitas e nomes em PascalCase alinhados aos componentes React/Bootstrap.
 3. **Acessibilidade (A11y):** Contraste mínimo WCAG 2.1 AA (4.5:1 para texto normal, 3:1 para títulos).
-4. **Fluxos de Telas no Penpot:**
+4. **Fluxos de Telas no Figma:**
    - **Busca / Home:** Busca instantânea por Professor / Disciplina.
    - **Perfil (Professor / Disciplina):** Visão consolidada de métricas (rating geral, % recomendação, dificuldade) e lista filtrável de cards de reviews.
    - **Formulário de Avaliação:** Sliders/estrelas intuitivos com badge/alert visual transparente indicando o status de anonimato.
