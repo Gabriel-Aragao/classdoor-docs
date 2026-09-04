@@ -15,11 +15,17 @@ Este repositório reúne todos os artefatos de produto, especificações arquite
 * [**Contratos de Integração**](especificacoes/Contratos-Integracao-User-Stories.md): Especificação dos endpoints REST, payloads de request/response, DTOs e códigos de status HTTP para cada User Story.
 * [**Especificação do Design System no Figma**](especificacoes/Especificacao-Design-System-Figma.md): Tokens de design (cores, tipografia, espaçamentos, elevações), componentes e diretrizes visuais no Figma.
 
-### 2. 📖 Guias Práticos & Operacionais (`guias/`)
+### 2. 📐 Modelagem & Engenharia de Requisitos (`modelagem/`)
+* [**01. Descrição do Projeto**](modelagem/01-Descricao-do-Projeto.md): Visão geral do produto, objetivos, público-alvo e pilares de privacidade.
+* [**02. Requisitos Funcionais & Não-Funcionais**](modelagem/02-Requisitos-Funcionais.md): Tabela categorizada de requisitos com priorização MoSCoW (RF01 a RF16) e RNFs.
+* [**03. Diagramas de Casos de Uso**](modelagem/03-Diagrama-Casos-de-Uso.md): Atores, diagramas UML em Mermaid e especificações de fluxos.
+* [**04. Modelo Lógico do Banco de Dados**](modelagem/04-Modelo-Logico-Banco-de-Dados.md): Diagrama ERD, dicionário de dados PostgreSQL, constraints e índices.
+
+### 3. 📖 Guias Práticos & Operacionais (`guias/`)
 * [**Guia de Git & Branches para Desenvolvedores**](guias/Guia-Git-Branches-Junior.md): Padrões de branch (`feat/<id>-desc`), fluxo de trabalho com a branch `dev`, comandos para Windows/Linux e abertura de Pull Requests (`[<ID>] Título`).
 * [**Guia de Suporte com Especialistas de IA no Trello**](guias/Guia-Comunicacao-Agentes-Devs-Junior.md): Manual de suporte nos cards do Trello, catálogo de especialistas (@dijkstra, @peter, @aria, @iris, @qa, @atlas) e esclarecimento de dúvidas.
 
-### 3. 🎨 Design & Layout (Figma)
+### 4. 🎨 Design & Layout (Figma)
 * O **[Figma](https://www.figma.com/design/LxCytRCFqQGshvVnVnDxum/Classdoor?t=SFiBuyhBNLwICYN1-0)** é a **Fonte Única da Verdade (Single Source of Truth)** oficial para todos os layouts, componentes, tokens visuais e fluxos navegáveis Desktop e Mobile do projeto Classdoor.
 
 ---
