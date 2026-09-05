@@ -12,6 +12,14 @@
 
 ---
 
+## 🎨 Diretriz Oficial de Ícones: Bootstrap Icons (Monocromáticos)
+
+Em total conformidade com os critérios de acessibilidade (WCAG 2.1 AA) e com o ecossistema **React 19 + Bootswatch Flatly**:
+1. **Eliminação de Emojis Nativos:** Todos os emojis coloridos do sistema operacional foram removidos das interfaces no Figma e código, eliminando disparidades visuais entre plataformas.
+2. **Ícones Monocromáticos (Bootstrap Icons `bi-*`):** Todos os ícones herdam dinamicamente a cor semântica do componente ou texto correspondente (`currentColor`, `text-primary`, `text-success`, `text-muted`), assegurando contraste > 4.5:1.
+
+---
+
 ## 🎨 Estrutura Multi-Páginas no Workspace Figma (3 Páginas Oficiais)
 
 O arquivo oficial do Classdoor no Figma está estruturado em **três páginas dedicadas**:
