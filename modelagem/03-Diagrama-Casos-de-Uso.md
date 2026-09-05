@@ -31,8 +31,8 @@ flowchart TB
     end
 
     %% Herança de Atores
-    Estudante --|> Visitante
-    Professor --|> Visitante
+    Estudante -->|especialização| Visitante
+    Professor -->|especialização| Visitante
 
     %% Fronteira do Sistema Classdoor
     subgraph Classdoor [" Plataforma Classdoor "]
