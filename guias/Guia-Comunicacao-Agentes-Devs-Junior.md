@@ -20,10 +20,12 @@ Quando você encontrar um bloqueio, tiver dúvida sobre a arquitetura, precisar 
 
 | Especialista | Menção no Trello | Especialidade | Como pode te ajudar |
 | :--- | :--- | :--- | :--- |
-| **Dijkstra** | `@dijkstra` | Tech Lead & Arquiteto | • Dúvidas sobre estrutura de pastas, pacotes e padrões de projeto.<br>• Contratos de API (REST/OpenAPI) e modelagem de banco de dados.<br>• Decisões técnicas e resolução de impasses arquiteturais. |
-| **Peter** | `@peter` | Backend Sênior (Spring Boot / Java) | • Passo a passo para criação de Controllers, Services, DTOs e Repositories.<br>• Resolução de exceções, erros de compilação e validações (`@Valid`).<br>• Dúvidas de persistência JPA/Hibernate e migrations.<br>• Exemplos práticos de código e implementação de regras de negócio no backend. |
+| **Dijkstra** | `@dijkstra` | Tech Lead & Arquiteto | • Dúvidas sobre estrutura de pastas, pacotes e padrões de projeto.<br>• Contratos de API (REST/OpenAPI) e diretrizes arquiteturais gerais.<br>• Decisões técnicas e resolução de impasses arquiteturais. |
+| **Peter** | `@peter` | Backend Sênior (Spring Boot / Java) | • Passo a passo para criação de Controllers, Services, DTOs e Repositories.<br>• Resolução de exceções, erros de compilação e validações (`@Valid`).<br>• Dúvidas de persistência JPA/Hibernate e lógica de negócio.<br>• Exemplos práticos de código e implementação no backend. |
 | **Aria** | `@aria` | Frontend Sênior (React / Bootswatch) | • Dúvidas conceituais sobre componentes funcionais React, Hooks e estado.<br>• Dicas de aplicação de classes CSS Bootswatch (Bootstrap 5).<br>• Consumo de endpoints REST via Fetch / Axios. |
 | **Iris** | `@iris` | UI/UX Designer (Figma) | • Dúvidas sobre tokens de design (cores, tipografia, espaçamentos, elevações).<br>• Alinhamento sobre comportamentos responsivos (Desktop vs. Mobile).<br>• Estados de componentes (hover, active, disabled) e fluxo dos protótipos no Figma. |
+| **Ada** | `@ada` | Analista de Requisitos | • Detalhamento e interpretação de requisitos funcionais e não funcionais (RFs e RNFs).<br>• Mapeamento de regras de negócio, fluxos de exceção e casos de uso.<br>• Esclarecimento de critérios de aceitação e validação de regras antes do desenvolvimento. |
+| **Codd** | `@codd` | DBA & Arquiteto de Dados | • Estrutura de tabelas, chaves primárias/estrangeiras, tipos de dados e índices.<br>• Escrita e otimização de queries SQL, constraints e integridade relacional.<br>• Modelagem de dados lógica/física e dúvidas sobre migrations (Flyway/Liquibase). |
 | **QA** | `@qa` | QA Sênior Full Stack | • Esclarecimento sobre critérios de aceitação da User Story.<br>• Auxílio na escrita de testes unitários e de integração.<br>• Pré-avaliação do seu código antes da abertura do Pull Request.<br>• Validação de cenários de borda e regras de formulário. |
 | **Atlas** | `@atlas` | Product Manager (PM) | • Dúvidas sobre o escopo, priorização e jornada do usuário final.<br>• Esclarecimento sobre regras de negócio funcionais e requisitos do MVP. |
 
@@ -57,7 +59,25 @@ Caso a sua dúvida envolva uma regra de negócio, comportamento ou decisão de p
 
 ---
 
-### Exemplo 3: Dúvida de Testes com `@qa`
+### Exemplo 3: Dúvida de Requisitos com `@ada`
+**Seu comentário:**
+> `@ada No requisito RF04 de avaliação de professor, quais são os campos obrigatórios e qual é a regra exata para permitir que uma avaliação seja anônima?`
+
+**Resposta da @ada:**
+> Detalhamento dos campos obrigatórios (nota geral, critérios pedagógicos e comentário textual) e da regra de expurgo de identificador quando a flag `isAnonymous = true`.
+
+---
+
+### Exemplo 4: Dúvida de Banco de Dados com `@codd`
+**Seu comentário:**
+> `@codd Preciso criar a migration para a tabela de votos de utilidade (ReviewVote). Como devemos definir a constraint de unicidade para garantir que um aluno só vote uma vez por review?`
+
+**Resposta do @codd:**
+> Definição da chave única composta `CONSTRAINT uk_review_user UNIQUE (review_id, user_id)` e recomendação de índice para consultas de contagem de votos.
+
+---
+
+### Exemplo 5: Dúvida de Testes com `@qa`
 **Seu comentário:**
 > `@qa No card 014, o critério diz que o token expira em 15 minutos. Como posso estruturar o teste unitário mockando o Clock?`
 

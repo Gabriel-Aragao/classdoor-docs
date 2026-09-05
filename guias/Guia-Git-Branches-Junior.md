@@ -202,4 +202,4 @@ rm -rf node_modules
 
 ---
 
-Se precisar de auxílio em qualquer etapa, basta marcar o especialista no comentário do card no Trello (ex: `@dijkstra`, `@peter`, `@iris`, `@qa`).
+Se precisar de auxílio em qualquer etapa, basta marcar o especialista no comentário do card no Trello (ex: `@dijkstra`, `@peter`, `@aria`, `@iris`, `@ada`, `@codd`, `@qa`).

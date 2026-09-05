@@ -23,7 +23,7 @@ Este repositório reúne todos os artefatos de produto, especificações arquite
 
 ### 3. 📖 Guias Práticos & Operacionais (`guias/`)
 * [**Guia de Git & Branches para Desenvolvedores**](guias/Guia-Git-Branches-Junior.md): Padrões de branch (`feat/<id>-desc`), fluxo de trabalho com a branch `dev`, comandos para Windows/Linux e abertura de Pull Requests (`[<ID>] Título`).
-* [**Guia de Suporte com Especialistas de IA no Trello**](guias/Guia-Comunicacao-Agentes-Devs-Junior.md): Manual de suporte nos cards do Trello, catálogo de especialistas (@dijkstra, @peter, @aria, @iris, @qa, @atlas) e esclarecimento de dúvidas.
+* [**Guia de Suporte com Especialistas de IA no Trello**](guias/Guia-Comunicacao-Agentes-Devs-Junior.md): Manual de suporte nos cards do Trello, catálogo de especialistas (@dijkstra, @peter, @aria, @iris, @ada, @codd, @qa, @atlas) e esclarecimento de dúvidas.
 
 ### 4. 🎨 Design & Layout (Figma)
 * O **[Figma](https://www.figma.com/design/LxCytRCFqQGshvVnVnDxum/Classdoor?t=SFiBuyhBNLwICYN1-0)** é a **Fonte Única da Verdade (Single Source of Truth)** oficial para todos os layouts, componentes, tokens visuais e fluxos navegáveis Desktop e Mobile do projeto Classdoor.
