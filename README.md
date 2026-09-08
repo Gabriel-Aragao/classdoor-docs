@@ -9,6 +9,7 @@ Este repositório reúne todos os artefatos de produto, especificações arquite
 ## 🧭 Mapa de Documentação
 
 ### 1. 🎯 Especificações de Produto & Arquitetura (`especificacoes/`)
+* [**Project Specs Central (JSON)**](especificacoes/project-specs.json): Especificação técnica e funcional completa em formato JSON estruturado (SSOT para agentes de IA e automações).
 * [**User Stories**](especificacoes/User-Stories.md): Detalhamento funcional de todas as histórias de usuário, fluxos, regras de negócio e critérios de aceitação (Gherkin/BDD).
 * [**Planejamento de Sprints**](especificacoes/Planejamento-Sprints.md): Fatiamento do MVP em incrementos lógicos, definição de escopo e roadmap de entregas por Sprint.
 * [**Especificação Técnica & Arquitetura**](especificacoes/Especificacao-Tecnica-Arquitetura.md): Definição de stack (Spring Boot 3 + Java / React 19 + Bootswatch), padrões de projeto, modelagem relacional e infraestrutura.
