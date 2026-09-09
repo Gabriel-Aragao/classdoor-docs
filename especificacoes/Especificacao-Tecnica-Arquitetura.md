@@ -123,4 +123,4 @@ src/
 
 - **Commits:** Padrão obrigatório `[agente] - mensagem`.
 - **Review de PRs:** Gate exclusivo do **@qa** (merge policy: aprovação @qa + all checks passing).
-- **Documentação:** Manutenção contínua de especificações técnicas e decisões de arquitetura centralizadas no Obsidian.
+- **Documentação:** Manutenção contínua de especificações técnicas e decisões de arquitetura centralizadas no repositório de documentação (`classdoor-docs`).

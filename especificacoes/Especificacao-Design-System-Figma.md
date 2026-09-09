@@ -95,4 +95,4 @@ O arquivo oficial do Classdoor no Figma está estruturado em **três páginas de
 
 ## 2. Entregáveis e Artefatos do Projeto
 1. 🎨 **Workspace Figma (SSOT):** 14 pranchetas/frames oficiais distribuídas nas páginas `Desktop` (7 telas) e `Mobile` (7 telas), além da página `Design System & Tokens` com vitrine de 24 ícones oficiais e tokens cadastrados ([Link do Figma](https://www.figma.com/design/LxCytRCFqQGshvVnVnDxum/Classdoor?t=SFiBuyhBNLwICYN1-0)).
-2. 📄 **Documentação Oficial:** [`especificacoes/Especificacao-Design-System-Figma.md`](https://github.com/Gabriel-Aragao/classdoor-docs/blob/main/especificacoes/Especificacao-Design-System-Figma.md) sincronizada no GitHub Docs e no Obsidian Vault.
+2. 📄 **Documentação Oficial:** [`especificacoes/Especificacao-Design-System-Figma.md`](https://github.com/Gabriel-Aragao/classdoor-docs/blob/main/especificacoes/Especificacao-Design-System-Figma.md) versionada no repositório de documentação do GitHub.

@@ -31,13 +31,11 @@ Este repositório reúne todos os artefatos de produto, especificações arquite
 
 ---
 
-## 🔄 Diretrizes de Sincronização e Padrões de Commit
+## 🔄 Diretrizes de Manutenção e Padrões de Commit
 
-1. **Sincronização Bidirecional Obrigatória:**
-   * Qualquer alteração realizada na documentação deve ser refletida tanto no **Obsidian Vault** quanto neste repositório GitHub (`Gabriel-Aragao/classdoor-docs`).
-2. **Atualizações Passivas:**
-   * Antes de realizar edições na documentação, execute um `git pull` neste repositório para incorporar eventuais alterações submetidas pelos desenvolvedores.
-   * Replique as novidades para o Obsidian Vault antes de subir novas alterações.
-3. **Padrão de Commits:**
+1. **Atualizações e Versionamento:**
+   * Qualquer alteração realizada na documentação deve ser versionada diretamente neste repositório GitHub (`Gabriel-Aragao/classdoor-docs`).
+   * Antes de realizar edições na documentação, execute um `git pull` neste repositório para incorporar eventuais alterações submetidas por outros colaboradores.
+2. **Padrão de Commits:**
    * **Agentes de IA:** utilizam o padrão `[agente] - mensagem` (ex: `[atlas] - atualiza contratos da US02`).
    * **Desenvolvedores:** utilizam Conventional Commits identificados pela sua conta GitHub (ex: `feat(auth): adiciona validacao de email`).
