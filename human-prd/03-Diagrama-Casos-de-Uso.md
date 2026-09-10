@@ -28,6 +28,7 @@ Conforme estabelecido nas especificações de governança e arquitetura do proje
 
 ### 📊 Visualização Gráfica do Diagrama
 
+[Diagrama de Casos de Uso](./03-Diagrama-Casos-de-Uso.svg)
 
 ---
 
