@@ -13,14 +13,11 @@
 
 ## 1. Atores do Sistema
 
-Conforme estabelecido nas especificações de governança e arquitetura do projeto (**SDD v2.1.0** em `specs/01-Visao-Geral-e-Governanca.md` e `specs/03-Requisitos-e-User-Stories.md`), o Classdoor adota uma taxonomia estrita de **dois perfis de usuário**, além do usuário não autenticado e do serviço externo:
+Conforme estabelecido nas especificações de requisitos do projeto (**SDD v2.1.0** em `specs/01-Visao-Geral-e-Governanca.md` e `specs/03-Requisitos-e-User-Stories.md`), o sistema adota os seguintes atores:
 
-1. **Visitante (Usuário Não Autenticado):** Usuário externo que acessa a Home/Landing Page, realiza pesquisas globais por professores e disciplinas (com debounce e auto-complete), aplica filtros no catálogo e visualiza perfis públicos com scorecards e métricas pedagógicas.
-2. **Estudante Autenticado (`ROLE_STUDENT`):** Aluno cadastrado com qualquer e-mail válido que consulta o catálogo, visualiza perfis públicos, submete avaliações (estritamente anônimas por padrão ou nominais consentidas) em turmas em que está matriculado (com quórum mínimo e toggle liberado) e interage através de votos de utilidade (*Upvotes*). *(Especialização / Herança de Visitante)*
-3. **Professor / Docente (`ROLE_PROFESSOR`):** Usuário acadêmico autenticado que cria turmas associando disciplinas existentes ou cadastrando novas disciplinas no mesmo fluxo, vincula períodos letivos semestrais (`AAAA.1` / `AAAA.2`), realiza importação contínua de alunos em lote (*Bulk Import*) enquanto `reviews_count == 0`, controla o toggle de liberação de avaliações (`isEvaluationOpen`), define a política de privacidade da turma (`ANONYMOUS_ONLY` vs `ALLOW_IDENTIFIED`), opera sob o princípio de Cegueira de Acesso Docente (*Access Blindness*) e analisa o dashboard com scorecards, histograma de notas (1 a 5 estrelas), série temporal semestral e exportação de relatórios em CSV e PDF. *(Especialização / Herança de Visitante)*
-4. **Serviço de Autenticação / E-mail (`<<Sistema Externo>>`):** Provedor transacional de mensageria responsável pelo disparo e entrega de tokens temporários com validade de 30 minutos para recuperação de senhas.
-
-> 📌 **Nota de Governança Estrita (SDD):** O sistema **não** possui perfil de "Coordenador" ou "Administrador". Todas as funcionalidades acadêmicas, de gestão de turmas e analíticas são desempenhadas diretamente pelo perfil de Professor (`ROLE_PROFESSOR`).
+1. **Visitante (Não Autenticado):** Usuário externo que acessa a plataforma para criar conta, autenticar-se no sistema ou solicitar recuperação de senha (UC01, UC02, UC03).
+2. **Estudante:** Usuário autenticado com perfil de aluno (`ROLE_STUDENT`) que acessa a busca de professores/disciplinas, aplica filtros semestrais, visualiza perfis acadêmicos, submete avaliações (anônimas ou nominais consentidas), interage com upvotes de utilidade e realiza logout (UC04 a UC10).
+3. **Professor:** Usuário acadêmico autenticado (`ROLE_PROFESSOR`) que gerencia turmas e disciplinas (criação, bulk import contínuo de alunos, controle de toggle e cegueira de acesso), acessa o dashboard analítico com scorecards, histograma e série temporal, exporta relatórios (CSV/PDF) e realiza logout (UC04, UC12, UC13, UC14).
 
 ---
 
@@ -48,17 +45,14 @@ skinparam RectangleBorderColor #7F8C8D
 skinparam RectangleBackgroundColor #FFFFFF
 
 ' === ATORES DO SISTEMA (CONFORME SPECS CLASSDOOR) ===
-actor "👤 Visitante\n(Não Autenticado)" as Visitante
-actor "🎓 Estudante\nAutenticado" as Estudante
-actor "👨‍🏫 Professor\n(Docente)" as Professor
-actor "✉️ Serviço de E-mail\n<<Sistema Externo>>" as EmailService <<Service>>
+actor "Visitante\n(Não Autenticado)" as Visitante
+actor "Estudante" as Estudante
+actor "Professor" as Professor
 
-' === GENERALIZAÇÃO / HERANÇA DE ATORES ===
-Estudante --|> Visitante
-Professor --|> Visitante
+
 
 ' === FRONTEIRA DO SISTEMA CLASSDOOR ===
-rectangle "Plataforma Classdoor (SDD v2.1.0)" {
+
 
     package "Módulo Autenticação & Acesso" {
         usecase "UC01: Cadastrar Conta\n(Qualquer E-mail Válido)" as UC01
@@ -85,34 +79,34 @@ rectangle "Plataforma Classdoor (SDD v2.1.0)" {
         usecase "UC13: Visualizar Dashboard Analítico\n(Scorecards, Histograma & Série Temporal)" as UC13
         usecase "UC14: Exportar Relatórios Analíticos\n(CSV Anonimizado & PDF Executivo)" as UC14
     }
-}
+
+
+' === ASSOCIAÇÕES: PROFESSOR ===
+Professor --> UC04
+Professor --> UC12
+Professor --> UC13
+Professor --> UC14
 
 ' === ASSOCIAÇÕES: VISITANTE ===
 Visitante --> UC01
 Visitante --> UC02
 Visitante --> UC03
-Visitante --> UC05
-Visitante --> UC06
-Visitante --> UC07
+
 
 ' === ASSOCIAÇÕES: ESTUDANTE ===
 Estudante --> UC04
+Estudante --> UC05
+Estudante --> UC06
+Estudante --> UC07
 Estudante --> UC08
 Estudante --> UC09
 Estudante --> UC10
 
-' === ASSOCIAÇÕES: PROFESSOR ===
-Professor --> UC04
-Professor --> UC10
-Professor --> UC12
-Professor --> UC13
-Professor --> UC14
 
 ' === RELACIONAMENTOS <<include>> E <<extend>> ===
 UC08 .> UC11 : <<include>>
 UC09 .> UC08 : <<extend>>
 UC05 .> UC06 : <<extend>>
-UC03 .> EmailService : <<include>>
 UC14 .> UC13 : <<extend>>
 
 @enduml
@@ -122,31 +116,31 @@ UC14 .> UC13 : <<extend>>
 
 ## 3. Matriz de Casos de Uso, Requisitos e User Stories (SDD v2.1.0)
 
-A tabela abaixo estabelece a rastreabilidade bidirecional estrita entre os Casos de Uso, os Requisitos Funcionais do Catálogo SDD e as User Stories detalhadas em `specs/03-Requisitos-e-User-Stories.md`:
+A tabela abaixo estabelece a rastreabilidade bidirecional entre os Casos de Uso, os Requisitos Funcionais do Catálogo SDD e as User Stories detalhadas em `specs/03-Requisitos-e-User-Stories.md`:
 
 | ID | Caso de Uso | Módulo / Épico | Ator(es) Primário(s) | Relacionamento(s) | Requisito Funcional (RF) | User Story | Prioridade (MoSCoW) |
 |---|---|---|---|---|---|---|:---:|
 | **UC01** | Cadastrar Conta | Autenticação & Acesso | Visitante | - | **RF01** (Cadastro com qualquer e-mail) | **US01** | MUST |
 | **UC02** | Realizar Login (JWT) | Autenticação & Acesso | Visitante | - | **RF02** (Login com token JWT) | **US02** | MUST |
-| **UC03** | Recuperar Senha | Autenticação & Acesso | Visitante | `<<include>>` Serviço de E-mail | **RF03** (Token de 30 min) | **US02** | MUST |
+| **UC03** | Recuperar Senha | Autenticação & Acesso | Visitante | - | **RF03** (Token de 30 min) | **US02** | MUST |
 | **UC04** | Realizar Logout | Autenticação & Acesso | Estudante, Professor | - | **RF04** (Encerramento de sessão) | **US02** | MUST |
-| **UC05** | Buscar Docentes e Disciplinas | Busca & Catálogo | Visitante | `<<extend>>` UC06 | **RF05**, **RF07** (Busca e Destaques) | **US03** | MUST / SHOULD |
-| **UC06** | Filtrar Catálogo e Semestre Letivo | Busca & Catálogo | Visitante | Extensão de UC05 | **RF06** (Filtro por departamento e semestre `AAAA.1`/`2`) | **US03** | SHOULD |
-| **UC07** | Visualizar Perfil Acadêmico e Métricas | Busca & Catálogo | Visitante | - | **RF08**, **RF09** (Perfis e Scorecards) | **US04** | MUST |
-| **UC08** | Submeter Avaliação 100% Anônima | Avaliações & Blindagem | Estudante Autenticado | `<<include>>` UC11 | **RF18** (Submissão completa de review) | **US05** | MUST |
-| **UC09** | Submeter Avaliação Nominal Consentida | Avaliações & Blindagem | Estudante Autenticado | `<<extend>>` UC08 | **RF20** (Modo nominal `ALLOW_IDENTIFIED`) | **US06** | COULD |
-| **UC10** | Votar em Avaliação Útil (Upvote) | Avaliações & Blindagem | Estudante, Professor | - | **RF21** (Idempotência 1 voto/review) | **US07** | SHOULD |
+| **UC05** | Buscar Docentes e Disciplinas | Busca & Catálogo | Estudante | `<<extend>>` UC06 | **RF05**, **RF07** (Busca e Destaques) | **US03** | MUST / SHOULD |
+| **UC06** | Filtrar Catálogo e Semestre Letivo | Busca & Catálogo | Estudante | Extensão de UC05 | **RF06** (Filtro por departamento e semestre `AAAA.1`/`2`) | **US03** | SHOULD |
+| **UC07** | Visualizar Perfil Acadêmico e Métricas | Busca & Catálogo | Estudante | - | **RF08**, **RF09** (Perfis e Scorecards) | **US04** | MUST |
+| **UC08** | Submeter Avaliação 100% Anônima | Avaliações & Blindagem | Estudante | `<<include>>` UC11 | **RF18** (Submissão completa de review) | **US05** | MUST |
+| **UC09** | Submeter Avaliação Nominal Consentida | Avaliações & Blindagem | Estudante | `<<extend>>` UC08 | **RF20** (Modo nominal `ALLOW_IDENTIFIED`) | **US06** | COULD |
+| **UC10** | Votar em Avaliação Útil (Upvote) | Avaliações & Blindagem | Estudante | - | **RF21** (Idempotência 1 voto/review) | **US07** | SHOULD |
 | **UC11** | Validar Quórum, Toggle e Anonimato | Avaliações & Blindagem | Sistema (Automático) | Incluso em UC08 | **RF16** (Quórum $\ge 5$), **RF19** (Expurgo & audit_hash) | **US05** | MUST |
 | **UC12** | Gerenciar Turmas, Disciplinas e Alunos | Gestão Docente | Professor | - | **RF10-RF15**, **RF17**, **RF22** (Criação, Bulk Add, Toggle, Cegueira, Política) | **US08** | MUST / SHOULD |
 | **UC13** | Visualizar Dashboard Analítico | Gestão & Analytics | Professor | `<<extend>>` UC14 | **RF23** (Histograma e Série Temporal) | **US09** | SHOULD |
-| **UC14** | Exportar Relatórios (CSV / PDF) | Gestão & Analytics | Professor | Extensão de UC13 | **RF24** (CSV anonimizado e PDF executivo) | **US09** | COULD |
+| **UC14** | Exportar Relatórios Analíticos | Gestão & Analytics | Professor | Extensão de UC13 | **RF24** (CSV anonimizado e PDF executivo) | **US09** | COULD |
 
 ---
 
 ## 4. Especificação Detalhada dos Casos de Uso
 
 ### 🔹 UC01: Cadastrar Conta (Qualquer E-mail Válido)
-- **Ator Primário:** Visitante (Usuário Não Autenticado)
+- **Ator Primário:** Visitante (Não Autenticado)
 - **Requisito Associado:** RF01 | **User Story:** US01
 - **Pré-condições:** O usuário possui conexão com a internet e não está autenticado.
 - **Fluxo Principal:**
@@ -160,7 +154,7 @@ A tabela abaixo estabelece a rastreabilidade bidirecional estrita entre os Casos
 ---
 
 ### 🔹 UC02: Realizar Login (Autenticação JWT)
-- **Ator Primário:** Visitante (Usuário Cadastrado)
+- **Ator Primário:** Visitante (Não Autenticado)
 - **Requisito Associado:** RF02 | **User Story:** US02
 - **Pré-condições:** Conta criada previamente.
 - **Fluxo Principal:**
@@ -173,20 +167,19 @@ A tabela abaixo estabelece a rastreabilidade bidirecional estrita entre os Casos
 ---
 
 ### 🔹 UC03: Recuperar Senha
-- **Ator Primário:** Visitante
-- **Ator Secundário:** Serviço de E-mail (Externo)
+- **Ator Primário:** Visitante (Não Autenticado)
 - **Requisito Associado:** RF03 | **User Story:** US02
 - **Pré-condições:** E-mail cadastrado na plataforma.
 - **Fluxo Principal:**
   1. O usuário clica em *"Esqueci minha senha"*.
   2. Informa o e-mail cadastrado.
-  3. O sistema gera um token temporário criptográfico com expiração estrita de 30 minutos e despacha a mensagem via `Serviço de E-mail` (`<<include>>`).
+  3. O sistema gera um token temporário criptográfico com expiração estrita de 30 minutos e despacha a mensagem de recuperação.
   4. O usuário clica no link recebido e cadastra uma nova senha válida.
 
 ---
 
 ### 🔹 UC04: Realizar Logout
-- **Ator Primário:** Estudante Autenticado, Professor
+- **Ator Primário:** Estudante, Professor
 - **Requisito Associado:** RF04 | **User Story:** US02
 - **Pré-condições:** Usuário com sessão ativa no sistema.
 - **Fluxo Principal:**
@@ -196,33 +189,33 @@ A tabela abaixo estabelece a rastreabilidade bidirecional estrita entre os Casos
 ---
 
 ### 🔹 UC05: Buscar Docentes e Disciplinas (Home & Catálogo)
-- **Ator Primário:** Visitante
+- **Ator Primário:** Estudante
 - **Requisito Associado:** RF05, RF07 | **User Story:** US03
-- **Pré-condições:** Nenhuma.
+- **Pré-condições:** Estudante autenticado.
 - **Fluxo Principal:**
-  1. O visitante digita um termo de busca no campo de pesquisa da Hero Section da Home.
+  1. O estudante digita um termo de busca no campo de pesquisa da Hero Section da Home.
   2. O sistema aplica debounce de 300ms e consulta em tempo real docentes e disciplinas correspondentes.
   3. O sistema renderiza os cards de resultados e os blocos de destaque ("Professores Mais Bem Avaliados" e "Disciplinas Populares").
-  4. O visitante pode acionar filtros avançados via **UC06: Filtrar Catálogo e Semestre Letivo** (`<<extend>>`).
+  4. O estudante pode acionar filtros avançados via **UC06: Filtrar Catálogo e Semestre Letivo** (`<<extend>>`).
 
 ---
 
 ### 🔹 UC06: Filtrar por Departamento, Semestre Letivo e Notas
-- **Ator Primário:** Visitante
+- **Ator Primário:** Estudante
 - **Requisito Associado:** RF06 | **User Story:** US03
 - **Pré-condições:** Catálogo acessado.
 - **Fluxo Principal:**
-  1. O visitante seleciona filtros por Departamento (ex: DCOMP, DEMAT), Período Letivo Semestral padronizado (dois por ano: `AAAA.1` ou `AAAA.2`, ex: `2026.1`, `2026.2`) e faixa de nota média (1 a 5 estrelas).
+  1. O estudante seleciona filtros por Departamento (ex: DCOMP, DEMAT), Período Letivo Semestral padronizado (dois por ano: `AAAA.1` ou `AAAA.2`, ex: `2026.1`, `2026.2`) e faixa de nota média (1 a 5 estrelas).
   2. O grid de resultados é recalculado e renderizado instantaneamente.
 
 ---
 
 ### 🔹 UC07: Visualizar Perfil Acadêmico e Métricas
-- **Ator Primário:** Visitante
+- **Ator Primário:** Estudante
 - **Requisito Associado:** RF08, RF09 | **User Story:** US04
 - **Pré-condições:** Docente ou disciplina existente na base.
 - **Fluxo Principal:**
-  1. O visitante navega para `/professores/:id` ou `/disciplinas/:id`.
+  1. O estudante navega para `/professores/:id` ou `/disciplinas/:id`.
   2. O sistema exibe:
      - **Scorecards:** Nota Média Geral (1.0 a 5.0), Dificuldade Média (1.0 a 5.0) e Taxa de Recomendação (%).
      - **Histograma:** Distribuição gráfica de avaliações de 1 a 5 estrelas.
@@ -231,7 +224,7 @@ A tabela abaixo estabelece a rastreabilidade bidirecional estrita entre os Casos
 ---
 
 ### 🔹 UC08: Submeter Avaliação 100% Anônima (Core Privacy by Design)
-- **Ator Primário:** Estudante Autenticado
+- **Ator Primário:** Estudante
 - **Requisito Associado:** RF18 | **User Story:** US05
 - **Pré-condições:** Estudante autenticado, matriculado na turma (`class_students`), quórum mínimo de 5 discentes atingido e toggle aberto pelo professor.
 - **Fluxo Principal:**
@@ -245,7 +238,7 @@ A tabela abaixo estabelece a rastreabilidade bidirecional estrita entre os Casos
 ---
 
 ### 🔹 UC09: Submeter Avaliação Nominal Consentida (Opcional)
-- **Ator Primário:** Estudante Autenticado
+- **Ator Primário:** Estudante
 - **Requisito Associado:** RF20 | **User Story:** US06
 - **Pré-condições:** Turma configurada com política `ALLOW_IDENTIFIED` e requisitos de quórum/toggle atendidos.
 - **Fluxo Principal:**
@@ -258,11 +251,11 @@ A tabela abaixo estabelece a rastreabilidade bidirecional estrita entre os Casos
 ---
 
 ### 🔹 UC10: Votar em Avaliação Útil (Upvote)
-- **Ator Primário:** Estudante Autenticado, Professor
+- **Ator Primário:** Estudante
 - **Requisito Associado:** RF21 | **User Story:** US07
 - **Pré-condições:** Usuário autenticado e review existente.
 - **Fluxo Principal:**
-  1. O usuário clica no botão *"Útil 👍"* em uma avaliação.
+  1. O estudante clica no botão *"Útil 👍"* em uma avaliação.
   2. O sistema registra o voto com garantia de idempotência no PostgreSQL (`UNIQUE(review_id, user_id)`), incrementando imediatamente o contador público `upvotes_count`.
 
 ---
@@ -284,7 +277,7 @@ A tabela abaixo estabelece a rastreabilidade bidirecional estrita entre os Casos
 ---
 
 ### 🔹 UC12: Gerenciar Turmas, Disciplinas e Alunos
-- **Ator Primário:** Professor (Docente)
+- **Ator Primário:** Professor
 - **Requisito Associado:** RF10, RF11, RF12, RF13, RF14, RF15, RF17, RF22 | **User Story:** US08
 - **Pré-condições:** Professor autenticado com perfil `ROLE_PROFESSOR`.
 - **Fluxo Principal:**
@@ -307,7 +300,7 @@ A tabela abaixo estabelece a rastreabilidade bidirecional estrita entre os Casos
 ---
 
 ### 🔹 UC13: Visualizar Dashboard Analítico
-- **Ator Primário:** Professor (Docente)
+- **Ator Primário:** Professor
 - **Requisito Associado:** RF23 | **User Story:** US09
 - **Pré-condições:** Professor autenticado.
 - **Fluxo Principal:**
@@ -321,7 +314,7 @@ A tabela abaixo estabelece a rastreabilidade bidirecional estrita entre os Casos
 ---
 
 ### 🔹 UC14: Exportar Relatórios Analíticos (CSV / PDF)
-- **Ator Primário:** Professor (Docente)
+- **Ator Primário:** Professor
 - **Requisito Associado:** RF24 | **User Story:** US09
 - **Pré-condições:** Dashboard analítico ativo (UC13).
 - **Fluxo Principal:**
