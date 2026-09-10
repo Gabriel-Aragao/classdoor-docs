@@ -112,5 +112,3 @@ Para aprofundamento em cada dimensão técnica do projeto, consulte os documento
   Detalhamento dos requisitos funcionais (RF01 a RF16) com priorização MoSCoW, requisitos não-funcionais (RNF01 a RNF06) e especificação completa das User Stories (US01 a US09) com critérios BDD.
 * 🚀 **[04. Planejamento de Sprints e Roadmap](04-Planejamento-Sprints-e-Roadmap.md):**  
   Cronograma semanal das Sprints 1 a 4, estratégia Frontend-First com mocks de cliente e detalhamento executivo dos cards ativos da Sprint 1 (Cards 004, 005, 006 e 007).
-* ⚙️ **[project-specs.json](project-specs.json):**  
-  Especificação técnica e funcional completa estruturada em JSON para consumo direto por agentes de IA e automações.

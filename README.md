@@ -13,7 +13,6 @@ Este repositório reúne todos os artefatos de produto, especificações arquite
 * [**02. Arquitetura, Contratos, Dados e Design System**](specs/02-Arquitetura-Contratos-e-Design-System.md): Arquitetura técnica (React 19 / Spring Boot 3), modelo de dados relacional PostgreSQL (DBML e índices), algoritmos de anonimato, contratos RESTful e tokens de UI do Figma.
 * [**03. Catálogo de Requisitos e User Stories**](specs/03-Requisitos-e-User-Stories.md): Catálogo de requisitos funcionais (RF01 a RF16 com MoSCoW), requisitos não-funcionais (RNF01 a RNF06) e especificação completa das User Stories (US01 a US09) com critérios BDD.
 * [**04. Planejamento de Sprints e Roadmap**](specs/04-Planejamento-Sprints-e-Roadmap.md): Cronograma das Sprints 1 a 4, estratégia Frontend-First com mocks de cliente e detalhamento executivo dos cards ativos da Sprint 1 (Cards 004 a 007).
-* [**Project Specs Central (JSON)**](specs/project-specs.json): Especificação completa e estruturada em formato JSON para consumo direto por agentes de IA e automações.
 
 ### 2. 📐 Modelagem & Engenharia de Requisitos (`modelagem/`)
 * [**01. Descrição do Projeto**](modelagem/01-Descricao-do-Projeto.md): Visão geral do produto, objetivos, público-alvo e pilares de privacidade.
