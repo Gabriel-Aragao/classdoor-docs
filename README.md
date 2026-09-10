@@ -8,14 +8,12 @@ Este repositório reúne todos os artefatos de produto, especificações arquite
 
 ## 🧭 Mapa de Documentação
 
-### 1. 🎯 Especificações de Produto & Arquitetura (`especificacoes/`)
-* [**Project Specs Central (Markdown)**](especificacoes/project-specs.md): Especificação técnica, funcional e arquitetural consolidada (SSOT para desenvolvimento e agentes).
-* [**Project Specs Central (JSON)**](especificacoes/project-specs.json): Especificação completa em formato JSON estruturado.
-* [**User Stories**](especificacoes/User-Stories.md): Detalhamento funcional de todas as histórias de usuário, fluxos, regras de negócio e critérios de aceitação (Gherkin/BDD).
-* [**Planejamento de Sprints**](especificacoes/Planejamento-Sprints.md): Fatiamento do MVP em incrementos lógicos, definição de escopo e roadmap de entregas por Sprint.
-* [**Especificação Técnica & Arquitetura**](especificacoes/Especificacao-Tecnica-Arquitetura.md): Definição de stack (Spring Boot 3 + Java / React 19 + Bootswatch), padrões de projeto, modelagem relacional e infraestrutura.
-* [**Contratos de Integração**](especificacoes/Contratos-Integracao-User-Stories.md): Especificação dos endpoints REST, payloads de request/response, DTOs e códigos de status HTTP para cada User Story.
-* [**Especificação do Design System no Figma**](especificacoes/Especificacao-Design-System-Figma.md): Tokens de design (cores, tipografia, espaçamentos, elevações), componentes e diretrizes visuais no Figma.
+### 1. 🎯 Especificações de Produto, Arquitetura & Governança (`specs/`)
+* [**01. Visão Geral, Metadados e Governança**](specs/01-Visao-Geral-e-Governanca.md): Visão do produto, ecossistema de repositórios, matriz de agentes/stakeholders, Git Flow simplificado, padrões de commit e políticas de equipe.
+* [**02. Arquitetura, Contratos, Dados e Design System**](specs/02-Arquitetura-Contratos-e-Design-System.md): Arquitetura técnica (React 19 / Spring Boot 3), modelo de dados relacional PostgreSQL (DBML e índices), algoritmos de anonimato, contratos RESTful e tokens de UI do Figma.
+* [**03. Catálogo de Requisitos e User Stories**](specs/03-Requisitos-e-User-Stories.md): Catálogo de requisitos funcionais (RF01 a RF16 com MoSCoW), requisitos não-funcionais (RNF01 a RNF06) e especificação completa das User Stories (US01 a US09) com critérios BDD.
+* [**04. Planejamento de Sprints e Roadmap**](specs/04-Planejamento-Sprints-e-Roadmap.md): Cronograma das Sprints 1 a 4, estratégia Frontend-First com mocks de cliente e detalhamento executivo dos cards ativos da Sprint 1 (Cards 004 a 007).
+* [**Project Specs Central (JSON)**](specs/project-specs.json): Especificação completa e estruturada em formato JSON para consumo direto por agentes de IA e automações.
 
 ### 2. 📐 Modelagem & Engenharia de Requisitos (`modelagem/`)
 * [**01. Descrição do Projeto**](modelagem/01-Descricao-do-Projeto.md): Visão geral do produto, objetivos, público-alvo e pilares de privacidade.
