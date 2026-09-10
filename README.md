@@ -14,11 +14,11 @@ Este repositório reúne todos os artefatos de produto, especificações arquite
 * [**03. Catálogo de Requisitos e User Stories**](specs/03-Requisitos-e-User-Stories.md): Catálogo de requisitos funcionais (RF01 a RF16 com MoSCoW), requisitos não-funcionais (RNF01 a RNF06) e especificação completa das User Stories (US01 a US09) com critérios BDD.
 * [**04. Planejamento de Sprints e Roadmap**](specs/04-Planejamento-Sprints-e-Roadmap.md): Cronograma das Sprints 1 a 4, estratégia Frontend-First com mocks de cliente e detalhamento executivo dos cards ativos da Sprint 1 (Cards 004 a 007).
 
-### 2. 📐 Modelagem & Engenharia de Requisitos (`modelagem/`)
-* [**01. Descrição do Projeto**](modelagem/01-Descricao-do-Projeto.md): Visão geral do produto, objetivos, público-alvo e pilares de privacidade.
-* [**02. Requisitos Funcionais & Não-Funcionais**](modelagem/02-Requisitos-Funcionais.md): Tabela categorizada de requisitos com priorização MoSCoW (RF01 a RF16) e RNFs.
-* [**03. Diagramas de Casos de Uso**](modelagem/03-Diagrama-Casos-de-Uso.md): Atores, diagramas UML em Mermaid e especificações de fluxos.
-* [**04. Modelo Lógico do Banco de Dados**](modelagem/04-Modelo-Logico-Banco-de-Dados.md): Diagrama ERD, dicionário de dados PostgreSQL, constraints e índices.
+### 2. 📐 Documentação de Produto (Human PRD — `human-prd/`)
+* [**01. Descrição do Projeto**](human-prd/01-Descricao-do-Projeto.md): Visão geral do produto, objetivos, modelo de domínio acadêmico e pilares de privacidade por design.
+* [**02. Requisitos Funcionais & Não-Funcionais**](human-prd/02-Requisitos-Funcionais.md): Tabela de requisitos com priorização MoSCoW (RF01 a RF24) e RNFs.
+* [**03. Diagramas de Casos de Uso**](human-prd/03-Diagrama-Casos-de-Uso.md): Atores, diagramas UML em PlantUML / SVG e especificações de fluxos.
+* [**04. Modelo Lógico do Banco de Dados**](human-prd/04-Modelo-Logico-Banco-de-Dados.md): Modelo Entidade-Relacionamento (DBML / dbdiagram.io / SVG), dicionário de dados PostgreSQL 16+ e constraints.
 
 ### 3. 📖 Guias Práticos & Operacionais (`guias/`)
 * [**Guia de Git & Branches para Desenvolvedores**](guias/Guia-Git-Branches-Junior.md): Padrões de branch (`feat/<id>-desc`), fluxo de trabalho com a branch `dev`, comandos para Windows/Linux e abertura de Pull Requests (`[<ID>] Título`).
