@@ -10,10 +10,9 @@
 ## 1. Atores do Sistema
 
 1. **Visitante (Usuário Não Autenticado):** Usuário externo que acessa a página inicial, busca cursos/professores e visualiza perfis públicos e médias agregadas.
-2. **Estudante Autenticado:** Aluno registrado com e-mail institucional validado que emite avaliações (anônimas ou nominais) e interage com upvotes em reviews da comunidade. *(Especialização de Visitante)*
-3. **Professor / Docente:** Usuário acadêmico autenticado com perfil docente que gerencia turmas, configura políticas de avaliação e analisa relatórios/métricas em seu dashboard. *(Especialização de Visitante)*
-4. **Coordenador / Administrador:** Gestor acadêmico com acesso ampliado para supervisão de departamentos, acompanhamento de indicadores e relatórios agregados.
-5. **Serviço de Autenticação / E-mail (Sistema Externo):** Provedor transacional de mensageria responsável pela entrega de links de ativação de conta e tokens de recuperação de senha.
+2. **Estudante Autenticado:** Aluno registrado com e-mail válido que emite avaliações (anônimas ou nominais) e interage com upvotes em reviews da comunidade. *(Especialização de Visitante)*
+3. **Professor / Docente:** Usuário acadêmico autenticado com perfil docente que cria turmas, adiciona alunos em lote, controla a abertura de avaliações, configura políticas e analisa relatórios/métricas em seu dashboard. *(Especialização de Visitante)*
+4. **Serviço de Autenticação / E-mail (Sistema Externo):** Provedor transacional de mensageria responsável pela entrega de links de ativação de conta e tokens de recuperação de senha.
 
 ---
 
@@ -142,14 +141,14 @@ UC14 .> UC13 : <<extend>>
 
 ### 🔹 UC01: Cadastrar Conta
 - **Ator Principal:** Visitante
-- **Pré-condições:** O usuário deve possuir um e-mail institucional válido (`@universidade.edu` / `@instituicao.br`).
+- **Pré-condições:** O usuário deve possuir um e-mail com formato válido.
 - **Fluxo Principal:**
   1. O visitante acessa a tela de Cadastro.
-  2. Informa Nome Completo, E-mail Institucional, Senha e Perfil (`Estudante` ou `Professor`).
+  2. Informa Nome Completo, E-mail, Senha e Perfil (`Estudante` ou `Professor`).
   3. O sistema valida o formato dos campos e a unicidade do e-mail.
   4. O sistema cria a conta com senha criptografada (BCrypt) e redireciona para o Login.
 - **Fluxo de Exceção (E-mail já existente):**
-  - O sistema exibe mensagem de erro *"Este e-mail institucional já está cadastrado"* e sugere a recuperação de senha.
+  - O sistema exibe mensagem de erro *"Este e-mail já está cadastrado"* e sugere a recuperação de senha.
 
 ---
 
@@ -167,12 +166,12 @@ UC14 .> UC13 : <<extend>>
 
 ### 🔹 UC08: Submeter Avaliação Anônima (Core do Sistema)
 - **Ator Principal:** Estudante Autenticado
-- **Pré-condições:** Estudante autenticado no sistema.
+- **Pré-condições:** Estudante matriculado na turma, quórum >= 5 alunos e toggle de avaliações liberado pelo professor.
 - **Fluxo Principal:**
   1. O estudante navega até o perfil do professor ou disciplina desejada.
   2. Clica no botão *"Avaliar"*.
   3. Seleciona a Nota Geral (1 a 5 estrelas), Nível de Dificuldade (1 a 5) e indica se recomendaria (Sim/Não).
-  4. Seleciona até 3 tags pedagógicas oficiais e escreve um comentário detalhado (mínimo 20 caracteres).
+  4. Escreve um comentário textual detalhado (mínimo 20 caracteres), sem tags.
   5. Mantém selecionada a opção padrão *"100% Anônimo"*.
   6. Submete o formulário.
   7. O sistema executa **UC11: Validar Regra de Anonimato** (`<<include>>`), expurga identificadores do estudante, persiste o review público e atualiza as médias agregadas do docente em tempo real.
@@ -214,9 +213,9 @@ UC14 .> UC13 : <<extend>>
 ---
 
 ### 🔹 UC13: Visualizar Dashboard de Métricas
-- **Ator Principal:** Professor, Coordenador / Administrador
-- **Pré-condições:** Usuário autenticado com perfil docente ou gestor.
+- **Ator Principal:** Professor
+- **Pré-condições:** Usuário autenticado com perfil docente.
 - **Fluxo Principal:**
   1. O usuário acessa a área de Métricas/Dashboard.
-  2. O sistema exibe médias agregadas (didática, clareza, pontualidade, dificuldade), volume temporal de avaliações e distribuição de tags.
+  2. O sistema exibe médias agregadas (Scorecards), histograma de notas (1 a 5 estrelas) e gráfico de evolução temporal semestral.
   3. O usuário pode acionar a exportação de dados via **UC14: Exportar Relatórios** (`<<extend>>`).

@@ -2,7 +2,7 @@
 
 **Projeto:** Classdoor  
 **Documento:** Especificação Arquitetural de Frontend, Backend, Banco de Dados Relacional, Contratos RESTful e Design System  
-**Versão:** 1.0.0  
+**Versão:** 2.0.0 — Revisão de Governança, Proteção de Anonimato e Gestão de Turmas  
 **Data:** 2026-09-08  
 **Autor:** @Dijkstra (Tech Lead & Arquiteto de Software Sênior)  
 **Stakeholder / CTO & PO:** @domaragao  
@@ -11,17 +11,21 @@
 
 ## 1. Princípios Arquiteturais & Pilares de Engenharia
 
-### 1.1 Privacidade por Design (*Privacy by Design* & Sigilo Absoluto)
+### 1.1 Privacidade por Design (*Privacy by Design* & Blindagem de Anonimato)
 1. **Anonimato por Padrão (*Default*):** Todas as avaliações no Classdoor são 100% anônimas. Nenhuma chave estrangeira identificável (`user_id`, `student_id`), endereço IP ou User-Agent é persistido publicamente ou associado à avaliação na visão do professor/comunidade.
 2. **Mecanismo Antifraude de Unicidade (Hash Unidirecional O(1)):** Para assegurar a regra de negócio *"um aluno só pode avaliar cada turma uma única vez"* sem registrar a chave do usuário na tabela pública `reviews`, a aplicação computa um hash criptográfico unilateral:
    ```text
    audit_hash = HMAC-SHA256(APP_PEPPER, user_id || class_id)
    ```
    A unicidade estrita é garantida a nível de banco de dados pela constraint `UNIQUE(audit_hash)` no PostgreSQL.
-3. **Modo Nominal Consentido:** Quando a turma está configurada com a política `ALLOW_IDENTIFIED`, o estudante pode optar por assinar a avaliação com seu nome público mediante consentimento explícito.
+3. **Trava de Adição de Alunos Pós-Primeira Avaliação (Anti-Eliminação):** Uma vez que a primeira avaliação for registrada em uma turma (`reviews_count > 0`), o sistema bloqueia permanentemente a inclusão de novos alunos, impedindo que um docente adicione alunos paulatinamente para identificar autores por eliminação.
+4. **Quórum Mínimo de Segurança (>= 5 Alunos):** Nenhuma avaliação é permitida em turmas com menos de 5 alunos matriculados.
+5. **Toggle de Liberação de Avaliações:** As turmas iniciam com o toggle de avaliações fechado (`is_evaluation_open = false`). O professor ativa o toggle apenas após concluir a importação em lote dos alunos.
+6. **Cegueira de Acesso Docente (*Access Blindness*):** O professor tem acesso exclusivamente à lista de e-mails matriculados e à contagem total de discentes, sem acesso a logs de ativação, último acesso, login na plataforma ou status individual de submissão de review.
+7. **Modo Nominal Consentido:** Quando a turma está configurada com a política `ALLOW_IDENTIFIED`, o estudante pode optar por assinar a avaliação com seu nome público mediante consentimento explícito.
 
 ### 1.2 Estratégia *Frontend-First* com Mocks
-O desenvolvimento do MVP é iniciado pela camada cliente em **React 19 + Bootswatch Flatly**. Todas as integrações de rede, autenticação, catálogo de busca e submissões são atendidas por serviços simulados (`mockAuthService.js`, `mockProfessorService.js`, `mockReviewService.js`) com persistência em memória e `localStorage`.
+O desenvolvimento do MVP é iniciado pela camada cliente em **React 19 + Bootswatch Flatly**. Todas as integrações de rede, autenticação, catálogo de busca, adição em lote de alunos e submissões são atendidas por serviços simulados (`mockAuthService.js`, `mockProfessorService.js`, `mockReviewService.js`, `mockDashboardService.js`) com persistência em memória e `localStorage`.
 
 ---
 
@@ -52,16 +56,18 @@ src/
 │   ├── layout/           # Navbar.jsx, Footer.jsx, Sidebar.jsx, Container.jsx
 │   └── feedback/         # RatingStars.jsx, DifficultyMeter.jsx, AlertMessage.jsx
 ├── features/             # Módulos verticais de negócio
-│   ├── auth/             # Login, Cadastro, Recuperação de Senha e Sessão
+│   ├── auth/             # Login, Cadastro (qualquer email), Recuperação de Senha e Sessão
 │   ├── professors/       # Perfil do professor, listagem e filtros
-│   ├── courses/          # Disciplinas, ementas e histórico
-│   ├── reviews/          # Criação de review (anônimo/nominal), feed e upvotes
-│   └── dashboard/        # Painel do docente (métricas e toggles de política)
+│   ├── courses/          # Disciplinas, ementas e turmas
+│   ├── classes/          # Criação de turmas, Bulk Add de alunos, Toggle de avaliação
+│   ├── reviews/          # Criação de review sem tags (anônimo/nominal), feed e upvotes
+│   └── dashboard/        # Painel do docente (scorecards, histograma, evolução semestral)
 ├── hooks/                # Custom hooks utilitários
 ├── services/             # Instância Axios e serviços mockados / API
 │   ├── api.js
 │   ├── mockAuthService.js
 │   ├── mockProfessorService.js
+│   ├── mockClassService.js
 │   ├── mockReviewService.js
 │   └── mockDashboardService.js
 ├── store/                # Stores do Zustand (userStore.js, filterStore.js)
@@ -76,8 +82,9 @@ src/
 ### 3.1 Stack Tecnológica do Backend
 * **Framework:** Spring Boot 3.3+ sobre **Java 21 (LTS)**.
 * **Segurança:** Spring Security 6 com autenticação Stateless via JWT.
+* **Perfis de Acesso (RBAC):** `ROLE_STUDENT` e `ROLE_PROFESSOR` (sem perfil de coordenador).
 * **Criptografia:** BCrypt (custo 12) / Argon2id para senhas de usuários.
-* **Validação:** Jakarta Bean Validation (`@Valid`, `@NotNull`, `@Size`, `@Pattern`).
+* **Validação:** Jakarta Bean Validation (`@Valid`, `@NotNull`, `@Size`, `@Pattern`, `@Email`).
 * **Tratamento Global de Exceções:** `@RestControllerAdvice` retornando a estrutura padronizada **RFC 7807 (`ProblemDetail`)**.
 * **Documentação Viva:** SpringDoc OpenAPI 3.1 (`/v3/api-docs` e `/swagger-ui.html`).
 
@@ -85,7 +92,7 @@ src/
 
 ## 4. Modelo Lógico de Banco de Dados (PostgreSQL 16+)
 
-O banco de dados relacional foi modelado na **3ª Forma Normal (3FN)**, garantindo integridade referencial com transações ACID.
+O banco de dados relacional foi modelado na **3ª Forma Normal (3FN)**, eliminando tabelas de tags e incorporando a gestão de discentes e travas de segurança por turma.
 
 ### 4.1 Especificação DBML Oficial (dbdiagram.io)
 
@@ -95,9 +102,8 @@ O banco de dados relacional foi modelado na **3ª Forma Normal (3FN)**, garantin
 // =======================================================
 
 Enum user_role {
-  STUDENT [note: 'Estudante da graduação/pós-graduação']
-  PROFESSOR [note: 'Docente ou orientador acadêmico']
-  ADMIN [note: 'Administrador e coordenador da plataforma']
+  STUDENT [note: 'Estudante']
+  PROFESSOR [note: 'Docente']
 }
 
 Enum evaluation_mode {
@@ -105,15 +111,9 @@ Enum evaluation_mode {
   ALLOW_IDENTIFIED [note: 'Permite avaliações nominais opcionais consentidas']
 }
 
-Enum tag_category {
-  PEDAGOGICAL [note: 'Metodologia de ensino e didática']
-  EXIGENCY [note: 'Rigor acadêmico e pontualidade']
-  ASSESSMENT [note: 'Critérios de provas e distribuição de notas']
-}
-
 Table users {
   id uuid [pk, default: `gen_random_uuid()`]
-  email varchar(255) [not null, unique, note: 'E-mail institucional (@edu / @universidade.br)']
+  email varchar(255) [not null, unique, note: 'Qualquer e-mail válido (@gmail, @edu, etc.)']
   password_hash varchar(255) [not null, note: 'Hash BCrypt (custo 12)']
   name varchar(150) [not null]
   role user_role [not null, default: 'STUDENT']
@@ -124,8 +124,8 @@ Table users {
 
 Table students {
   id uuid [pk, ref: - users.id, note: 'Extensão 1:1 de users']
-  registration_number varchar(50) [not null, unique, note: 'Matrícula institucional']
-  department_id uuid [not null, ref: > departments.id]
+  registration_number varchar(50) [unique, note: 'Matrícula opcional']
+  department_id uuid [ref: > departments.id]
 }
 
 Table professors {
@@ -161,10 +161,25 @@ Table classes {
   professor_id uuid [not null, ref: > professors.id]
   semester varchar(10) [not null, note: 'Período letivo (ex: 2026.1)']
   code varchar(20) [not null, note: 'Identificador de turma (Turma 01)']
+  is_evaluation_open boolean [not null, default: false, note: 'Toggle de abertura das avaliações pelo professor']
+  students_count integer [not null, default: 0, note: 'Contagem total de alunos matriculados']
+  reviews_count integer [not null, default: 0, note: 'Contagem de reviews (se > 0, trava adição de alunos)']
   is_active boolean [not null, default: true]
 
   indexes {
     (course_id, semester, code) [unique, name: 'uk_classes_course_semester_code']
+  }
+}
+
+Table class_students {
+  id uuid [pk, default: `gen_random_uuid()`]
+  class_id uuid [not null, ref: > classes.id]
+  student_email varchar(255) [not null, note: 'E-mail do aluno matriculado na turma']
+  student_id uuid [ref: > students.id, note: 'Vinculado automaticamente quando o aluno se cadastra']
+  created_at timestamptz [not null, default: `now()`]
+
+  indexes {
+    (class_id, student_email) [unique, name: 'uk_class_students_class_email']
   }
 }
 
@@ -182,10 +197,10 @@ Table reviews {
   rating smallint [not null, note: 'Nota geral (1 a 5)']
   difficulty smallint [not null, note: 'Dificuldade (1 a 5)']
   would_recommend boolean [not null]
-  comment text [not null, note: 'Comentário (min 20 chars)']
+  comment text [not null, note: 'Comentário textual (min 20 chars)']
   is_anonymous boolean [not null, default: true]
   student_identifier_display varchar(150) [note: 'Preenchido apenas se is_anonymous = false']
-  audit_hash varchar(64) [not null, unique, note: 'HMAC-SHA256 para unicidade antifraude sem quebra de anonimato']
+  audit_hash varchar(64) [not null, unique, note: 'HMAC-SHA256 para unicidade antifraude']
   upvotes_count integer [not null, default: 0]
   created_at timestamptz [not null, default: `now()`]
 
@@ -193,22 +208,6 @@ Table reviews {
     (professor_id, created_at) [name: 'idx_reviews_professor_created']
     (class_id) [name: 'idx_reviews_class_id']
     audit_hash [unique, name: 'uk_reviews_audit_hash']
-  }
-}
-
-Table tags {
-  id uuid [pk, default: `gen_random_uuid()`]
-  name varchar(50) [not null, unique]
-  category tag_category [not null]
-  icon_class varchar(50) [note: 'Classe Bootstrap Icons (bi-*)']
-}
-
-Table review_tags {
-  review_id uuid [not null, ref: > reviews.id]
-  tag_id uuid [not null, ref: > tags.id]
-
-  indexes {
-    (review_id, tag_id) [pk, name: 'pk_review_tags']
   }
 }
 
@@ -224,24 +223,6 @@ Table review_upvotes {
 }
 ```
 
-### 4.2 Estratégia de Indexação e Otimização SQL
-```sql
--- 1. Ordenação e paginação de reviews por docente
-CREATE INDEX idx_reviews_professor_created ON reviews (professor_id, created_at DESC);
-
--- 2. Filtro e busca de disciplinas por departamento
-CREATE INDEX idx_courses_dept_code ON courses (department_id, code);
-
--- 3. Ranking de docentes por departamento e média
-CREATE INDEX idx_professors_dept_rating ON professors (department_id, average_rating DESC);
-
--- 4. Consulta de turmas ativas no semestre corrente
-CREATE INDEX idx_classes_semester_active ON classes (semester, is_active) WHERE is_active = TRUE;
-
--- 5. Unicidade e controle atômico de upvotes
-CREATE UNIQUE INDEX uk_review_upvotes_user_review ON review_upvotes (user_id, review_id);
-```
-
 ---
 
 ## 5. Contratos de Integração RESTful & Schemas da API
@@ -250,28 +231,34 @@ CREATE UNIQUE INDEX uk_review_upvotes_user_review ON review_upvotes (user_id, re
 
 | Método | Endpoint | US | Auth / Role | Status Sucesso | Descrição |
 | :--- | :--- | :---: | :---: | :---: | :--- |
-| `POST` | `/api/v1/auth/register` | US01 | Pública | `201 Created` | Criação de conta institucional. |
+| `POST` | `/api/v1/auth/register` | US01 | Pública | `201 Created` | Criação de conta (qualquer e-mail válido). |
 | `POST` | `/api/v1/auth/login` | US02 | Pública | `200 OK` | Autenticação e emissão de token JWT. |
 | `POST` | `/api/v1/auth/forgot-password` | US02 | Pública | `200 OK` | Disparo de link de recuperação de senha. |
-| `GET` | `/api/v1/home/featured` | US03 | Pública | `200 OK` | Destaques da tela inicial (professores e disciplinas). |
+| `GET` | `/api/v1/home/featured` | US03 | Pública | `200 OK` | Destaques da tela inicial. |
 | `GET` | `/api/v1/professors` | US03 | Pública | `200 OK` | Busca paginada de docentes com filtros. |
-| `GET` | `/api/v1/professors/{id}` | US04 | Pública | `200 OK` | Perfil do docente com agregados estatísticos. |
+| `GET` | `/api/v1/professors/{id}` | US04 | Pública | `200 OK` | Perfil do docente com médias e histograma. |
 | `GET` | `/api/v1/courses` | US03 | Pública | `200 OK` | Busca paginada de disciplinas com filtros. |
-| `GET` | `/api/v1/courses/{id}` | US04 | Pública | `200 OK` | Perfil detalhado da disciplina. |
-| `GET` | `/api/v1/reviews` | US04 | Pública | `200 OK` | Feed público paginado de avaliações. |
-| `POST` | `/api/v1/reviews` | US05/06 | `ROLE_STUDENT` | `201 Created` | Submissão de avaliação (anônima ou nominal). |
-| `POST` | `/api/v1/reviews/{id}/useful` | US07 | Autenticado | `200 OK` | Incremento atômico de voto útil. |
+| `GET` | `/api/v1/courses/{id}` | US04 | Pública | `200 OK` | Perfil detalhado da disciplina e turmas. |
+| `POST` | `/api/v1/courses/{cId}/classes` | US08 | `ROLE_PROFESSOR` | `201 Created` | Criação de nova turma pelo professor. |
+| `POST` | `/api/v1/courses/{cId}/classes/{clId}/students/bulk` | US08 | `ROLE_PROFESSOR` | `200 OK` | Adição em lote de alunos via lista de e-mails. |
+| `PATCH`| `/api/v1/courses/{cId}/classes/{clId}/toggle-evaluation` | US08 | `ROLE_PROFESSOR` | `200 OK` | Abertura/fechamento de avaliações da turma. |
 | `PATCH`| `/api/v1/courses/{cId}/classes/{clId}/policy` | US08 | `ROLE_PROFESSOR` | `200 OK` | Alternância de política (`ANONYMOUS_ONLY` vs `ALLOW_IDENTIFIED`). |
-| `GET` | `/api/v1/professors/{id}/analytics` | US09 | `ROLE_PROFESSOR` / Admin | `200 OK` | Dashboard docente com evolução temporal. |
+| `GET` | `/api/v1/reviews` | US04 | Pública | `200 OK` | Feed público paginado de avaliações (sem tags). |
+| `POST` | `/api/v1/reviews` | US05/06 | `ROLE_STUDENT` | `201 Created` | Submissão de avaliação (valida quórum >= 5 e toggle aberto). |
+| `POST` | `/api/v1/reviews/{id}/useful` | US07 | Autenticado | `200 OK` | Incremento atômico de voto útil. |
+| `GET` | `/api/v1/professors/{id}/analytics` | US09 | `ROLE_PROFESSOR` | `200 OK` | Métricas, histograma de estrelas e evolução temporal. |
+| `GET` | `/api/v1/professors/{id}/analytics/export` | US09 | `ROLE_PROFESSOR` | `200 OK` | Exportação de relatórios (`format=csv` ou `format=pdf`). |
 
-### 5.2 Schemas JSON de Request e Response
+---
+
+### 5.2 Schemas JSON Detalhados de Request e Response
 
 #### A. Cadastro de Usuário (`POST /api/v1/auth/register`)
-* **Request:**
+* **Request (Qualquer e-mail válido aceito):**
   ```json
   {
     "name": "Maria Silva Santos",
-    "email": "maria.santos@universidade.edu.br",
+    "email": "maria.silva@gmail.com",
     "password": "SenhaForte@2026",
     "role": "STUDENT",
     "department": "Ciência da Computação"
@@ -282,38 +269,83 @@ CREATE UNIQUE INDEX uk_review_upvotes_user_review ON review_upvotes (user_id, re
   {
     "id": "usr-12345678-90ab-cdef-1234-567890abcdef",
     "name": "Maria Silva Santos",
-    "email": "maria.santos@universidade.edu.br",
+    "email": "maria.silva@gmail.com",
     "role": "STUDENT",
     "department": "Ciência da Computação",
     "createdAt": "2026-09-08T10:00:00Z"
   }
   ```
 
-#### B. Autenticação (`POST /api/v1/auth/login`)
+#### B. Criação de Turma pelo Professor (`POST /api/v1/courses/{courseId}/classes`)
 * **Request:**
   ```json
   {
-    "email": "maria.santos@universidade.edu.br",
-    "password": "SenhaForte@2026"
+    "code": "Turma 01",
+    "semester": "2026.1"
+  }
+  ```
+* **Response (`201 Created`):**
+  ```json
+  {
+    "id": "cls-55443322-1100-aabb-ccdd-eeff00112233",
+    "courseId": "crs-11223344-5566-7788-99aa-bbccddeeff00",
+    "professorId": "prof-a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
+    "code": "Turma 01",
+    "semester": "2026.1",
+    "isEvaluationOpen": false,
+    "studentsCount": 0,
+    "reviewsCount": 0,
+    "createdAt": "2026-09-08T11:00:00Z"
+  }
+  ```
+
+#### C. Adição de Alunos em Lote (`POST /api/v1/courses/{courseId}/classes/{classId}/students/bulk`)
+* **Request:**
+  ```json
+  {
+    "emailsText": "aluno1@gmail.com, aluno2@universidade.edu\naluno3@outlook.com, aluno4@hotmail.com, aluno5@empresa.com"
   }
   ```
 * **Response (`200 OK`):**
   ```json
   {
-    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "tokenType": "Bearer",
-    "expiresIn": 86400,
-    "user": {
-      "id": "usr-12345678-90ab-cdef-1234-567890abcdef",
-      "name": "Maria Silva Santos",
-      "email": "maria.santos@universidade.edu.br",
-      "role": "ROLE_STUDENT"
-    }
+    "classId": "cls-55443322-1100-aabb-ccdd-eeff00112233",
+    "addedCount": 5,
+    "totalStudents": 5,
+    "invalidEmails": [],
+    "message": "5 alunos matriculados com sucesso na turma."
+  }
+  ```
+* **Regra de Bloqueio (Erro 400 se `reviewsCount > 0`):**
+  ```json
+  {
+    "type": "https://classdoor.acad/errors/class-locked",
+    "title": "Adição de Alunos Bloqueada",
+    "status": 400,
+    "detail": "Não é permitido adicionar novos alunos a uma turma que já recebeu avaliações.",
+    "instance": "/api/v1/courses/crs-1/classes/cls-1/students/bulk"
   }
   ```
 
-#### C. Submissão de Avaliação (`POST /api/v1/reviews`)
-* **Request Payload:**
+#### D. Toggle de Liberação de Avaliações (`PATCH /api/v1/courses/{cId}/classes/{clId}/toggle-evaluation`)
+* **Request:**
+  ```json
+  {
+    "isEvaluationOpen": true
+  }
+  ```
+* **Response (`200 OK`):**
+  ```json
+  {
+    "classId": "cls-55443322-1100-aabb-ccdd-eeff00112233",
+    "isEvaluationOpen": true,
+    "studentsCount": 5,
+    "message": "Avaliações liberadas com sucesso para os alunos da turma."
+  }
+  ```
+
+#### E. Submissão de Avaliação sem Tags (`POST /api/v1/reviews`)
+* **Request:**
   ```json
   {
     "targetType": "PROFESSOR",
@@ -322,8 +354,7 @@ CREATE UNIQUE INDEX uk_review_upvotes_user_review ON review_upvotes (user_id, re
     "rating": 5,
     "difficultyRating": 3,
     "recommend": true,
-    "tags": ["Didático", "Provas Justas"],
-    "comment": "Excelente professor, didática impecável e suporte constante nas monitorias.",
+    "comment": "Excelente professor, didática impecável e suporte constante nas aulas.",
     "isAnonymous": true,
     "studentIdentifier": null
   }
@@ -337,8 +368,7 @@ CREATE UNIQUE INDEX uk_review_upvotes_user_review ON review_upvotes (user_id, re
     "rating": 5.0,
     "difficultyRating": 3.0,
     "recommend": true,
-    "tags": ["Didático", "Provas Justas"],
-    "comment": "Excelente professor, didática impecável e suporte constante nas monitorias.",
+    "comment": "Excelente professor, didática impecável e suporte constante nas aulas.",
     "isAnonymous": true,
     "authorDisplayName": "Estudante Anônimo",
     "usefulCount": 0,
@@ -346,35 +376,47 @@ CREATE UNIQUE INDEX uk_review_upvotes_user_review ON review_upvotes (user_id, re
   }
   ```
 
-#### D. Paginação Padrão (Spring Pageable)
-```json
-{
-  "content": [...],
-  "page": {
-    "number": 0,
-    "size": 10,
-    "totalElements": 42,
-    "totalPages": 5
+#### F. Analytics Estruturado do Docente (`GET /api/v1/professors/{id}/analytics`)
+* **Response (`200 OK`):**
+  ```json
+  {
+    "professorId": "prof-a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
+    "professorName": "Dr. Carlos Eduardo Santos",
+    "scorecards": {
+      "overallRating": 4.75,
+      "difficultyRating": 3.20,
+      "recommendationPercentage": 92.5,
+      "totalReviews": 40
+    },
+    "ratingDistribution": {
+      "star5": { "count": 25, "percentage": 62.5 },
+      "star4": { "count": 10, "percentage": 25.0 },
+      "star3": { "count": 3, "percentage": 7.5 },
+      "star2": { "count": 2, "percentage": 5.0 },
+      "star1": { "count": 0, "percentage": 0.0 }
+    },
+    "temporalEvolution": [
+      {
+        "semester": "2024.2",
+        "averageRating": 4.50,
+        "difficultyRating": 3.40,
+        "reviewsCount": 8
+      },
+      {
+        "semester": "2025.1",
+        "averageRating": 4.65,
+        "difficultyRating": 3.30,
+        "reviewsCount": 12
+      },
+      {
+        "semester": "2025.2",
+        "averageRating": 4.80,
+        "difficultyRating": 3.10,
+        "reviewsCount": 20
+      }
+    ]
   }
-}
-```
-
-#### E. Envelope Padronizado de Erro (RFC 7807)
-```json
-{
-  "type": "https://classdoor.acad/errors/unauthorized-domain",
-  "title": "Domínio de E-mail Não Autorizado",
-  "status": 400,
-  "detail": "O cadastro exige e-mail institucional válido (@universidade.edu / @instituicao.br).",
-  "instance": "/api/v1/auth/register",
-  "invalidParams": [
-    {
-      "name": "email",
-      "reason": "Domínio não autorizado"
-    }
-  ]
-}
-```
+  ```
 
 ---
 
@@ -406,15 +448,8 @@ O arquivo do [Figma do Classdoor](https://www.figma.com/design/LxCytRCFqQGshvVnV
 
 ### 6.3 Vitrine Oficial de Ícones (Bootstrap Icons `bi-*`)
 * **Autenticação & Segurança:** `bi-mortarboard-fill`, `bi-shield-check`, `bi-shield-lock-fill`, `bi-key-fill`, `bi-envelope-fill`, `bi-check-circle-fill`.
-* **Busca & Navegação:** `bi-search`, `bi-funnel-fill`, `bi-person-fill`, `bi-person-badge-fill`, `bi-building`, `bi-arrow-left`.
-* **Tags Pedagógicas Oficiais:**
-  * *Didático:* `bi-lightbulb-fill`
-  * *Provas Justas:* `bi-file-earmark-check-fill`
-  * *Pontualidade:* `bi-clock-fill`
-  * *Trabalho em Grupo:* `bi-people-fill`
-  * *Focado em Projetos:* `bi-rocket-takeoff-fill`
-  * *Carga Exigente:* `bi-lightning-charge-fill`
-* **Reviews & Analytics:** `bi-star-fill`, `bi-hand-thumbs-up-fill`, `bi-graph-up`, `bi-file-earmark-pdf-fill`, `bi-file-earmark-spreadsheet-fill`, `bi-box-arrow-right`.
+* **Busca, Navegação & Turmas:** `bi-search`, `bi-funnel-fill`, `bi-person-fill`, `bi-people-fill`, `bi-person-badge-fill`, `bi-building`, `bi-plus-circle-fill`, `bi-toggle-on`, `bi-toggle-off`, `bi-arrow-left`.
+* **Reviews & Analytics:** `bi-star-fill`, `bi-hand-thumbs-up-fill`, `bi-graph-up`, `bi-bar-chart-fill`, `bi-file-earmark-pdf-fill`, `bi-file-earmark-spreadsheet-fill`, `bi-box-arrow-right`.
 
 ### 6.4 Matriz de Telas no Figma (14 Pranchetas Oficiais)
 * **Página 1: Desktop (1440px — Grid 12 colunas):**
@@ -423,8 +458,8 @@ O arquivo do [Figma do Classdoor](https://www.figma.com/design/LxCytRCFqQGshvVnV
   3. `1C. Desktop - Recuperação de Senha (US02)`
   4. `2. Home & Busca Global (US03)`
   5. `3. Perfil de Docente & Reviews (US04 & US07)`
-  6. `4. Modal de Avaliação Anônima & Nominal (US05 & US06)`
-  7. `5. Painel Docente & Dashboard (US08 & US09)`
+  6. `4. Modal de Avaliação Anônima & Nominal sem Tags (US05 & US06)`
+  7. `5. Painel Docente, Gestão de Turmas & Dashboard (US08 & US09)`
 * **Página 2: Mobile (390px — Mobile-First):**
   1. `1A. Mobile - Login (US02)` *(Starting Point)*
   2. `1B. Mobile - Cadastro de Usuário (US01)`

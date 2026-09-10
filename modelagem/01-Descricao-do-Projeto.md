@@ -25,9 +25,8 @@ O **Classdoor** é uma plataforma acadêmica colaborativa inspirada no modelo do
 
 | Persona | Perfil | Principais Necessidades |
 | :--- | :--- | :--- |
-| **Estudante Universitário** | Aluno de graduação ou pós-graduação autenticado via e-mail institucional. | Consultar reputação de disciplinas/docentes, buscar filtros por curso, emitir feedbacks anônimos sinceros e votar em reviews úteis. |
-| **Professor / Docente** | Docente vinculado a um ou mais departamentos acadêmicos. | Acompanhar métricas de satisfação pedagógica, analisar evolução histórica por semestre, gerenciar políticas de turma e exportar relatórios. |
-| **Coordenador de Curso** | Gestor acadêmico do departamento/faculdade. | Visão agregada do corpo docente, identificação de gargalos pedagógicos e relatórios institucionais. |
+| **Estudante Universitário** | Aluno de graduação ou pós-graduação autenticado via e-mail válido. | Consultar reputação de disciplinas/docentes, buscar filtros por curso, emitir feedbacks anônimos sinceros e votar em reviews úteis. |
+| **Professor / Docente** | Docente vinculado a um ou mais departamentos acadêmicos. | Acompanhar métricas de satisfação pedagógica, criar turmas, adicionar alunos em lote, analisar evolução histórica por semestre e exportar relatórios. |
 | **Visitante / Aluno Prospectivo** | Usuário não autenticado na web. | Navegar na Home institucional, explorar catálogo público e visualizar resumos de cursos. |
 
 ---

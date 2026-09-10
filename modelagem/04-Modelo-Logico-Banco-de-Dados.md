@@ -32,18 +32,11 @@ O código abaixo em **DBML (Database Markup Language)** é a fonte de verdade pa
 Enum user_role {
   STUDENT [note: 'Estudante da graduação/pós-graduação']
   PROFESSOR [note: 'Docente ou orientador acadêmico']
-  ADMIN [note: 'Administrador e coordenador de plataforma']
 }
 
 Enum evaluation_mode {
   ANONYMOUS_ONLY [note: 'Apenas avaliações estritamente anônimas permitidas']
   ALLOW_IDENTIFIED [note: 'Permite avaliações com identificação nominal opcional']
-}
-
-Enum tag_category {
-  PEDAGOGICAL [note: 'Aspectos pedagógicos e metodologia de ensino']
-  EXIGENCY [note: 'Nível de exigência, pontualidade e rigor acadêmico']
-  ASSESSMENT [note: 'Critérios de prova, trabalhos e distribuição de notas']
 }
 
 // --- TABELAS CENTRAIS & IDENTIDADE ---
@@ -110,6 +103,9 @@ Table classes {
   professor_id uuid [not null, ref: > professors.id, note: 'Docente responsável pela turma']
   semester varchar(10) [not null, note: 'Semestre letivo de oferta (ex.: 2026.1, 2026.2)']
   code varchar(20) [not null, note: 'Código identificador da turma (ex.: Turma 01, Turma 02)']
+  is_evaluation_open boolean [not null, default: false, note: 'Toggle de liberação de avaliações pelo professor']
+  students_count integer [not null, default: 0, note: 'Contagem total de alunos matriculados']
+  reviews_count integer [not null, default: 0, note: 'Contagem de avaliações (se > 0, trava adição de novos alunos)']
   is_active boolean [not null, default: true, note: 'Status de andamento da turma no período letivo']
 
   indexes {
@@ -117,6 +113,20 @@ Table classes {
   }
 
   Note: 'Ofertas semestrais de turmas com vinculação de disciplina e docente.'
+}
+
+Table class_students {
+  id uuid [pk, default: `gen_random_uuid()`, note: 'Identificador único da matrícula']
+  class_id uuid [not null, ref: > classes.id, note: 'Turma vinculada']
+  student_email varchar(255) [not null, note: 'E-mail do discente matriculado via bulk import']
+  student_id uuid [ref: > students.id, note: 'ID discente preenchido na criação da conta']
+  created_at timestamptz [not null, default: `now()`, note: 'Data de inclusão']
+
+  indexes {
+    (class_id, student_email) [unique, name: 'uk_class_students_class_email']
+  }
+
+  Note: 'Matrículas de discentes por turma inseridos em lote pelo docente.'
 }
 
 Table evaluation_policies {
@@ -153,26 +163,6 @@ Table reviews {
   Note: 'Motor central de avaliações, resguardando anonimato com garantia de unicidade via audit_hash.'
 }
 
-Table tags {
-  id uuid [pk, default: `gen_random_uuid()`, note: 'Identificador único da tag']
-  name varchar(50) [not null, unique, note: 'Nome descritivo da tag (ex.: Didático, Provas Justas, Cobrança Alta)']
-  category tag_category [not null, note: 'Classificação da tag no modelo pedagógico']
-  icon_class varchar(50) [note: 'Classe do ícone no design system (ex.: bi-book, bi-check-circle)']
-
-  Note: 'Taxonomia de tags para categorização pedagógica e comportamental.'
-}
-
-Table review_tags {
-  review_id uuid [not null, ref: > reviews.id, note: 'Chave estrangeira referenciando a avaliação']
-  tag_id uuid [not null, ref: > tags.id, note: 'Chave estrangeira referenciando a tag associada']
-
-  indexes {
-    (review_id, tag_id) [pk, name: 'pk_review_tags']
-  }
-
-  Note: 'Tabela associativa N:M conectando avaliações às tags selecionadas.'
-}
-
 Table review_upvotes {
   id uuid [pk, default: `gen_random_uuid()`, note: 'Identificador do voto de utilidade']
   review_id uuid [not null, ref: > reviews.id, note: 'Avaliação votada como útil']
@@ -196,10 +186,10 @@ Ref: departments.id < courses.department_id [delete: restrict]
 Ref: courses.id < classes.course_id [delete: restrict]
 Ref: professors.id < classes.professor_id [delete: restrict]
 Ref: classes.id - evaluation_policies.class_id [delete: cascade]
+Ref: classes.id < class_students.class_id [delete: cascade]
+Ref: students.id < class_students.student_id [delete: set null]
 Ref: professors.id < reviews.professor_id [delete: cascade]
 Ref: classes.id < reviews.class_id [delete: cascade]
-Ref: reviews.id < review_tags.review_id [delete: cascade]
-Ref: tags.id < review_tags.tag_id [delete: restrict]
 Ref: reviews.id < review_upvotes.review_id [delete: cascade]
 Ref: users.id < review_upvotes.user_id [delete: cascade]
 ```
