@@ -1,266 +1,919 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1100" width="100%" height="100%" style="background-color: #1e1e2e; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2020 1300" width="2020" height="1300" style="background-color: #0B1120; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
   <defs>
-    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#313244" />
-      <stop offset="100%" stop-color="#45475a" />
-    </linearGradient>
-    <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
-      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000000" flood-opacity="0.4"/>
+    <!-- Background Grid Pattern -->
+    <pattern id="grid-dots" width="30" height="30" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.2" fill="#334155" opacity="0.45" />
+    </pattern>
+    <pattern id="grid-lines" width="120" height="120" patternUnits="userSpaceOnUse">
+      <path d="M 120 0 L 0 0 0 120" fill="none" stroke="#1E293B" stroke-width="0.8" opacity="0.6"/>
+    </pattern>
+
+    <!-- Card Drop Shadows -->
+    <filter id="card-shadow" x="-6%" y="-4%" width="112%" height="112%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.45" />
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000000" flood-opacity="0.3" />
     </filter>
-    <marker id="rel-start" markerWidth="8" markerHeight="8" refX="4" refY="4">
-      <circle cx="4" cy="4" r="2.5" fill="#89b4fa" stroke="#1e1e2e" stroke-width="1"/>
-    </marker>
-    <marker id="rel-end" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
-      <path d="M0,1 L8,5 L0,9" fill="none" stroke="#89b4fa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </marker>
+
+    <!-- Gradients -->
+    <linearGradient id="header-grad-blue" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1E40AF" />
+      <stop offset="100%" stop-color="#3B82F6" />
+    </linearGradient>
+    <linearGradient id="header-grad-teal" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0F766E" />
+      <stop offset="100%" stop-color="#14B8A6" />
+    </linearGradient>
+    <linearGradient id="header-grad-purple" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6B21A8" />
+      <stop offset="100%" stop-color="#A855F7" />
+    </linearGradient>
+    <linearGradient id="header-grad-indigo" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3730A3" />
+      <stop offset="100%" stop-color="#6366F1" />
+    </linearGradient>
   </defs>
 
-  <style>
-    .table-card { fill: #181825; stroke: #313244; stroke-width: 1.5; rx: 8px; filter: url(#shadow); }
-    .table-header { fill: #313244; rx: 8px; }
-    .table-title { fill: #cdd6f4; font-size: 14px; font-weight: 700; letter-spacing: 0.5px; }
-    .col-name { fill: #cdd6f4; font-size: 12px; font-family: 'SF Mono', 'Fira Code', Menlo, monospace; }
-    .col-type { fill: #a6adc8; font-size: 11px; font-family: 'SF Mono', 'Fira Code', Menlo, monospace; }
-    .pk-badge { fill: #f38ba8; font-size: 9px; font-weight: bold; font-family: 'SF Mono', monospace; }
-    .fk-badge { fill: #89b4fa; font-size: 9px; font-weight: bold; font-family: 'SF Mono', monospace; }
-    .uk-badge { fill: #f9e2af; font-size: 9px; font-weight: bold; font-family: 'SF Mono', monospace; }
-    .row-even { fill: #1e1e2e; }
-    .row-odd { fill: #181825; }
-    .rel-line { fill: none; stroke: #89b4fa; stroke-width: 1.8; stroke-dasharray: 4, 4; opacity: 0.75; }
-    .rel-line-solid { fill: none; stroke: #89b4fa; stroke-width: 1.8; opacity: 0.85; }
-    .group-title { fill: #9399b2; font-size: 18px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; }
-  </style>
+  <!-- Background layers -->
+  <rect width="2020" height="1300" fill="#0B1120" />
+  <rect width="2020" height="1300" fill="url(#grid-lines)" />
+  <rect width="2020" height="1300" fill="url(#grid-dots)" />
 
-  <!-- Title & Watermark -->
-  <text x="50" y="45" fill="#cdd6f4" font-size="24" font-weight="800">Classdoor — Modelo Lógico Relacional (PostgreSQL)</text>
-  <text x="50" y="70" fill="#6c7086" font-size="13">Gerado via especificação DBML (dbdiagram.io) • Arquitetura de Dados v1.1.0</text>
-
-  <!-- RELATIONSHIPS PATHS -->
-  <!-- users -> students (1:1) -->
-  <path d="M 320 180 H 420" class="rel-line-solid" marker-start="url(#rel-start)" marker-end="url(#rel-end)" />
-  <!-- users -> professors (1:1) -->
-  <path d="M 320 230 H 370 V 380 H 420" class="rel-line-solid" marker-start="url(#rel-start)" marker-end="url(#rel-end)" />
-  <!-- departments -> students (1:N) -->
-  <path d="M 550 110 V 130" class="rel-line" marker-start="url(#rel-start)" marker-end="url(#rel-end)" />
-  <!-- departments -> professors (1:N) -->
-  <path d="M 690 90 H 740 V 390 H 700" class="rel-line" marker-start="url(#rel-start)" marker-end="url(#rel-end)" />
-  <!-- departments -> courses (1:N) -->
-  <path d="M 690 60 H 800" class="rel-line" marker-start="url(#rel-start)" marker-end="url(#rel-end)" />
-  <!-- courses -> classes (1:N) -->
-  <path d="M 930 200 V 270" class="rel-line" marker-start="url(#rel-start)" marker-end="url(#rel-end)" />
-  <!-- professors -> classes (1:N) -->
-  <path d="M 700 450 H 760 V 350 H 820" class="rel-line" marker-start="url(#rel-start)" marker-end="url(#rel-end)" />
-  <!-- classes -> evaluation_policies (1:1) -->
-  <path d="M 1080 340 H 1150" class="rel-line-solid" marker-start="url(#rel-start)" marker-end="url(#rel-end)" />
-  <!-- professors -> reviews (1:N) -->
-  <path d="M 560 620 V 680" class="rel-line" marker-start="url(#rel-start)" marker-end="url(#rel-end)" />
-  <!-- classes -> reviews (1:N) -->
-  <path d="M 950 460 V 680" class="rel-line" marker-start="url(#rel-start)" marker-end="url(#rel-end)" />
-  <!-- reviews -> review_tags (1:N) -->
-  <path d="M 960 850 H 1050" class="rel-line" marker-start="url(#rel-start)" marker-end="url(#rel-end)" />
-  <!-- tags -> review_tags (1:N) -->
-  <path d="M 1340 760 H 1280 V 850 H 1260" class="rel-line" marker-start="url(#rel-start)" marker-end="url(#rel-end)" />
-  <!-- reviews -> review_upvotes (1:N) -->
-  <path d="M 680 920 V 960 H 520" class="rel-line" marker-start="url(#rel-start)" marker-end="url(#rel-end)" />
-  <!-- users -> review_upvotes (1:N) -->
-  <path d="M 190 390 V 990 H 260" class="rel-line" marker-start="url(#rel-start)" marker-end="url(#rel-end)" />
-
-  <!-- TABLE: users -->
-  <g transform="translate(60, 110)">
-    <rect width="260" height="280" class="table-card" />
-    <path d="M 0 0 h 260 v 35 h -260 Z" class="table-header" fill="#f38ba8" />
-    <text x="15" y="23" class="table-title">👤 users</text>
-    <rect x="0" y="35" width="260" height="30" class="row-even" />
-    <text x="15" y="55" class="col-name">id</text><text x="120" y="55" class="col-type">uuid</text><text x="220" y="55" class="pk-badge">[PK]</text>
-    <rect x="0" y="65" width="260" height="30" class="row-odd" />
-    <text x="15" y="85" class="col-name">email</text><text x="120" y="85" class="col-type">varchar(255)</text><text x="220" y="85" class="uk-badge">[UK]</text>
-    <rect x="0" y="95" width="260" height="30" class="row-even" />
-    <text x="15" y="115" class="col-name">password_hash</text><text x="120" y="115" class="col-type">varchar(255)</text>
-    <rect x="0" y="125" width="260" height="30" class="row-odd" />
-    <text x="15" y="145" class="col-name">name</text><text x="120" y="145" class="col-type">varchar(150)</text>
-    <rect x="0" y="155" width="260" height="30" class="row-even" />
-    <text x="15" y="175" class="col-name">role</text><text x="120" y="175" class="col-type">user_role_enum</text>
-    <rect x="0" y="185" width="260" height="30" class="row-odd" />
-    <text x="15" y="205" class="col-name">is_active</text><text x="120" y="205" class="col-type">boolean</text>
-    <rect x="0" y="215" width="260" height="30" class="row-even" />
-    <text x="15" y="235" class="col-name">created_at</text><text x="120" y="235" class="col-type">timestamptz</text>
-    <rect x="0" y="245" width="260" height="30" class="row-odd" />
-    <text x="15" y="265" class="col-name">updated_at</text><text x="120" y="265" class="col-type">timestamptz</text>
+  <!-- Diagram Title Header -->
+  <g id="title-block" transform="translate(60, 40)">
+    <rect x="0" y="0" width="1900" height="70" rx="10" fill="#1E293B" stroke="#334155" stroke-width="1.5" />
+    <!-- Icon -->
+    <rect x="18" y="14" width="42" height="42" rx="8" fill="#3B82F6" opacity="0.2" />
+    <path d="M 32 25 C 32 23, 46 23, 46 25 C 46 27, 32 27, 32 25 Z M 32 25 L 32 45 C 32 47, 46 47, 46 45 L 46 25 M 32 32 C 32 34, 46 34, 46 32 M 32 39 C 32 41, 46 41, 46 39" fill="none" stroke="#60A5FA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+    
+    <text x="75" y="32" font-size="20" font-weight="700" fill="#F8FAFC" letter-spacing="0.5">Classdoor — Modelo Lógico Relacional de Banco de Dados (DBML / PostgreSQL 16+)</text>
+    <text x="75" y="52" font-size="12" font-weight="400" fill="#94A3B8">Arquitetura SDD v2.1.0 • Controle de Quórum &amp; Matrículas em Lote • Integridade Referencial ACID e 3FN</text>
+    
+    <!-- Badges in Header -->
+    <g transform="translate(1420, 18)">
+      <rect x="0" y="0" width="130" height="34" rx="6" fill="#0F766E" opacity="0.3" stroke="#14B8A6" stroke-width="1"/>
+      <text x="65" y="21" font-size="11" font-weight="600" fill="#2DD4BF" text-anchor="middle">PostgreSQL 16+</text>
+    </g>
+    <g transform="translate(1565, 18)">
+      <rect x="0" y="0" width="140" height="34" rx="6" fill="#1E40AF" opacity="0.3" stroke="#3B82F6" stroke-width="1"/>
+      <text x="70" y="21" font-size="11" font-weight="600" fill="#93C5FD" text-anchor="middle">SDD v2.1.0 (DBML)</text>
+    </g>
+    <g transform="translate(1720, 18)">
+      <rect x="0" y="0" width="150" height="34" rx="6" fill="#6B21A8" opacity="0.3" stroke="#A855F7" stroke-width="1"/>
+      <text x="75" y="21" font-size="11" font-weight="600" fill="#D8B4FE" text-anchor="middle">@codd (DBA XIUD)</text>
+    </g>
   </g>
 
-  <!-- TABLE: departments -->
-  <g transform="translate(430, 20)">
-    <rect width="260" height="160" class="table-card" />
-    <path d="M 0 0 h 260 v 35 h -260 Z" class="table-header" />
-    <text x="15" y="23" class="table-title">🏛️ departments</text>
-    <rect x="0" y="35" width="260" height="30" class="row-even" />
-    <text x="15" y="55" class="col-name">id</text><text x="120" y="55" class="col-type">uuid</text><text x="220" y="55" class="pk-badge">[PK]</text>
-    <rect x="0" y="65" width="260" height="30" class="row-odd" />
-    <text x="15" y="85" class="col-name">code</text><text x="120" y="85" class="col-type">varchar(20)</text><text x="220" y="85" class="uk-badge">[UK]</text>
-    <rect x="0" y="95" width="260" height="30" class="row-even" />
-    <text x="15" y="115" class="col-name">name</text><text x="120" y="115" class="col-type">varchar(150)</text>
-    <rect x="0" y="125" width="260" height="30" class="row-odd" />
-    <text x="15" y="145" class="col-name">website_url</text><text x="120" y="145" class="col-type">varchar(255)</text>
+  <!-- ==================== RELATIONSHIPS LAYER ==================== -->
+  <g id="relationships" opacity="0.95">
+    <!-- Rel: users.id -> students.id -->
+    <path d="M 930 198.0 L 955 198.0 L 930 538.0" fill="none" stroke="#3B82F6" stroke-width="3.5" stroke-opacity="0.25" />
+    <path d="M 930 198.0 L 955 198.0 L 930 538.0" fill="none" stroke="#3B82F6" stroke-width="1.8" />
+    <circle cx="930" cy="198.0" r="4" fill="#3B82F6" stroke="#0B1120" stroke-width="1.5" />
+    <circle cx="930" cy="538.0" r="4" fill="#F8FAFC" stroke="#3B82F6" stroke-width="2" />
+    <line x1="936" y1="531.0" x2="936" y2="545.0" stroke="#3B82F6" stroke-width="2" />
+    <line x1="941" y1="531.0" x2="941" y2="545.0" stroke="#3B82F6" stroke-width="2" />
+    <!-- Rel: users.id -> professors.id -->
+    <path d="M 930 198.0 L 975 198.0 L 930 738.0" fill="none" stroke="#3B82F6" stroke-width="3.5" stroke-opacity="0.25" />
+    <path d="M 930 198.0 L 975 198.0 L 930 738.0" fill="none" stroke="#3B82F6" stroke-width="1.8" />
+    <circle cx="930" cy="198.0" r="4" fill="#3B82F6" stroke="#0B1120" stroke-width="1.5" />
+    <circle cx="930" cy="738.0" r="4" fill="#F8FAFC" stroke="#3B82F6" stroke-width="2" />
+    <line x1="936" y1="731.0" x2="936" y2="745.0" stroke="#3B82F6" stroke-width="2" />
+    <line x1="941" y1="731.0" x2="941" y2="745.0" stroke="#3B82F6" stroke-width="2" />
+    <!-- Rel: departments.id -> students.department_id -->
+    <path d="M 430 198.0 L 510 198.0 L 580 594.0" fill="none" stroke="#0D9488" stroke-width="3.5" stroke-opacity="0.25" />
+    <path d="M 430 198.0 L 510 198.0 L 580 594.0" fill="none" stroke="#0D9488" stroke-width="1.8" />
+    <circle cx="430" cy="198.0" r="4" fill="#0D9488" stroke="#0B1120" stroke-width="1.5" />
+    <circle cx="580" cy="594.0" r="4" fill="#F8FAFC" stroke="#0D9488" stroke-width="2" />
+    <path d="M 568 587.0 L 580 594.0 L 568 601.0" fill="none" stroke="#0D9488" stroke-width="1.8" />
+    <!-- Rel: departments.id -> professors.department_id -->
+    <path d="M 430 198.0 L 480 198.0 L 580 766.0" fill="none" stroke="#0D9488" stroke-width="3.5" stroke-opacity="0.25" />
+    <path d="M 430 198.0 L 480 198.0 L 580 766.0" fill="none" stroke="#0D9488" stroke-width="1.8" />
+    <circle cx="430" cy="198.0" r="4" fill="#0D9488" stroke="#0B1120" stroke-width="1.5" />
+    <circle cx="580" cy="766.0" r="4" fill="#F8FAFC" stroke="#0D9488" stroke-width="2" />
+    <path d="M 568 759.0 L 580 766.0 L 568 773.0" fill="none" stroke="#0D9488" stroke-width="1.8" />
+    <!-- Rel: departments.id -> courses.department_id -->
+    <path d="M 80 198.0 L 40 198.0 L 80 466.0" fill="none" stroke="#0D9488" stroke-width="3.5" stroke-opacity="0.25" />
+    <path d="M 80 198.0 L 40 198.0 L 80 466.0" fill="none" stroke="#0D9488" stroke-width="1.8" />
+    <circle cx="80" cy="198.0" r="4" fill="#0D9488" stroke="#0B1120" stroke-width="1.5" />
+    <circle cx="80" cy="466.0" r="4" fill="#F8FAFC" stroke="#0D9488" stroke-width="2" />
+    <path d="M 68 459.0 L 80 466.0 L 68 473.0" fill="none" stroke="#0D9488" stroke-width="1.8" />
+    <!-- Rel: courses.id -> classes.course_id -->
+    <path d="M 80 438.0 L 40 438.0 L 80 746.0" fill="none" stroke="#0D9488" stroke-width="3.5" stroke-opacity="0.25" />
+    <path d="M 80 438.0 L 40 438.0 L 80 746.0" fill="none" stroke="#0D9488" stroke-width="1.8" />
+    <circle cx="80" cy="438.0" r="4" fill="#0D9488" stroke="#0B1120" stroke-width="1.5" />
+    <circle cx="80" cy="746.0" r="4" fill="#F8FAFC" stroke="#0D9488" stroke-width="2" />
+    <path d="M 68 739.0 L 80 746.0 L 68 753.0" fill="none" stroke="#0D9488" stroke-width="1.8" />
+    <!-- Rel: professors.id -> classes.professor_id -->
+    <path d="M 580 738.0 L 500 738.0 L 430 774.0" fill="none" stroke="#3B82F6" stroke-width="3.5" stroke-opacity="0.25" />
+    <path d="M 580 738.0 L 500 738.0 L 430 774.0" fill="none" stroke="#3B82F6" stroke-width="1.8" />
+    <circle cx="580" cy="738.0" r="4" fill="#3B82F6" stroke="#0B1120" stroke-width="1.5" />
+    <circle cx="430" cy="774.0" r="4" fill="#F8FAFC" stroke="#3B82F6" stroke-width="2" />
+    <path d="M 442 767.0 L 430 774.0 L 442 781.0" fill="none" stroke="#3B82F6" stroke-width="1.8" />
+    <!-- Rel: classes.id -> class_enrollments.class_id -->
+    <path d="M 80 718.0 L 40 718.0 L 80 1106.0" fill="none" stroke="#0D9488" stroke-width="3.5" stroke-opacity="0.25" />
+    <path d="M 80 718.0 L 40 718.0 L 80 1106.0" fill="none" stroke="#0D9488" stroke-width="1.8" />
+    <circle cx="80" cy="718.0" r="4" fill="#0D9488" stroke="#0B1120" stroke-width="1.5" />
+    <circle cx="80" cy="1106.0" r="4" fill="#F8FAFC" stroke="#0D9488" stroke-width="2" />
+    <path d="M 68 1099.0 L 80 1106.0 L 68 1113.0" fill="none" stroke="#0D9488" stroke-width="1.8" />
+    <!-- Rel: students.id -> class_enrollments.student_id -->
+    <path d="M 580 538.0 L 500 1100 L 450 1100 L 450 1100 L 430 1162.0" fill="none" stroke="#3B82F6" stroke-width="3.5" stroke-opacity="0.25" />
+    <path d="M 580 538.0 L 500 1100 L 450 1100 L 450 1100 L 430 1162.0" fill="none" stroke="#3B82F6" stroke-width="1.8" />
+    <circle cx="580" cy="538.0" r="4" fill="#3B82F6" stroke="#0B1120" stroke-width="1.5" />
+    <circle cx="430" cy="1162.0" r="4" fill="#F8FAFC" stroke="#3B82F6" stroke-width="2" />
+    <path d="M 442 1155.0 L 430 1162.0 L 442 1169.0" fill="none" stroke="#3B82F6" stroke-width="1.8" />
+    <!-- Rel: classes.id -> evaluation_policies.class_id -->
+    <path d="M 430 718.0 L 510 718.0 L 580 1106.0" fill="none" stroke="#0D9488" stroke-width="3.5" stroke-opacity="0.25" />
+    <path d="M 430 718.0 L 510 718.0 L 580 1106.0" fill="none" stroke="#0D9488" stroke-width="1.8" />
+    <circle cx="430" cy="718.0" r="4" fill="#0D9488" stroke="#0B1120" stroke-width="1.5" />
+    <circle cx="580" cy="1106.0" r="4" fill="#F8FAFC" stroke="#0D9488" stroke-width="2" />
+    <line x1="574" y1="1099.0" x2="574" y2="1113.0" stroke="#0D9488" stroke-width="2" />
+    <line x1="569" y1="1099.0" x2="569" y2="1113.0" stroke="#0D9488" stroke-width="2" />
+    <!-- Rel: professors.id -> reviews.professor_id -->
+    <path d="M 930 738.0 L 1010 738.0 L 1080 466.0" fill="none" stroke="#A855F7" stroke-width="3.5" stroke-opacity="0.25" />
+    <path d="M 930 738.0 L 1010 738.0 L 1080 466.0" fill="none" stroke="#A855F7" stroke-width="1.8" />
+    <circle cx="930" cy="738.0" r="4" fill="#A855F7" stroke="#0B1120" stroke-width="1.5" />
+    <circle cx="1080" cy="466.0" r="4" fill="#F8FAFC" stroke="#A855F7" stroke-width="2" />
+    <path d="M 1068 459.0 L 1080 466.0 L 1068 473.0" fill="none" stroke="#A855F7" stroke-width="1.8" />
+    <!-- Rel: classes.id -> reviews.class_id -->
+    <path d="M 430 718.0 L 510 960 L 1010 960 L 1010 960 L 1080 494.0" fill="none" stroke="#0D9488" stroke-width="3.5" stroke-opacity="0.25" />
+    <path d="M 430 718.0 L 510 960 L 1010 960 L 1010 960 L 1080 494.0" fill="none" stroke="#0D9488" stroke-width="1.8" />
+    <circle cx="430" cy="718.0" r="4" fill="#0D9488" stroke="#0B1120" stroke-width="1.5" />
+    <circle cx="1080" cy="494.0" r="4" fill="#F8FAFC" stroke="#0D9488" stroke-width="2" />
+    <path d="M 1068 487.0 L 1080 494.0 L 1068 501.0" fill="none" stroke="#0D9488" stroke-width="1.8" />
+    <!-- Rel: reviews.id -> review_tags.review_id -->
+    <path d="M 1470 438.0 L 1530 438.0 L 1600 458.0" fill="none" stroke="#C084FC" stroke-width="3.5" stroke-opacity="0.25" />
+    <path d="M 1470 438.0 L 1530 438.0 L 1600 458.0" fill="none" stroke="#C084FC" stroke-width="1.8" />
+    <circle cx="1470" cy="438.0" r="4" fill="#C084FC" stroke="#0B1120" stroke-width="1.5" />
+    <circle cx="1600" cy="458.0" r="4" fill="#F8FAFC" stroke="#C084FC" stroke-width="2" />
+    <path d="M 1588 451.0 L 1600 458.0 L 1588 465.0" fill="none" stroke="#C084FC" stroke-width="1.8" />
+    <!-- Rel: tags.id -> review_tags.tag_id -->
+    <path d="M 1930 678.0 L 1960 678.0 L 1930 486.0" fill="none" stroke="#C084FC" stroke-width="3.5" stroke-opacity="0.25" />
+    <path d="M 1930 678.0 L 1960 678.0 L 1930 486.0" fill="none" stroke="#C084FC" stroke-width="1.8" />
+    <circle cx="1930" cy="678.0" r="4" fill="#C084FC" stroke="#0B1120" stroke-width="1.5" />
+    <circle cx="1930" cy="486.0" r="4" fill="#F8FAFC" stroke="#C084FC" stroke-width="2" />
+    <path d="M 1942 479.0 L 1930 486.0 L 1942 493.0" fill="none" stroke="#C084FC" stroke-width="1.8" />
+    <!-- Rel: reviews.id -> review_upvotes.review_id -->
+    <path d="M 1080 438.0 L 1020 438.0 L 1080 226.0" fill="none" stroke="#818CF8" stroke-width="3.5" stroke-opacity="0.25" />
+    <path d="M 1080 438.0 L 1020 438.0 L 1080 226.0" fill="none" stroke="#818CF8" stroke-width="1.8" />
+    <circle cx="1080" cy="438.0" r="4" fill="#818CF8" stroke="#0B1120" stroke-width="1.5" />
+    <circle cx="1080" cy="226.0" r="4" fill="#F8FAFC" stroke="#818CF8" stroke-width="2" />
+    <path d="M 1068 219.0 L 1080 226.0 L 1068 233.0" fill="none" stroke="#818CF8" stroke-width="1.8" />
+    <!-- Rel: users.id -> review_upvotes.user_id -->
+    <path d="M 930 198.0 L 1000 198.0 L 1080 254.0" fill="none" stroke="#60A5FA" stroke-width="3.5" stroke-opacity="0.25" />
+    <path d="M 930 198.0 L 1000 198.0 L 1080 254.0" fill="none" stroke="#60A5FA" stroke-width="1.8" />
+    <circle cx="930" cy="198.0" r="4" fill="#60A5FA" stroke="#0B1120" stroke-width="1.5" />
+    <circle cx="1080" cy="254.0" r="4" fill="#F8FAFC" stroke="#60A5FA" stroke-width="2" />
+    <path d="M 1068 247.0 L 1080 254.0 L 1068 261.0" fill="none" stroke="#60A5FA" stroke-width="1.8" />
+  </g>
+  <!-- ==================== TABLES LAYER ==================== -->
+
+  <!-- Table: users -->
+  <g id="table-users" filter="url(#card-shadow)">
+    <!-- Container -->
+    <rect x="580" y="140" width="350" height="278" rx="8" fill="#1E293B" stroke="#334155" stroke-width="1.2" />
+    
+    <!-- Header -->
+    <rect x="580" y="140" width="350" height="44" rx="8" fill="url(#header-grad-blue)" />
+    <!-- Clip lower corners of header -->
+    <rect x="580" y="176" width="350" height="8" fill="url(#header-grad-blue)" />
+    <line x1="580" y1="184" x2="930" y2="184" stroke="#475569" stroke-width="1" />
+    
+    <!-- Table Header Text -->
+    <text x="594" y="166" font-size="14" font-weight="700" fill="#FFFFFF" letter-spacing="0.3">users</text>
+    <rect x="780" y="151" width="138" height="22" rx="4" fill="#000000" fill-opacity="0.3" />
+    <text x="849" y="166" font-size="8.5" font-weight="700" fill="#E2E8F0" text-anchor="middle" letter-spacing="0.5">AUTH & IDENTIDADE</text>
+
+    <!-- Field: id -->
+    <rect x="581" y="184" width="348" height="28" fill="#1E293B" />
+    <line x1="581" y1="212" x2="929" y2="212" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="592" y="190" width="22" height="15" rx="3" fill="#FEF3C7" />
+    <text x="603" y="201" font-size="8.5" font-weight="800" fill="#B45309" text-anchor="middle">PK</text>
+    <text x="640" y="202" font-size="11.5" font-weight="600" fill="#F8FAFC">id</text>
+    <text x="916" y="202" font-size="10.5" font-weight="500" fill="#38BDF8" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">UUID</text>
+    <!-- Field: email -->
+    <rect x="581" y="212" width="348" height="28" fill="#192237" />
+    <line x1="581" y1="240" x2="929" y2="240" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="592" y="218" width="22" height="15" rx="3" fill="#F3E8FF" />
+    <text x="603" y="229" font-size="8.5" font-weight="800" fill="#7E22CE" text-anchor="middle">UK</text>
+    <text x="640" y="230" font-size="11.5" font-weight="600" fill="#F8FAFC">email</text>
+    <text x="916" y="230" font-size="10.5" font-weight="500" fill="#CBD5E1" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">VARCHAR(255)</text>
+    <!-- Field: password_hash -->
+    <rect x="581" y="240" width="348" height="28" fill="#1E293B" />
+    <line x1="581" y1="268" x2="929" y2="268" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="640" y="258" font-size="11.5" font-weight="600" fill="#F8FAFC">password_hash</text>
+    <text x="916" y="258" font-size="10.5" font-weight="500" fill="#CBD5E1" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">VARCHAR(255)</text>
+    <!-- Field: name -->
+    <rect x="581" y="268" width="348" height="28" fill="#192237" />
+    <line x1="581" y1="296" x2="929" y2="296" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="640" y="286" font-size="11.5" font-weight="600" fill="#F8FAFC">name</text>
+    <text x="916" y="286" font-size="10.5" font-weight="500" fill="#CBD5E1" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">VARCHAR(150)</text>
+    <!-- Field: role -->
+    <rect x="581" y="296" width="348" height="28" fill="#1E293B" />
+    <line x1="581" y1="324" x2="929" y2="324" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="592" y="302" width="22" height="15" rx="3" fill="#D1FAE5" />
+    <text x="603" y="313" font-size="8.5" font-weight="800" fill="#047857" text-anchor="middle">ENUM</text>
+    <text x="640" y="314" font-size="11.5" font-weight="600" fill="#F8FAFC">role</text>
+    <text x="916" y="314" font-size="10.5" font-weight="500" fill="#CBD5E1" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">user_role</text>
+    <!-- Field: is_active -->
+    <rect x="581" y="324" width="348" height="28" fill="#192237" />
+    <line x1="581" y1="352" x2="929" y2="352" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="640" y="342" font-size="11.5" font-weight="600" fill="#F8FAFC">is_active</text>
+    <text x="916" y="342" font-size="10.5" font-weight="500" fill="#A78BFA" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">BOOLEAN</text>
+    <!-- Field: created_at -->
+    <rect x="581" y="352" width="348" height="28" fill="#1E293B" />
+    <line x1="581" y1="380" x2="929" y2="380" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="640" y="370" font-size="11.5" font-weight="600" fill="#F8FAFC">created_at</text>
+    <text x="916" y="370" font-size="10.5" font-weight="500" fill="#4ADE80" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">TIMESTAMPTZ</text>
+    <!-- Field: updated_at -->
+    <rect x="581" y="380" width="348" height="28" fill="#192237" />
+    <line x1="581" y1="408" x2="929" y2="408" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="640" y="398" font-size="11.5" font-weight="600" fill="#F8FAFC">updated_at</text>
+    <text x="916" y="398" font-size="10.5" font-weight="500" fill="#4ADE80" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">TIMESTAMPTZ</text>
   </g>
 
-  <!-- TABLE: students -->
-  <g transform="translate(420, 200)">
-    <rect width="280" height="130" class="table-card" />
-    <path d="M 0 0 h 280 v 35 h -280 Z" class="table-header" />
-    <text x="15" y="23" class="table-title">🎓 students</text>
-    <rect x="0" y="35" width="280" height="30" class="row-even" />
-    <text x="15" y="55" class="col-name">id</text><text x="130" y="55" class="col-type">uuid</text><text x="215" y="55" class="pk-badge">[PK, FK]</text>
-    <rect x="0" y="65" width="280" height="30" class="row-odd" />
-    <text x="15" y="85" class="col-name">registration_number</text><text x="130" y="85" class="col-type">varchar(50)</text><text x="235" y="85" class="uk-badge">[UK]</text>
-    <rect x="0" y="95" width="280" height="30" class="row-even" />
-    <text x="15" y="115" class="col-name">department_id</text><text x="130" y="115" class="col-type">uuid</text><text x="235" y="115" class="fk-badge">[FK]</text>
+  <!-- Table: students -->
+  <g id="table-students" filter="url(#card-shadow)">
+    <!-- Container -->
+    <rect x="580" y="480" width="350" height="138" rx="8" fill="#1E293B" stroke="#334155" stroke-width="1.2" />
+    
+    <!-- Header -->
+    <rect x="580" y="480" width="350" height="44" rx="8" fill="url(#header-grad-blue)" />
+    <!-- Clip lower corners of header -->
+    <rect x="580" y="516" width="350" height="8" fill="url(#header-grad-blue)" />
+    <line x1="580" y1="524" x2="930" y2="524" stroke="#475569" stroke-width="1" />
+    
+    <!-- Table Header Text -->
+    <text x="594" y="506" font-size="14" font-weight="700" fill="#FFFFFF" letter-spacing="0.3">students</text>
+    <rect x="780" y="491" width="138" height="22" rx="4" fill="#000000" fill-opacity="0.3" />
+    <text x="849" y="506" font-size="8.5" font-weight="700" fill="#E2E8F0" text-anchor="middle" letter-spacing="0.5">PERFIL ACADÊMICO</text>
+
+    <!-- Field: id -->
+    <rect x="581" y="524" width="348" height="28" fill="#1E293B" />
+    <line x1="581" y1="552" x2="929" y2="552" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="592" y="530" width="22" height="15" rx="3" fill="#FEF3C7" />
+    <text x="603" y="541" font-size="8.5" font-weight="800" fill="#B45309" text-anchor="middle">PK</text>
+    <rect x="618" y="530" width="22" height="15" rx="3" fill="#DBEAFE" />
+    <text x="629" y="541" font-size="8.5" font-weight="800" fill="#1D4ED8" text-anchor="middle">FK</text>
+    <text x="650" y="542" font-size="11.5" font-weight="600" fill="#F8FAFC">id</text>
+    <text x="916" y="542" font-size="10.5" font-weight="500" fill="#38BDF8" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">UUID</text>
+    <!-- Field: registration_number -->
+    <rect x="581" y="552" width="348" height="28" fill="#192237" />
+    <line x1="581" y1="580" x2="929" y2="580" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="592" y="558" width="22" height="15" rx="3" fill="#F3E8FF" />
+    <text x="603" y="569" font-size="8.5" font-weight="800" fill="#7E22CE" text-anchor="middle">UK</text>
+    <text x="640" y="570" font-size="11.5" font-weight="600" fill="#F8FAFC">registration_number</text>
+    <text x="916" y="570" font-size="10.5" font-weight="500" fill="#CBD5E1" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">VARCHAR(50)</text>
+    <!-- Field: department_id -->
+    <rect x="581" y="580" width="348" height="28" fill="#1E293B" />
+    <line x1="581" y1="608" x2="929" y2="608" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="592" y="586" width="22" height="15" rx="3" fill="#DBEAFE" />
+    <text x="603" y="597" font-size="8.5" font-weight="800" fill="#1D4ED8" text-anchor="middle">FK</text>
+    <text x="640" y="598" font-size="11.5" font-weight="600" fill="#F8FAFC">department_id</text>
+    <text x="916" y="598" font-size="10.5" font-weight="500" fill="#38BDF8" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">UUID</text>
   </g>
 
-  <!-- TABLE: professors -->
-  <g transform="translate(420, 360)">
-    <rect width="280" height="280" class="table-card" />
-    <path d="M 0 0 h 280 v 35 h -280 Z" class="table-header" />
-    <text x="15" y="23" class="table-title">👨‍🏫 professors</text>
-    <rect x="0" y="35" width="280" height="30" class="row-even" />
-    <text x="15" y="55" class="col-name">id</text><text x="130" y="55" class="col-type">uuid</text><text x="215" y="55" class="pk-badge">[PK, FK]</text>
-    <rect x="0" y="65" width="280" height="30" class="row-odd" />
-    <text x="15" y="85" class="col-name">department_id</text><text x="130" y="85" class="col-type">uuid</text><text x="235" y="85" class="fk-badge">[FK]</text>
-    <rect x="0" y="95" width="280" height="30" class="row-even" />
-    <text x="15" y="115" class="col-name">title</text><text x="130" y="115" class="col-type">varchar(50)</text>
-    <rect x="0" y="125" width="280" height="30" class="row-odd" />
-    <text x="15" y="145" class="col-name">bio</text><text x="130" y="145" class="col-type">text</text>
-    <rect x="0" y="155" width="280" height="30" class="row-even" />
-    <text x="15" y="175" class="col-name">average_rating</text><text x="130" y="175" class="col-type">numeric(3,2)</text>
-    <rect x="0" y="185" width="280" height="30" class="row-odd" />
-    <text x="15" y="205" class="col-name">difficulty_rating</text><text x="130" y="205" class="col-type">numeric(3,2)</text>
-    <rect x="0" y="215" width="280" height="30" class="row-even" />
-    <text x="15" y="235" class="col-name">recommendation_rate</text><text x="130" y="235" class="col-type">numeric(5,2)</text>
-    <rect x="0" y="245" width="280" height="30" class="row-odd" />
-    <text x="15" y="265" class="col-name">total_reviews</text><text x="130" y="265" class="col-type">int</text>
+  <!-- Table: professors -->
+  <g id="table-professors" filter="url(#card-shadow)">
+    <!-- Container -->
+    <rect x="580" y="680" width="350" height="278" rx="8" fill="#1E293B" stroke="#334155" stroke-width="1.2" />
+    
+    <!-- Header -->
+    <rect x="580" y="680" width="350" height="44" rx="8" fill="url(#header-grad-blue)" />
+    <!-- Clip lower corners of header -->
+    <rect x="580" y="716" width="350" height="8" fill="url(#header-grad-blue)" />
+    <line x1="580" y1="724" x2="930" y2="724" stroke="#475569" stroke-width="1" />
+    
+    <!-- Table Header Text -->
+    <text x="594" y="706" font-size="14" font-weight="700" fill="#FFFFFF" letter-spacing="0.3">professors</text>
+    <rect x="780" y="691" width="138" height="22" rx="4" fill="#000000" fill-opacity="0.3" />
+    <text x="849" y="706" font-size="8.5" font-weight="700" fill="#E2E8F0" text-anchor="middle" letter-spacing="0.5">PERFIL DOCENTE & MÉTRICAS</text>
+
+    <!-- Field: id -->
+    <rect x="581" y="724" width="348" height="28" fill="#1E293B" />
+    <line x1="581" y1="752" x2="929" y2="752" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="592" y="730" width="22" height="15" rx="3" fill="#FEF3C7" />
+    <text x="603" y="741" font-size="8.5" font-weight="800" fill="#B45309" text-anchor="middle">PK</text>
+    <rect x="618" y="730" width="22" height="15" rx="3" fill="#DBEAFE" />
+    <text x="629" y="741" font-size="8.5" font-weight="800" fill="#1D4ED8" text-anchor="middle">FK</text>
+    <text x="650" y="742" font-size="11.5" font-weight="600" fill="#F8FAFC">id</text>
+    <text x="916" y="742" font-size="10.5" font-weight="500" fill="#38BDF8" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">UUID</text>
+    <!-- Field: department_id -->
+    <rect x="581" y="752" width="348" height="28" fill="#192237" />
+    <line x1="581" y1="780" x2="929" y2="780" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="592" y="758" width="22" height="15" rx="3" fill="#DBEAFE" />
+    <text x="603" y="769" font-size="8.5" font-weight="800" fill="#1D4ED8" text-anchor="middle">FK</text>
+    <text x="640" y="770" font-size="11.5" font-weight="600" fill="#F8FAFC">department_id</text>
+    <text x="916" y="770" font-size="10.5" font-weight="500" fill="#38BDF8" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">UUID</text>
+    <!-- Field: title -->
+    <rect x="581" y="780" width="348" height="28" fill="#1E293B" />
+    <line x1="581" y1="808" x2="929" y2="808" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="594" y="798" font-size="11.5" font-weight="600" fill="#F8FAFC">title</text>
+    <text x="916" y="798" font-size="10.5" font-weight="500" fill="#CBD5E1" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">VARCHAR(50)</text>
+    <!-- Field: bio -->
+    <rect x="581" y="808" width="348" height="28" fill="#192237" />
+    <line x1="581" y1="836" x2="929" y2="836" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="594" y="826" font-size="11.5" font-weight="600" fill="#F8FAFC">bio</text>
+    <text x="916" y="826" font-size="10.5" font-weight="500" fill="#CBD5E1" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">TEXT</text>
+    <!-- Field: average_rating -->
+    <rect x="581" y="836" width="348" height="28" fill="#1E293B" />
+    <line x1="581" y1="864" x2="929" y2="864" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="640" y="854" font-size="11.5" font-weight="600" fill="#F8FAFC">average_rating</text>
+    <text x="916" y="854" font-size="10.5" font-weight="500" fill="#FBBF24" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">DECIMAL(3,2)</text>
+    <!-- Field: difficulty_rating -->
+    <rect x="581" y="864" width="348" height="28" fill="#192237" />
+    <line x1="581" y1="892" x2="929" y2="892" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="640" y="882" font-size="11.5" font-weight="600" fill="#F8FAFC">difficulty_rating</text>
+    <text x="916" y="882" font-size="10.5" font-weight="500" fill="#FBBF24" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">DECIMAL(3,2)</text>
+    <!-- Field: recommendation_rate -->
+    <rect x="581" y="892" width="348" height="28" fill="#1E293B" />
+    <line x1="581" y1="920" x2="929" y2="920" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="640" y="910" font-size="11.5" font-weight="600" fill="#F8FAFC">recommendation_rate</text>
+    <text x="916" y="910" font-size="10.5" font-weight="500" fill="#FBBF24" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">DECIMAL(5,2)</text>
+    <!-- Field: total_reviews -->
+    <rect x="581" y="920" width="348" height="28" fill="#192237" />
+    <line x1="581" y1="948" x2="929" y2="948" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="640" y="938" font-size="11.5" font-weight="600" fill="#F8FAFC">total_reviews</text>
+    <text x="916" y="938" font-size="10.5" font-weight="500" fill="#FBBF24" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">INTEGER</text>
   </g>
 
-  <!-- TABLE: courses -->
-  <g transform="translate(800, 20)">
-    <rect width="270" height="220" class="table-card" />
-    <path d="M 0 0 h 270 v 35 h -270 Z" class="table-header" />
-    <text x="15" y="23" class="table-title">📚 courses</text>
-    <rect x="0" y="35" width="270" height="30" class="row-even" />
-    <text x="15" y="55" class="col-name">id</text><text x="120" y="55" class="col-type">uuid</text><text x="225" y="55" class="pk-badge">[PK]</text>
-    <rect x="0" y="65" width="270" height="30" class="row-odd" />
-    <text x="15" y="85" class="col-name">department_id</text><text x="120" y="85" class="col-type">uuid</text><text x="225" y="85" class="fk-badge">[FK]</text>
-    <rect x="0" y="95" width="270" height="30" class="row-even" />
-    <text x="15" y="115" class="col-name">code</text><text x="120" y="115" class="col-type">varchar(30)</text><text x="225" y="115" class="uk-badge">[UK]</text>
-    <rect x="0" y="125" width="270" height="30" class="row-odd" />
-    <text x="15" y="145" class="col-name">name</text><text x="120" y="145" class="col-type">varchar(150)</text>
-    <rect x="0" y="155" width="270" height="30" class="row-even" />
-    <text x="15" y="175" class="col-name">description</text><text x="120" y="175" class="col-type">text</text>
-    <rect x="0" y="185" width="270" height="30" class="row-odd" />
-    <text x="15" y="205" class="col-name">credits</text><text x="120" y="205" class="col-type">int</text>
+  <!-- Table: departments -->
+  <g id="table-departments" filter="url(#card-shadow)">
+    <!-- Container -->
+    <rect x="80" y="140" width="350" height="166" rx="8" fill="#1E293B" stroke="#334155" stroke-width="1.2" />
+    
+    <!-- Header -->
+    <rect x="80" y="140" width="350" height="44" rx="8" fill="url(#header-grad-teal)" />
+    <!-- Clip lower corners of header -->
+    <rect x="80" y="176" width="350" height="8" fill="url(#header-grad-teal)" />
+    <line x1="80" y1="184" x2="430" y2="184" stroke="#475569" stroke-width="1" />
+    
+    <!-- Table Header Text -->
+    <text x="94" y="166" font-size="14" font-weight="700" fill="#FFFFFF" letter-spacing="0.3">departments</text>
+    <rect x="280" y="151" width="138" height="22" rx="4" fill="#000000" fill-opacity="0.3" />
+    <text x="349" y="166" font-size="8.5" font-weight="700" fill="#E2E8F0" text-anchor="middle" letter-spacing="0.5">ESTRUTURA ACADÊMICA</text>
+
+    <!-- Field: id -->
+    <rect x="81" y="184" width="348" height="28" fill="#1E293B" />
+    <line x1="81" y1="212" x2="429" y2="212" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="92" y="190" width="22" height="15" rx="3" fill="#FEF3C7" />
+    <text x="103" y="201" font-size="8.5" font-weight="800" fill="#B45309" text-anchor="middle">PK</text>
+    <text x="140" y="202" font-size="11.5" font-weight="600" fill="#F8FAFC">id</text>
+    <text x="416" y="202" font-size="10.5" font-weight="500" fill="#38BDF8" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">UUID</text>
+    <!-- Field: code -->
+    <rect x="81" y="212" width="348" height="28" fill="#192237" />
+    <line x1="81" y1="240" x2="429" y2="240" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="92" y="218" width="22" height="15" rx="3" fill="#F3E8FF" />
+    <text x="103" y="229" font-size="8.5" font-weight="800" fill="#7E22CE" text-anchor="middle">UK</text>
+    <text x="140" y="230" font-size="11.5" font-weight="600" fill="#F8FAFC">code</text>
+    <text x="416" y="230" font-size="10.5" font-weight="500" fill="#CBD5E1" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">VARCHAR(20)</text>
+    <!-- Field: name -->
+    <rect x="81" y="240" width="348" height="28" fill="#1E293B" />
+    <line x1="81" y1="268" x2="429" y2="268" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="140" y="258" font-size="11.5" font-weight="600" fill="#F8FAFC">name</text>
+    <text x="416" y="258" font-size="10.5" font-weight="500" fill="#CBD5E1" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">VARCHAR(150)</text>
+    <!-- Field: website_url -->
+    <rect x="81" y="268" width="348" height="28" fill="#192237" />
+    <line x1="81" y1="296" x2="429" y2="296" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="94" y="286" font-size="11.5" font-weight="600" fill="#F8FAFC">website_url</text>
+    <text x="416" y="286" font-size="10.5" font-weight="500" fill="#CBD5E1" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">VARCHAR(255)</text>
   </g>
 
-  <!-- TABLE: classes -->
-  <g transform="translate(820, 270)">
-    <rect width="260" height="220" class="table-card" />
-    <path d="M 0 0 h 260 v 35 h -260 Z" class="table-header" />
-    <text x="15" y="23" class="table-title">🏫 classes</text>
-    <rect x="0" y="35" width="260" height="30" class="row-even" />
-    <text x="15" y="55" class="col-name">id</text><text x="120" y="55" class="col-type">uuid</text><text x="220" y="55" class="pk-badge">[PK]</text>
-    <rect x="0" y="65" width="260" height="30" class="row-odd" />
-    <text x="15" y="85" class="col-name">course_id</text><text x="120" y="85" class="col-type">uuid</text><text x="220" y="85" class="fk-badge">[FK]</text>
-    <rect x="0" y="95" width="260" height="30" class="row-even" />
-    <text x="15" y="115" class="col-name">professor_id</text><text x="120" y="115" class="col-type">uuid</text><text x="220" y="115" class="fk-badge">[FK]</text>
-    <rect x="0" y="125" width="260" height="30" class="row-odd" />
-    <text x="15" y="145" class="col-name">semester</text><text x="120" y="145" class="col-type">varchar(20)</text>
-    <rect x="0" y="155" width="260" height="30" class="row-even" />
-    <text x="15" y="175" class="col-name">code</text><text x="120" y="175" class="col-type">varchar(20)</text>
-    <rect x="0" y="185" width="260" height="30" class="row-odd" />
-    <text x="15" y="205" class="col-name">is_active</text><text x="120" y="205" class="col-type">boolean</text>
+  <!-- Table: courses -->
+  <g id="table-courses" filter="url(#card-shadow)">
+    <!-- Container -->
+    <rect x="80" y="380" width="350" height="222" rx="8" fill="#1E293B" stroke="#334155" stroke-width="1.2" />
+    
+    <!-- Header -->
+    <rect x="80" y="380" width="350" height="44" rx="8" fill="url(#header-grad-teal)" />
+    <!-- Clip lower corners of header -->
+    <rect x="80" y="416" width="350" height="8" fill="url(#header-grad-teal)" />
+    <line x1="80" y1="424" x2="430" y2="424" stroke="#475569" stroke-width="1" />
+    
+    <!-- Table Header Text -->
+    <text x="94" y="406" font-size="14" font-weight="700" fill="#FFFFFF" letter-spacing="0.3">courses</text>
+    <rect x="280" y="391" width="138" height="22" rx="4" fill="#000000" fill-opacity="0.3" />
+    <text x="349" y="406" font-size="8.5" font-weight="700" fill="#E2E8F0" text-anchor="middle" letter-spacing="0.5">CATÁLOGO DE DISCIPLINAS</text>
+
+    <!-- Field: id -->
+    <rect x="81" y="424" width="348" height="28" fill="#1E293B" />
+    <line x1="81" y1="452" x2="429" y2="452" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="92" y="430" width="22" height="15" rx="3" fill="#FEF3C7" />
+    <text x="103" y="441" font-size="8.5" font-weight="800" fill="#B45309" text-anchor="middle">PK</text>
+    <text x="140" y="442" font-size="11.5" font-weight="600" fill="#F8FAFC">id</text>
+    <text x="416" y="442" font-size="10.5" font-weight="500" fill="#38BDF8" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">UUID</text>
+    <!-- Field: department_id -->
+    <rect x="81" y="452" width="348" height="28" fill="#192237" />
+    <line x1="81" y1="480" x2="429" y2="480" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="92" y="458" width="22" height="15" rx="3" fill="#DBEAFE" />
+    <text x="103" y="469" font-size="8.5" font-weight="800" fill="#1D4ED8" text-anchor="middle">FK</text>
+    <text x="140" y="470" font-size="11.5" font-weight="600" fill="#F8FAFC">department_id</text>
+    <text x="416" y="470" font-size="10.5" font-weight="500" fill="#38BDF8" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">UUID</text>
+    <!-- Field: code -->
+    <rect x="81" y="480" width="348" height="28" fill="#1E293B" />
+    <line x1="81" y1="508" x2="429" y2="508" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="92" y="486" width="22" height="15" rx="3" fill="#F3E8FF" />
+    <text x="103" y="497" font-size="8.5" font-weight="800" fill="#7E22CE" text-anchor="middle">UK</text>
+    <text x="140" y="498" font-size="11.5" font-weight="600" fill="#F8FAFC">code</text>
+    <text x="416" y="498" font-size="10.5" font-weight="500" fill="#CBD5E1" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">VARCHAR(20)</text>
+    <!-- Field: name -->
+    <rect x="81" y="508" width="348" height="28" fill="#192237" />
+    <line x1="81" y1="536" x2="429" y2="536" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="140" y="526" font-size="11.5" font-weight="600" fill="#F8FAFC">name</text>
+    <text x="416" y="526" font-size="10.5" font-weight="500" fill="#CBD5E1" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">VARCHAR(150)</text>
+    <!-- Field: description -->
+    <rect x="81" y="536" width="348" height="28" fill="#1E293B" />
+    <line x1="81" y1="564" x2="429" y2="564" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="94" y="554" font-size="11.5" font-weight="600" fill="#F8FAFC">description</text>
+    <text x="416" y="554" font-size="10.5" font-weight="500" fill="#CBD5E1" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">TEXT</text>
+    <!-- Field: credits -->
+    <rect x="81" y="564" width="348" height="28" fill="#192237" />
+    <line x1="81" y1="592" x2="429" y2="592" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="140" y="582" font-size="11.5" font-weight="600" fill="#F8FAFC">credits</text>
+    <text x="416" y="582" font-size="10.5" font-weight="500" fill="#FBBF24" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">INTEGER</text>
   </g>
 
-  <!-- TABLE: evaluation_policies -->
-  <g transform="translate(1150, 270)">
-    <rect width="280" height="160" class="table-card" />
-    <path d="M 0 0 h 280 v 35 h -280 Z" class="table-header" />
-    <text x="15" y="23" class="table-title">🛡️ evaluation_policies</text>
-    <rect x="0" y="35" width="280" height="30" class="row-even" />
-    <text x="15" y="55" class="col-name">id</text><text x="120" y="55" class="col-type">uuid</text><text x="235" y="55" class="pk-badge">[PK]</text>
-    <rect x="0" y="65" width="280" height="30" class="row-odd" />
-    <text x="15" y="85" class="col-name">class_id</text><text x="120" y="85" class="col-type">uuid</text><text x="215" y="85" class="fk-badge">[UK, FK]</text>
-    <rect x="0" y="95" width="280" height="30" class="row-even" />
-    <text x="15" y="115" class="col-name">mode</text><text x="120" y="115" class="col-type">eval_mode_enum</text>
-    <rect x="0" y="125" width="280" height="30" class="row-odd" />
-    <text x="15" y="145" class="col-name">updated_at</text><text x="120" y="145" class="col-type">timestamptz</text>
+  <!-- Table: classes -->
+  <g id="table-classes" filter="url(#card-shadow)">
+    <!-- Container -->
+    <rect x="80" y="660" width="350" height="306" rx="8" fill="#1E293B" stroke="#334155" stroke-width="1.2" />
+    
+    <!-- Header -->
+    <rect x="80" y="660" width="350" height="44" rx="8" fill="url(#header-grad-teal)" />
+    <!-- Clip lower corners of header -->
+    <rect x="80" y="696" width="350" height="8" fill="url(#header-grad-teal)" />
+    <line x1="80" y1="704" x2="430" y2="704" stroke="#475569" stroke-width="1" />
+    
+    <!-- Table Header Text -->
+    <text x="94" y="686" font-size="14" font-weight="700" fill="#FFFFFF" letter-spacing="0.3">classes</text>
+    <rect x="280" y="671" width="138" height="22" rx="4" fill="#000000" fill-opacity="0.3" />
+    <text x="349" y="686" font-size="8.5" font-weight="700" fill="#E2E8F0" text-anchor="middle" letter-spacing="0.5">OFERTA DE TURMAS (SDD v2.1.0)</text>
+
+    <!-- Field: id -->
+    <rect x="81" y="704" width="348" height="28" fill="#1E293B" />
+    <line x1="81" y1="732" x2="429" y2="732" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="92" y="710" width="22" height="15" rx="3" fill="#FEF3C7" />
+    <text x="103" y="721" font-size="8.5" font-weight="800" fill="#B45309" text-anchor="middle">PK</text>
+    <text x="140" y="722" font-size="11.5" font-weight="600" fill="#F8FAFC">id</text>
+    <text x="416" y="722" font-size="10.5" font-weight="500" fill="#38BDF8" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">UUID</text>
+    <!-- Field: course_id -->
+    <rect x="81" y="732" width="348" height="28" fill="#192237" />
+    <line x1="81" y1="760" x2="429" y2="760" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="92" y="738" width="22" height="15" rx="3" fill="#DBEAFE" />
+    <text x="103" y="749" font-size="8.5" font-weight="800" fill="#1D4ED8" text-anchor="middle">FK</text>
+    <text x="140" y="750" font-size="11.5" font-weight="600" fill="#F8FAFC">course_id</text>
+    <text x="416" y="750" font-size="10.5" font-weight="500" fill="#38BDF8" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">UUID</text>
+    <!-- Field: professor_id -->
+    <rect x="81" y="760" width="348" height="28" fill="#1E293B" />
+    <line x1="81" y1="788" x2="429" y2="788" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="92" y="766" width="22" height="15" rx="3" fill="#DBEAFE" />
+    <text x="103" y="777" font-size="8.5" font-weight="800" fill="#1D4ED8" text-anchor="middle">FK</text>
+    <text x="140" y="778" font-size="11.5" font-weight="600" fill="#F8FAFC">professor_id</text>
+    <text x="416" y="778" font-size="10.5" font-weight="500" fill="#38BDF8" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">UUID</text>
+    <!-- Field: semester -->
+    <rect x="81" y="788" width="348" height="28" fill="#192237" />
+    <line x1="81" y1="816" x2="429" y2="816" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="140" y="806" font-size="11.5" font-weight="600" fill="#F8FAFC">semester</text>
+    <text x="416" y="806" font-size="10.5" font-weight="500" fill="#CBD5E1" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">VARCHAR(10)</text>
+    <!-- Field: code -->
+    <rect x="81" y="816" width="348" height="28" fill="#1E293B" />
+    <line x1="81" y1="844" x2="429" y2="844" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="140" y="834" font-size="11.5" font-weight="600" fill="#F8FAFC">code</text>
+    <text x="416" y="834" font-size="10.5" font-weight="500" fill="#CBD5E1" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">VARCHAR(20)</text>
+    <!-- Field: is_evaluation_open -->
+    <rect x="81" y="844" width="348" height="28" fill="#192237" />
+    <line x1="81" y1="872" x2="429" y2="872" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="140" y="862" font-size="11.5" font-weight="600" fill="#F8FAFC">is_evaluation_open</text>
+    <text x="416" y="862" font-size="10.5" font-weight="500" fill="#A78BFA" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">BOOLEAN</text>
+    <!-- Field: enrollments_count -->
+    <rect x="81" y="872" width="348" height="28" fill="#1E293B" />
+    <line x1="81" y1="900" x2="429" y2="900" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="140" y="890" font-size="11.5" font-weight="600" fill="#F8FAFC">enrollments_count</text>
+    <text x="416" y="890" font-size="10.5" font-weight="500" fill="#FBBF24" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">INTEGER</text>
+    <!-- Field: reviews_count -->
+    <rect x="81" y="900" width="348" height="28" fill="#192237" />
+    <line x1="81" y1="928" x2="429" y2="928" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="140" y="918" font-size="11.5" font-weight="600" fill="#F8FAFC">reviews_count</text>
+    <text x="416" y="918" font-size="10.5" font-weight="500" fill="#FBBF24" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">INTEGER</text>
+    <!-- Field: is_active -->
+    <rect x="81" y="928" width="348" height="28" fill="#1E293B" />
+    <line x1="81" y1="956" x2="429" y2="956" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="140" y="946" font-size="11.5" font-weight="600" fill="#F8FAFC">is_active</text>
+    <text x="416" y="946" font-size="10.5" font-weight="500" fill="#A78BFA" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">BOOLEAN</text>
   </g>
 
-  <!-- TABLE: reviews -->
-  <g transform="translate(540, 680)">
-    <rect width="420" height="390" class="table-card" />
-    <path d="M 0 0 h 420 v 35 h -420 Z" class="table-header" fill="#a6e3a1" />
-    <text x="15" y="23" class="table-title" fill="#1e1e2e">📝 reviews</text>
-    <rect x="0" y="35" width="420" height="30" class="row-even" />
-    <text x="15" y="55" class="col-name">id</text><text x="180" y="55" class="col-type">uuid</text><text x="375" y="55" class="pk-badge">[PK]</text>
-    <rect x="0" y="65" width="420" height="30" class="row-odd" />
-    <text x="15" y="85" class="col-name">professor_id</text><text x="180" y="85" class="col-type">uuid</text><text x="375" y="85" class="fk-badge">[FK]</text>
-    <rect x="0" y="95" width="420" height="30" class="row-even" />
-    <text x="15" y="115" class="col-name">class_id</text><text x="180" y="115" class="col-type">uuid</text><text x="375" y="115" class="fk-badge">[FK]</text>
-    <rect x="0" y="125" width="420" height="30" class="row-odd" />
-    <text x="15" y="145" class="col-name">rating</text><text x="180" y="145" class="col-type">smallint (1..5)</text>
-    <rect x="0" y="155" width="420" height="30" class="row-even" />
-    <text x="15" y="175" class="col-name">difficulty</text><text x="180" y="175" class="col-type">smallint (1..5)</text>
-    <rect x="0" y="185" width="420" height="30" class="row-odd" />
-    <text x="15" y="205" class="col-name">would_recommend</text><text x="180" y="205" class="col-type">boolean</text>
-    <rect x="0" y="215" width="420" height="30" class="row-even" />
-    <text x="15" y="235" class="col-name">comment</text><text x="180" y="235" class="col-type">text</text>
-    <rect x="0" y="245" width="420" height="30" class="row-odd" />
-    <text x="15" y="265" class="col-name">is_anonymous</text><text x="180" y="265" class="col-type">boolean (default true)</text>
-    <rect x="0" y="275" width="420" height="30" class="row-even" />
-    <text x="15" y="295" class="col-name">student_identifier_display</text><text x="180" y="295" class="col-type">varchar(150)</text>
-    <rect x="0" y="305" width="420" height="30" class="row-odd" />
-    <text x="15" y="325" class="col-name">audit_hash</text><text x="180" y="325" class="col-type">varchar(64)</text><text x="375" y="325" class="uk-badge">[UK]</text>
-    <rect x="0" y="335" width="420" height="30" class="row-even" />
-    <text x="15" y="355" class="col-name">upvotes_count</text><text x="180" y="355" class="col-type">int (default 0)</text>
-    <rect x="0" y="365" width="420" height="30" class="row-odd" />
-    <text x="15" y="385" class="col-name">created_at</text><text x="180" y="385" class="col-type">timestamptz</text>
+  <!-- Table: class_enrollments -->
+  <g id="table-class_enrollments" filter="url(#card-shadow)">
+    <!-- Container -->
+    <rect x="80" y="1020" width="350" height="194" rx="8" fill="#1E293B" stroke="#334155" stroke-width="1.2" />
+    
+    <!-- Header -->
+    <rect x="80" y="1020" width="350" height="44" rx="8" fill="url(#header-grad-teal)" />
+    <!-- Clip lower corners of header -->
+    <rect x="80" y="1056" width="350" height="8" fill="url(#header-grad-teal)" />
+    <line x1="80" y1="1064" x2="430" y2="1064" stroke="#475569" stroke-width="1" />
+    
+    <!-- Table Header Text -->
+    <text x="94" y="1046" font-size="14" font-weight="700" fill="#FFFFFF" letter-spacing="0.3">class_enrollments</text>
+    <rect x="280" y="1031" width="138" height="22" rx="4" fill="#000000" fill-opacity="0.3" />
+    <text x="349" y="1046" font-size="8.5" font-weight="700" fill="#E2E8F0" text-anchor="middle" letter-spacing="0.5">MATRÍCULAS & QUÓRUM</text>
+
+    <!-- Field: id -->
+    <rect x="81" y="1064" width="348" height="28" fill="#1E293B" />
+    <line x1="81" y1="1092" x2="429" y2="1092" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="92" y="1070" width="22" height="15" rx="3" fill="#FEF3C7" />
+    <text x="103" y="1081" font-size="8.5" font-weight="800" fill="#B45309" text-anchor="middle">PK</text>
+    <text x="140" y="1082" font-size="11.5" font-weight="600" fill="#F8FAFC">id</text>
+    <text x="416" y="1082" font-size="10.5" font-weight="500" fill="#38BDF8" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">UUID</text>
+    <!-- Field: class_id -->
+    <rect x="81" y="1092" width="348" height="28" fill="#192237" />
+    <line x1="81" y1="1120" x2="429" y2="1120" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="92" y="1098" width="22" height="15" rx="3" fill="#DBEAFE" />
+    <text x="103" y="1109" font-size="8.5" font-weight="800" fill="#1D4ED8" text-anchor="middle">FK</text>
+    <text x="140" y="1110" font-size="11.5" font-weight="600" fill="#F8FAFC">class_id</text>
+    <text x="416" y="1110" font-size="10.5" font-weight="500" fill="#38BDF8" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">UUID</text>
+    <!-- Field: student_email -->
+    <rect x="81" y="1120" width="348" height="28" fill="#1E293B" />
+    <line x1="81" y1="1148" x2="429" y2="1148" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="140" y="1138" font-size="11.5" font-weight="600" fill="#F8FAFC">student_email</text>
+    <text x="416" y="1138" font-size="10.5" font-weight="500" fill="#CBD5E1" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">VARCHAR(255)</text>
+    <!-- Field: student_id -->
+    <rect x="81" y="1148" width="348" height="28" fill="#192237" />
+    <line x1="81" y1="1176" x2="429" y2="1176" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="92" y="1154" width="22" height="15" rx="3" fill="#DBEAFE" />
+    <text x="103" y="1165" font-size="8.5" font-weight="800" fill="#1D4ED8" text-anchor="middle">FK</text>
+    <text x="140" y="1166" font-size="11.5" font-weight="600" fill="#F8FAFC">student_id</text>
+    <text x="416" y="1166" font-size="10.5" font-weight="500" fill="#38BDF8" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">UUID</text>
+    <!-- Field: created_at -->
+    <rect x="81" y="1176" width="348" height="28" fill="#1E293B" />
+    <line x1="81" y1="1204" x2="429" y2="1204" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="140" y="1194" font-size="11.5" font-weight="600" fill="#F8FAFC">created_at</text>
+    <text x="416" y="1194" font-size="10.5" font-weight="500" fill="#4ADE80" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">TIMESTAMPTZ</text>
   </g>
 
-  <!-- TABLE: review_tags -->
-  <g transform="translate(1050, 800)">
-    <rect width="210" height="100" class="table-card" />
-    <path d="M 0 0 h 210 v 35 h -210 Z" class="table-header" />
-    <text x="15" y="23" class="table-title">🏷️ review_tags</text>
-    <rect x="0" y="35" width="210" height="30" class="row-even" />
-    <text x="15" y="55" class="col-name">review_id</text><text x="100" y="55" class="col-type">uuid</text><text x="150" y="55" class="pk-badge">[PK, FK]</text>
-    <rect x="0" y="65" width="210" height="30" class="row-odd" />
-    <text x="15" y="85" class="col-name">tag_id</text><text x="100" y="85" class="col-type">uuid</text><text x="150" y="85" class="pk-badge">[PK, FK]</text>
+  <!-- Table: evaluation_policies -->
+  <g id="table-evaluation_policies" filter="url(#card-shadow)">
+    <!-- Container -->
+    <rect x="580" y="1020" width="350" height="166" rx="8" fill="#1E293B" stroke="#334155" stroke-width="1.2" />
+    
+    <!-- Header -->
+    <rect x="580" y="1020" width="350" height="44" rx="8" fill="url(#header-grad-teal)" />
+    <!-- Clip lower corners of header -->
+    <rect x="580" y="1056" width="350" height="8" fill="url(#header-grad-teal)" />
+    <line x1="580" y1="1064" x2="930" y2="1064" stroke="#475569" stroke-width="1" />
+    
+    <!-- Table Header Text -->
+    <text x="594" y="1046" font-size="14" font-weight="700" fill="#FFFFFF" letter-spacing="0.3">evaluation_policies</text>
+    <rect x="780" y="1031" width="138" height="22" rx="4" fill="#000000" fill-opacity="0.3" />
+    <text x="849" y="1046" font-size="8.5" font-weight="700" fill="#E2E8F0" text-anchor="middle" letter-spacing="0.5">REGRAS DE AVALIAÇÃO</text>
+
+    <!-- Field: id -->
+    <rect x="581" y="1064" width="348" height="28" fill="#1E293B" />
+    <line x1="581" y1="1092" x2="929" y2="1092" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="592" y="1070" width="22" height="15" rx="3" fill="#FEF3C7" />
+    <text x="603" y="1081" font-size="8.5" font-weight="800" fill="#B45309" text-anchor="middle">PK</text>
+    <text x="640" y="1082" font-size="11.5" font-weight="600" fill="#F8FAFC">id</text>
+    <text x="916" y="1082" font-size="10.5" font-weight="500" fill="#38BDF8" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">UUID</text>
+    <!-- Field: class_id -->
+    <rect x="581" y="1092" width="348" height="28" fill="#192237" />
+    <line x1="581" y1="1120" x2="929" y2="1120" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="592" y="1098" width="22" height="15" rx="3" fill="#F3E8FF" />
+    <text x="603" y="1109" font-size="8.5" font-weight="800" fill="#7E22CE" text-anchor="middle">UK</text>
+    <rect x="618" y="1098" width="22" height="15" rx="3" fill="#DBEAFE" />
+    <text x="629" y="1109" font-size="8.5" font-weight="800" fill="#1D4ED8" text-anchor="middle">FK</text>
+    <text x="650" y="1110" font-size="11.5" font-weight="600" fill="#F8FAFC">class_id</text>
+    <text x="916" y="1110" font-size="10.5" font-weight="500" fill="#38BDF8" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">UUID</text>
+    <!-- Field: mode -->
+    <rect x="581" y="1120" width="348" height="28" fill="#1E293B" />
+    <line x1="581" y1="1148" x2="929" y2="1148" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="592" y="1126" width="22" height="15" rx="3" fill="#D1FAE5" />
+    <text x="603" y="1137" font-size="8.5" font-weight="800" fill="#047857" text-anchor="middle">ENUM</text>
+    <text x="640" y="1138" font-size="11.5" font-weight="600" fill="#F8FAFC">mode</text>
+    <text x="916" y="1138" font-size="10.5" font-weight="500" fill="#CBD5E1" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">evaluation_mode</text>
+    <!-- Field: updated_at -->
+    <rect x="581" y="1148" width="348" height="28" fill="#192237" />
+    <line x1="581" y1="1176" x2="929" y2="1176" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="640" y="1166" font-size="11.5" font-weight="600" fill="#F8FAFC">updated_at</text>
+    <text x="916" y="1166" font-size="10.5" font-weight="500" fill="#4ADE80" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">TIMESTAMPTZ</text>
   </g>
 
-  <!-- TABLE: tags -->
-  <g transform="translate(1340, 680)">
-    <rect width="240" height="160" class="table-card" />
-    <path d="M 0 0 h 240 v 35 h -240 Z" class="table-header" />
-    <text x="15" y="23" class="table-title">🏷️ tags</text>
-    <rect x="0" y="35" width="240" height="30" class="row-even" />
-    <text x="15" y="55" class="col-name">id</text><text x="100" y="55" class="col-type">uuid</text><text x="190" y="55" class="pk-badge">[PK]</text>
-    <rect x="0" y="65" width="240" height="30" class="row-odd" />
-    <text x="15" y="85" class="col-name">name</text><text x="100" y="85" class="col-type">varchar(50)</text><text x="190" y="85" class="uk-badge">[UK]</text>
-    <rect x="0" y="95" width="240" height="30" class="row-even" />
-    <text x="15" y="115" class="col-name">category</text><text x="100" y="115" class="col-type">varchar(30)</text>
-    <rect x="0" y="125" width="240" height="30" class="row-odd" />
-    <text x="15" y="145" class="col-name">icon_class</text><text x="100" y="145" class="col-type">varchar(50)</text>
+  <!-- Table: reviews -->
+  <g id="table-reviews" filter="url(#card-shadow)">
+    <!-- Container -->
+    <rect x="1080" y="380" width="390" height="390" rx="8" fill="#1E293B" stroke="#334155" stroke-width="1.2" />
+    
+    <!-- Header -->
+    <rect x="1080" y="380" width="390" height="44" rx="8" fill="url(#header-grad-indigo)" />
+    <!-- Clip lower corners of header -->
+    <rect x="1080" y="416" width="390" height="8" fill="url(#header-grad-indigo)" />
+    <line x1="1080" y1="424" x2="1470" y2="424" stroke="#475569" stroke-width="1" />
+    
+    <!-- Table Header Text -->
+    <text x="1094" y="406" font-size="14" font-weight="700" fill="#FFFFFF" letter-spacing="0.3">reviews</text>
+    <rect x="1320" y="391" width="138" height="22" rx="4" fill="#000000" fill-opacity="0.3" />
+    <text x="1389" y="406" font-size="8.5" font-weight="700" fill="#E2E8F0" text-anchor="middle" letter-spacing="0.5">MOTOR DE AVALIAÇÕES</text>
+
+    <!-- Field: id -->
+    <rect x="1081" y="424" width="388" height="28" fill="#1E293B" />
+    <line x1="1081" y1="452" x2="1469" y2="452" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="1092" y="430" width="22" height="15" rx="3" fill="#FEF3C7" />
+    <text x="1103" y="441" font-size="8.5" font-weight="800" fill="#B45309" text-anchor="middle">PK</text>
+    <text x="1140" y="442" font-size="11.5" font-weight="600" fill="#F8FAFC">id</text>
+    <text x="1456" y="442" font-size="10.5" font-weight="500" fill="#38BDF8" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">UUID</text>
+    <!-- Field: professor_id -->
+    <rect x="1081" y="452" width="388" height="28" fill="#192237" />
+    <line x1="1081" y1="480" x2="1469" y2="480" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="1092" y="458" width="22" height="15" rx="3" fill="#DBEAFE" />
+    <text x="1103" y="469" font-size="8.5" font-weight="800" fill="#1D4ED8" text-anchor="middle">FK</text>
+    <text x="1140" y="470" font-size="11.5" font-weight="600" fill="#F8FAFC">professor_id</text>
+    <text x="1456" y="470" font-size="10.5" font-weight="500" fill="#38BDF8" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">UUID</text>
+    <!-- Field: class_id -->
+    <rect x="1081" y="480" width="388" height="28" fill="#1E293B" />
+    <line x1="1081" y1="508" x2="1469" y2="508" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="1092" y="486" width="22" height="15" rx="3" fill="#DBEAFE" />
+    <text x="1103" y="497" font-size="8.5" font-weight="800" fill="#1D4ED8" text-anchor="middle">FK</text>
+    <text x="1140" y="498" font-size="11.5" font-weight="600" fill="#F8FAFC">class_id</text>
+    <text x="1456" y="498" font-size="10.5" font-weight="500" fill="#38BDF8" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">UUID</text>
+    <!-- Field: rating -->
+    <rect x="1081" y="508" width="388" height="28" fill="#192237" />
+    <line x1="1081" y1="536" x2="1469" y2="536" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="1140" y="526" font-size="11.5" font-weight="600" fill="#F8FAFC">rating</text>
+    <text x="1456" y="526" font-size="10.5" font-weight="500" fill="#FBBF24" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">SMALLINT</text>
+    <!-- Field: difficulty -->
+    <rect x="1081" y="536" width="388" height="28" fill="#1E293B" />
+    <line x1="1081" y1="564" x2="1469" y2="564" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="1140" y="554" font-size="11.5" font-weight="600" fill="#F8FAFC">difficulty</text>
+    <text x="1456" y="554" font-size="10.5" font-weight="500" fill="#FBBF24" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">SMALLINT</text>
+    <!-- Field: would_recommend -->
+    <rect x="1081" y="564" width="388" height="28" fill="#192237" />
+    <line x1="1081" y1="592" x2="1469" y2="592" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="1140" y="582" font-size="11.5" font-weight="600" fill="#F8FAFC">would_recommend</text>
+    <text x="1456" y="582" font-size="10.5" font-weight="500" fill="#A78BFA" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">BOOLEAN</text>
+    <!-- Field: comment -->
+    <rect x="1081" y="592" width="388" height="28" fill="#1E293B" />
+    <line x1="1081" y1="620" x2="1469" y2="620" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="1140" y="610" font-size="11.5" font-weight="600" fill="#F8FAFC">comment</text>
+    <text x="1456" y="610" font-size="10.5" font-weight="500" fill="#CBD5E1" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">TEXT</text>
+    <!-- Field: is_anonymous -->
+    <rect x="1081" y="620" width="388" height="28" fill="#192237" />
+    <line x1="1081" y1="648" x2="1469" y2="648" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="1140" y="638" font-size="11.5" font-weight="600" fill="#F8FAFC">is_anonymous</text>
+    <text x="1456" y="638" font-size="10.5" font-weight="500" fill="#A78BFA" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">BOOLEAN</text>
+    <!-- Field: student_identifier_display -->
+    <rect x="1081" y="648" width="388" height="28" fill="#1E293B" />
+    <line x1="1081" y1="676" x2="1469" y2="676" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="1094" y="666" font-size="11.5" font-weight="600" fill="#F8FAFC">student_identifier_display</text>
+    <text x="1456" y="666" font-size="10.5" font-weight="500" fill="#CBD5E1" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">VARCHAR(150)</text>
+    <!-- Field: audit_hash -->
+    <rect x="1081" y="676" width="388" height="28" fill="#192237" />
+    <line x1="1081" y1="704" x2="1469" y2="704" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="1092" y="682" width="22" height="15" rx="3" fill="#F3E8FF" />
+    <text x="1103" y="693" font-size="8.5" font-weight="800" fill="#7E22CE" text-anchor="middle">UK</text>
+    <text x="1140" y="694" font-size="11.5" font-weight="600" fill="#F8FAFC">audit_hash</text>
+    <text x="1456" y="694" font-size="10.5" font-weight="500" fill="#CBD5E1" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">VARCHAR(64)</text>
+    <!-- Field: upvotes_count -->
+    <rect x="1081" y="704" width="388" height="28" fill="#1E293B" />
+    <line x1="1081" y1="732" x2="1469" y2="732" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="1140" y="722" font-size="11.5" font-weight="600" fill="#F8FAFC">upvotes_count</text>
+    <text x="1456" y="722" font-size="10.5" font-weight="500" fill="#FBBF24" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">INTEGER</text>
+    <!-- Field: created_at -->
+    <rect x="1081" y="732" width="388" height="28" fill="#192237" />
+    <line x1="1081" y1="760" x2="1469" y2="760" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="1140" y="750" font-size="11.5" font-weight="600" fill="#F8FAFC">created_at</text>
+    <text x="1456" y="750" font-size="10.5" font-weight="500" fill="#4ADE80" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">TIMESTAMPTZ</text>
   </g>
 
-  <!-- TABLE: review_upvotes -->
-  <g transform="translate(260, 930)">
-    <rect width="260" height="160" class="table-card" />
-    <path d="M 0 0 h 260 v 35 h -260 Z" class="table-header" />
-    <text x="15" y="23" class="table-title">👍 review_upvotes</text>
-    <rect x="0" y="35" width="260" height="30" class="row-even" />
-    <text x="15" y="55" class="col-name">id</text><text x="120" y="55" class="col-type">uuid</text><text x="215" y="55" class="pk-badge">[PK]</text>
-    <rect x="0" y="65" width="260" height="30" class="row-odd" />
-    <text x="15" y="85" class="col-name">review_id</text><text x="120" y="85" class="col-type">uuid</text><text x="215" y="85" class="fk-badge">[FK]</text>
-    <rect x="0" y="95" width="260" height="30" class="row-even" />
-    <text x="15" y="115" class="col-name">user_id</text><text x="120" y="115" class="col-type">uuid</text><text x="215" y="115" class="fk-badge">[FK]</text>
-    <rect x="0" y="125" width="260" height="30" class="row-odd" />
-    <text x="15" y="145" class="col-name">created_at</text><text x="120" y="145" class="col-type">timestamptz</text>
+  <!-- Table: review_upvotes -->
+  <g id="table-review_upvotes" filter="url(#card-shadow)">
+    <!-- Container -->
+    <rect x="1080" y="140" width="390" height="166" rx="8" fill="#1E293B" stroke="#334155" stroke-width="1.2" />
+    
+    <!-- Header -->
+    <rect x="1080" y="140" width="390" height="44" rx="8" fill="url(#header-grad-indigo)" />
+    <!-- Clip lower corners of header -->
+    <rect x="1080" y="176" width="390" height="8" fill="url(#header-grad-indigo)" />
+    <line x1="1080" y1="184" x2="1470" y2="184" stroke="#475569" stroke-width="1" />
+    
+    <!-- Table Header Text -->
+    <text x="1094" y="166" font-size="14" font-weight="700" fill="#FFFFFF" letter-spacing="0.3">review_upvotes</text>
+    <rect x="1320" y="151" width="138" height="22" rx="4" fill="#000000" fill-opacity="0.3" />
+    <text x="1389" y="166" font-size="8.5" font-weight="700" fill="#E2E8F0" text-anchor="middle" letter-spacing="0.5">GAMIFICAÇÃO & UTILIDADE</text>
+
+    <!-- Field: id -->
+    <rect x="1081" y="184" width="388" height="28" fill="#1E293B" />
+    <line x1="1081" y1="212" x2="1469" y2="212" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="1092" y="190" width="22" height="15" rx="3" fill="#FEF3C7" />
+    <text x="1103" y="201" font-size="8.5" font-weight="800" fill="#B45309" text-anchor="middle">PK</text>
+    <text x="1140" y="202" font-size="11.5" font-weight="600" fill="#F8FAFC">id</text>
+    <text x="1456" y="202" font-size="10.5" font-weight="500" fill="#38BDF8" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">UUID</text>
+    <!-- Field: review_id -->
+    <rect x="1081" y="212" width="388" height="28" fill="#192237" />
+    <line x1="1081" y1="240" x2="1469" y2="240" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="1092" y="218" width="22" height="15" rx="3" fill="#DBEAFE" />
+    <text x="1103" y="229" font-size="8.5" font-weight="800" fill="#1D4ED8" text-anchor="middle">FK</text>
+    <text x="1140" y="230" font-size="11.5" font-weight="600" fill="#F8FAFC">review_id</text>
+    <text x="1456" y="230" font-size="10.5" font-weight="500" fill="#38BDF8" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">UUID</text>
+    <!-- Field: user_id -->
+    <rect x="1081" y="240" width="388" height="28" fill="#1E293B" />
+    <line x1="1081" y1="268" x2="1469" y2="268" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="1092" y="246" width="22" height="15" rx="3" fill="#DBEAFE" />
+    <text x="1103" y="257" font-size="8.5" font-weight="800" fill="#1D4ED8" text-anchor="middle">FK</text>
+    <text x="1140" y="258" font-size="11.5" font-weight="600" fill="#F8FAFC">user_id</text>
+    <text x="1456" y="258" font-size="10.5" font-weight="500" fill="#38BDF8" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">UUID</text>
+    <!-- Field: created_at -->
+    <rect x="1081" y="268" width="388" height="28" fill="#192237" />
+    <line x1="1081" y1="296" x2="1469" y2="296" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="1140" y="286" font-size="11.5" font-weight="600" fill="#F8FAFC">created_at</text>
+    <text x="1456" y="286" font-size="10.5" font-weight="500" fill="#4ADE80" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">TIMESTAMPTZ</text>
+  </g>
+
+  <!-- Table: review_tags -->
+  <g id="table-review_tags" filter="url(#card-shadow)">
+    <!-- Container -->
+    <rect x="1600" y="400" width="330" height="110" rx="8" fill="#1E293B" stroke="#334155" stroke-width="1.2" />
+    
+    <!-- Header -->
+    <rect x="1600" y="400" width="330" height="44" rx="8" fill="url(#header-grad-purple)" />
+    <!-- Clip lower corners of header -->
+    <rect x="1600" y="436" width="330" height="8" fill="url(#header-grad-purple)" />
+    <line x1="1600" y1="444" x2="1930" y2="444" stroke="#475569" stroke-width="1" />
+    
+    <!-- Table Header Text -->
+    <text x="1614" y="426" font-size="14" font-weight="700" fill="#FFFFFF" letter-spacing="0.3">review_tags</text>
+    <rect x="1780" y="411" width="138" height="22" rx="4" fill="#000000" fill-opacity="0.3" />
+    <text x="1849" y="426" font-size="8.5" font-weight="700" fill="#E2E8F0" text-anchor="middle" letter-spacing="0.5">JUNÇÃO N:M REVIEWS-TAGS</text>
+
+    <!-- Field: review_id -->
+    <rect x="1601" y="444" width="328" height="28" fill="#1E293B" />
+    <line x1="1601" y1="472" x2="1929" y2="472" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="1612" y="450" width="22" height="15" rx="3" fill="#FEF3C7" />
+    <text x="1623" y="461" font-size="8.5" font-weight="800" fill="#B45309" text-anchor="middle">PK</text>
+    <rect x="1638" y="450" width="22" height="15" rx="3" fill="#DBEAFE" />
+    <text x="1649" y="461" font-size="8.5" font-weight="800" fill="#1D4ED8" text-anchor="middle">FK</text>
+    <text x="1670" y="462" font-size="11.5" font-weight="600" fill="#F8FAFC">review_id</text>
+    <text x="1916" y="462" font-size="10.5" font-weight="500" fill="#38BDF8" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">UUID</text>
+    <!-- Field: tag_id -->
+    <rect x="1601" y="472" width="328" height="28" fill="#192237" />
+    <line x1="1601" y1="500" x2="1929" y2="500" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="1612" y="478" width="22" height="15" rx="3" fill="#FEF3C7" />
+    <text x="1623" y="489" font-size="8.5" font-weight="800" fill="#B45309" text-anchor="middle">PK</text>
+    <rect x="1638" y="478" width="22" height="15" rx="3" fill="#DBEAFE" />
+    <text x="1649" y="489" font-size="8.5" font-weight="800" fill="#1D4ED8" text-anchor="middle">FK</text>
+    <text x="1670" y="490" font-size="11.5" font-weight="600" fill="#F8FAFC">tag_id</text>
+    <text x="1916" y="490" font-size="10.5" font-weight="500" fill="#38BDF8" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">UUID</text>
+  </g>
+
+  <!-- Table: tags -->
+  <g id="table-tags" filter="url(#card-shadow)">
+    <!-- Container -->
+    <rect x="1600" y="620" width="330" height="166" rx="8" fill="#1E293B" stroke="#334155" stroke-width="1.2" />
+    
+    <!-- Header -->
+    <rect x="1600" y="620" width="330" height="44" rx="8" fill="url(#header-grad-purple)" />
+    <!-- Clip lower corners of header -->
+    <rect x="1600" y="656" width="330" height="8" fill="url(#header-grad-purple)" />
+    <line x1="1600" y1="664" x2="1930" y2="664" stroke="#475569" stroke-width="1" />
+    
+    <!-- Table Header Text -->
+    <text x="1614" y="646" font-size="14" font-weight="700" fill="#FFFFFF" letter-spacing="0.3">tags</text>
+    <rect x="1780" y="631" width="138" height="22" rx="4" fill="#000000" fill-opacity="0.3" />
+    <text x="1849" y="646" font-size="8.5" font-weight="700" fill="#E2E8F0" text-anchor="middle" letter-spacing="0.5">TAXONOMIA & CLASSIFICAÇÃO</text>
+
+    <!-- Field: id -->
+    <rect x="1601" y="664" width="328" height="28" fill="#1E293B" />
+    <line x1="1601" y1="692" x2="1929" y2="692" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="1612" y="670" width="22" height="15" rx="3" fill="#FEF3C7" />
+    <text x="1623" y="681" font-size="8.5" font-weight="800" fill="#B45309" text-anchor="middle">PK</text>
+    <text x="1660" y="682" font-size="11.5" font-weight="600" fill="#F8FAFC">id</text>
+    <text x="1916" y="682" font-size="10.5" font-weight="500" fill="#38BDF8" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">UUID</text>
+    <!-- Field: name -->
+    <rect x="1601" y="692" width="328" height="28" fill="#192237" />
+    <line x1="1601" y1="720" x2="1929" y2="720" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="1612" y="698" width="22" height="15" rx="3" fill="#F3E8FF" />
+    <text x="1623" y="709" font-size="8.5" font-weight="800" fill="#7E22CE" text-anchor="middle">UK</text>
+    <text x="1660" y="710" font-size="11.5" font-weight="600" fill="#F8FAFC">name</text>
+    <text x="1916" y="710" font-size="10.5" font-weight="500" fill="#CBD5E1" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">VARCHAR(50)</text>
+    <!-- Field: category -->
+    <rect x="1601" y="720" width="328" height="28" fill="#1E293B" />
+    <line x1="1601" y1="748" x2="1929" y2="748" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <rect x="1612" y="726" width="22" height="15" rx="3" fill="#D1FAE5" />
+    <text x="1623" y="737" font-size="8.5" font-weight="800" fill="#047857" text-anchor="middle">ENUM</text>
+    <text x="1660" y="738" font-size="11.5" font-weight="600" fill="#F8FAFC">category</text>
+    <text x="1916" y="738" font-size="10.5" font-weight="500" fill="#CBD5E1" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">tag_category</text>
+    <!-- Field: icon_class -->
+    <rect x="1601" y="748" width="328" height="28" fill="#192237" />
+    <line x1="1601" y1="776" x2="1929" y2="776" stroke="#334155" stroke-width="0.6" opacity="0.6" />
+
+    <text x="1614" y="766" font-size="11.5" font-weight="600" fill="#F8FAFC">icon_class</text>
+    <text x="1916" y="766" font-size="10.5" font-weight="500" fill="#CBD5E1" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace">VARCHAR(50)</text>
+  </g>
+
+  <!-- ==================== LEGEND FOOTER ==================== -->
+  <g id="legend" transform="translate(60, 1225)">
+    <rect x="0" y="0" width="1900" height="52" rx="8" fill="#1E293B" stroke="#334155" stroke-width="1.2" />
+    <text x="20" y="31" font-size="12" font-weight="700" fill="#F8FAFC">CONVENÇÕES &amp; LEGENDA:</text>
+    
+    <!-- PK -->
+    <rect x="180" y="17" width="26" height="18" rx="3" fill="#FEF3C7" />
+    <text x="193" y="30" font-size="9" font-weight="800" fill="#B45309" text-anchor="middle">PK</text>
+    <text x="214" y="30" font-size="11" font-weight="500" fill="#CBD5E1">Primary Key</text>
+
+    <!-- FK -->
+    <rect x="310" y="17" width="26" height="18" rx="3" fill="#DBEAFE" />
+    <text x="323" y="30" font-size="9" font-weight="800" fill="#1D4ED8" text-anchor="middle">FK</text>
+    <text x="344" y="30" font-size="11" font-weight="500" fill="#CBD5E1">Foreign Key</text>
+
+    <!-- UK -->
+    <rect x="440" y="17" width="26" height="18" rx="3" fill="#F3E8FF" />
+    <text x="453" y="30" font-size="9" font-weight="800" fill="#7E22CE" text-anchor="middle">UK</text>
+    <text x="474" y="30" font-size="11" font-weight="500" fill="#CBD5E1">Unique Key</text>
+
+    <!-- ENUM -->
+    <rect x="560" y="17" width="34" height="18" rx="3" fill="#D1FAE5" />
+    <text x="577" y="30" font-size="8.5" font-weight="800" fill="#047857" text-anchor="middle">ENUM</text>
+    <text x="602" y="30" font-size="11" font-weight="500" fill="#CBD5E1">Custom Enum Type</text>
+
+    <!-- Lines -->
+    <line x1="740" y1="26" x2="775" y2="26" stroke="#3B82F6" stroke-width="2" />
+    <line x1="745" y1="20" x2="745" y2="32" stroke="#3B82F6" stroke-width="2" />
+    <line x1="750" y1="20" x2="750" y2="32" stroke="#3B82F6" stroke-width="2" />
+    <line x1="770" y1="20" x2="770" y2="32" stroke="#3B82F6" stroke-width="2" />
+    <line x1="765" y1="20" x2="765" y2="32" stroke="#3B82F6" stroke-width="2" />
+    <text x="785" y="30" font-size="11" font-weight="500" fill="#CBD5E1">Relacionamento 1:1</text>
+
+    <line x1="930" y1="26" x2="965" y2="26" stroke="#0D9488" stroke-width="2" />
+    <circle cx="930" cy="26" r="3" fill="#0D9488" />
+    <path d="M 957 20 L 967 26 L 957 32" fill="none" stroke="#0D9488" stroke-width="2" />
+    <text x="978" y="30" font-size="11" font-weight="500" fill="#CBD5E1">Relacionamento 1:N (Crow's Foot)</text>
+
+    <!-- Compliance / Engine Note -->
+    <text x="1880" y="30" font-size="10.5" font-weight="500" fill="#64748B" text-anchor="end">Engine: PostgreSQL 16+ • Formato: DBML (Database Markup Language) • Padrão ACID &amp; 3FN</text>
   </g>
 </svg>
