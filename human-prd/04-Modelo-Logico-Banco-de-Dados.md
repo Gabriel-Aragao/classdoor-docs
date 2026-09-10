@@ -19,7 +19,7 @@ O modelo relacional do Classdoor segue estritamente a **3ª Forma Normal (3FN)**
 
 ## 2. Especificação DBML Oficial (dbdiagram.io)
 
-O código DBML abaixo é a fonte canônica de verdade para o PostgreSQL 16+, sincronizado com as especificações técnicas da Seção 4 de `specs/02-Arquitetura-Contratos-e-Design-System.md`:
+O código DBML abaixo é a fonte canônica de verdade para o PostgreSQL 16+, sincronizado com a Seção 4.1 de `specs/02-Arquitetura-Contratos-e-Design-System.md`. As relações de chave estrangeira são declaradas **exclusivamente inline** nas colunas correspondentes (`ref: > ...` e `ref: - ...`), evitando duplicação de referências no renderizador do dbdiagram.io:
 
 ```dbml
 // =======================================================
@@ -43,158 +43,119 @@ Enum evaluation_mode {
 // --- TABELAS CENTRAIS & IDENTIDADE ---
 
 Table users {
-  id uuid [pk, default: `gen_random_uuid()`, note: 'Identificador único global do usuário']
+  id uuid [pk, default: `gen_random_uuid()`]
   email varchar(255) [not null, unique, note: 'Qualquer e-mail válido (@gmail, @edu, etc.)']
   password_hash varchar(255) [not null, note: 'Hash BCrypt (custo 12)']
-  name varchar(150) [not null, note: 'Nome completo']
-  role user_role [not null, default: 'STUDENT', note: 'Papel no sistema (STUDENT | PROFESSOR)']
-  is_active boolean [not null, default: true, note: 'Flag de conta ativa']
-  created_at timestamptz [not null, default: `now()`, note: 'Data de cadastro']
-  updated_at timestamptz [not null, default: `now()`, note: 'Data da última alteração']
-
-  Note: 'Tabela central de identidade, autenticação e controle de acesso.'
+  name varchar(150) [not null]
+  role user_role [not null, default: 'STUDENT']
+  is_active boolean [not null, default: true]
+  created_at timestamptz [not null, default: `now()`]
+  updated_at timestamptz [not null, default: `now()`]
 }
 
 Table students {
   id uuid [pk, ref: - users.id, note: 'Extensão 1:1 de users']
   registration_number varchar(50) [unique, note: 'Matrícula opcional']
-  department_id uuid [ref: > departments.id, note: 'Departamento acadêmico de vínculo']
-
-  Note: 'Extensão de perfil para estudantes.'
+  department_id uuid [ref: > departments.id]
 }
 
 Table professors {
   id uuid [pk, ref: - users.id, note: 'Extensão 1:1 de users']
-  department_id uuid [not null, ref: > departments.id, note: 'Departamento de lotação do docente']
+  department_id uuid [not null, ref: > departments.id]
   title varchar(50) [note: 'Titulação acadêmica (Dr., Me., Esp.)']
-  bio text [note: 'Apresentação e ementa resumida']
-  average_rating decimal(3,2) [not null, default: 0.00, note: 'Nota média agregada (1.00 a 5.00)']
-  difficulty_rating decimal(3,2) [not null, default: 0.00, note: 'Dificuldade média (1.00 a 5.00)']
-  recommendation_rate decimal(5,2) [not null, default: 0.00, note: 'Percentual de recomendação (0-100%)']
-  total_reviews integer [not null, default: 0, note: 'Contador acumulado de reviews']
-
-  Note: 'Extensão de perfil para docentes com métricas agregadas pré-computadas.'
+  bio text
+  average_rating decimal(3,2) [not null, default: 0.00]
+  difficulty_rating decimal(3,2) [not null, default: 0.00]
+  recommendation_rate decimal(5,2) [not null, default: 0.00]
+  total_reviews integer [not null, default: 0]
 }
 
 // --- ESTRUTURA ACADÊMICA ---
 
 Table departments {
-  id uuid [pk, default: `gen_random_uuid()`, note: 'Identificador único do departamento']
+  id uuid [pk, default: `gen_random_uuid()`]
   code varchar(20) [not null, unique, note: 'Sigla (ex: DCOMP, DEMAT)']
-  name varchar(150) [not null, note: 'Nome do departamento']
-  website_url varchar(255) [note: 'Website ou portal institucional']
-
-  Note: 'Departamentos acadêmicos da instituição.'
+  name varchar(150) [not null]
+  website_url varchar(255)
 }
 
 Table courses {
-  id uuid [pk, default: `gen_random_uuid()`, note: 'Identificador único da disciplina']
-  department_id uuid [not null, ref: > departments.id, note: 'Departamento ofertante']
+  id uuid [pk, default: `gen_random_uuid()`]
+  department_id uuid [not null, ref: > departments.id]
   code varchar(20) [not null, unique, note: 'Código da disciplina (ex: CC0101)']
-  name varchar(150) [not null, note: 'Nome da disciplina']
-  description text [note: 'Ementa oficial da disciplina']
-  credits integer [not null, default: 4, note: 'Número de créditos acadêmicos']
-
-  Note: 'Catálogo de cursos e disciplinas ofertadas.'
+  name varchar(150) [not null]
+  description text
+  credits integer [not null, default: 4]
 }
 
 Table classes {
-  id uuid [pk, default: `gen_random_uuid()`, note: 'Identificador único da turma']
-  course_id uuid [not null, ref: > courses.id, note: 'Disciplina associada']
-  professor_id uuid [not null, ref: > professors.id, note: 'Docente responsável']
-  semester varchar(10) [not null, note: 'Período letivo no formato semestral AAAA.1/AAAA.2 (ex: 2026.1)']
-  code varchar(20) [not null, note: 'Identificador de turma (ex: Turma 01)']
+  id uuid [pk, default: `gen_random_uuid()`]
+  course_id uuid [not null, ref: > courses.id]
+  professor_id uuid [not null, ref: > professors.id]
+  semester varchar(10) [not null, note: 'Período letivo (ex: 2026.1)']
+  code varchar(20) [not null, note: 'Identificador de turma (Turma 01)']
   is_evaluation_open boolean [not null, default: false, note: 'Toggle de abertura das avaliações pelo professor']
-  students_count integer [not null, default: 0, note: 'Contagem total de alunos matriculados (Quórum >= 5)']
+  students_count integer [not null, default: 0, note: 'Contagem total de alunos matriculados']
   reviews_count integer [not null, default: 0, note: 'Contagem de reviews (se > 0, trava adição de alunos)']
-  is_active boolean [not null, default: true, note: 'Turma em andamento no período letivo']
+  is_active boolean [not null, default: true]
 
   indexes {
     (course_id, semester, code) [unique, name: 'uk_classes_course_semester_code']
   }
-
-  Note: 'Turmas semestrais com controle de quórum, liberação e trava de adição de discentes.'
 }
 
 Table class_students {
-  id uuid [pk, default: `gen_random_uuid()`, note: 'Identificador único da matrícula']
-  class_id uuid [not null, ref: > classes.id, note: 'Turma vinculada']
+  id uuid [pk, default: `gen_random_uuid()`]
+  class_id uuid [not null, ref: > classes.id]
   student_email varchar(255) [not null, note: 'E-mail do aluno matriculado na turma']
   student_id uuid [ref: > students.id, note: 'Vinculado automaticamente quando o aluno se cadastra']
-  created_at timestamptz [not null, default: `now()`, note: 'Data da inclusão na turma (lote ou contínua)']
+  created_at timestamptz [not null, default: `now()`]
 
   indexes {
     (class_id, student_email) [unique, name: 'uk_class_students_class_email']
-    (class_id) [name: 'idx_class_students_class_id']
-    (student_email) [name: 'idx_class_students_student_email']
   }
-
-  Note: 'Matrículas discentes por turma para importação contínua em lote e cálculo de quórum.'
 }
 
 Table evaluation_policies {
-  id uuid [pk, default: `gen_random_uuid()`, note: 'Identificador da política']
-  class_id uuid [not null, unique, ref: - classes.id, note: 'Chave estrangeira 1:1 com classes']
-  mode evaluation_mode [not null, default: 'ANONYMOUS_ONLY', note: 'ANONYMOUS_ONLY | ALLOW_IDENTIFIED']
-  updated_at timestamptz [not null, default: `now()`, note: 'Data da última alteração de política']
-
-  Note: 'Políticas de avaliação por turma configuradas pelo docente.'
+  id uuid [pk, default: `gen_random_uuid()`]
+  class_id uuid [not null, unique, ref: - classes.id]
+  mode evaluation_mode [not null, default: 'ANONYMOUS_ONLY']
+  updated_at timestamptz [not null, default: `now()`]
 }
 
 // --- MOTOR DE AVALIAÇÕES & GAMIFICAÇÃO ---
 
 Table reviews {
-  id uuid [pk, default: `gen_random_uuid()`, note: 'Identificador único da avaliação']
-  professor_id uuid [not null, ref: > professors.id, note: 'Docente alvo da avaliação']
-  class_id uuid [not null, ref: > classes.id, note: 'Turma vinculada à avaliação']
+  id uuid [pk, default: `gen_random_uuid()`]
+  professor_id uuid [not null, ref: > professors.id]
+  class_id uuid [not null, ref: > classes.id]
   rating smallint [not null, note: 'Nota geral (1 a 5)']
   difficulty smallint [not null, note: 'Dificuldade (1 a 5)']
-  would_recommend boolean [not null, note: 'Recomendação discente (true/false)']
-  comment text [not null, note: 'Comentário textual estruturado (mínimo 20 caracteres)']
-  is_anonymous boolean [not null, default: true, note: 'Flag de anonimato da avaliação']
+  would_recommend boolean [not null]
+  comment text [not null, note: 'Comentário textual (min 20 chars)']
+  is_anonymous boolean [not null, default: true]
   student_identifier_display varchar(150) [note: 'Preenchido apenas se is_anonymous = false']
-  audit_hash varchar(64) [not null, unique, note: 'HMAC-SHA256 para garantia de unicidade e sigilo antifraude']
-  upvotes_count integer [not null, default: 0, note: 'Total de votos úteis recebidos']
-  created_at timestamptz [not null, default: `now()`, note: 'Data e hora da submissão']
+  audit_hash varchar(64) [not null, unique, note: 'HMAC-SHA256 para unicidade antifraude']
+  upvotes_count integer [not null, default: 0]
+  created_at timestamptz [not null, default: `now()`]
 
   indexes {
     (professor_id, created_at) [name: 'idx_reviews_professor_created']
     (class_id) [name: 'idx_reviews_class_id']
     audit_hash [unique, name: 'uk_reviews_audit_hash']
   }
-
-  Note: 'Motor de avaliações acadêmicas resguardando o anonimato discente.'
 }
 
 Table review_upvotes {
-  id uuid [pk, default: `gen_random_uuid()`, note: 'Identificador único do upvote']
-  review_id uuid [not null, ref: > reviews.id, note: 'Avaliação votada como útil']
-  user_id uuid [not null, ref: > users.id, note: 'Usuário autenticado votante']
-  created_at timestamptz [not null, default: `now()`, note: 'Data e hora do voto']
+  id uuid [pk, default: `gen_random_uuid()`]
+  review_id uuid [not null, ref: > reviews.id]
+  user_id uuid [not null, ref: > users.id]
+  created_at timestamptz [not null, default: `now()`]
 
   indexes {
     (user_id, review_id) [unique, name: 'uk_review_upvotes_user_review']
   }
-
-  Note: 'Registro de engajamento social e votos de utilidade.'
 }
-
-// --- MAPEAMENTO EXPLÍCITO DE INTEGRIDADE REFERENCIAL ---
-
-Ref: users.id - students.id [delete: cascade]
-Ref: users.id - professors.id [delete: cascade]
-Ref: departments.id < students.department_id [delete: set null]
-Ref: departments.id < professors.department_id [delete: restrict]
-Ref: departments.id < courses.department_id [delete: restrict]
-Ref: courses.id < classes.course_id [delete: restrict]
-Ref: professors.id < classes.professor_id [delete: restrict]
-Ref: classes.id < class_students.class_id [delete: cascade]
-Ref: students.id < class_students.student_id [delete: set null]
-Ref: classes.id - evaluation_policies.class_id [delete: cascade]
-Ref: professors.id < reviews.professor_id [delete: cascade]
-Ref: classes.id < reviews.class_id [delete: cascade]
-Ref: reviews.id < review_upvotes.review_id [delete: cascade]
-Ref: users.id < review_upvotes.user_id [delete: cascade]
 ```
 
 ---
