@@ -2,7 +2,7 @@
 
 **Projeto:** Classdoor  
 **Documento:** Requisitos Funcionais (RF), Não-Funcionais (RNF) e User Stories com Critérios de Aceitação BDD  
-**Versão:** 2.0.0 — Revisão de Governança, Proteção de Anonimato e Gestão de Turmas  
+**Versão:** 2.1.0 — Gestão Flexível de Disciplinas/Turmas, Adição Contínua e Blindagem de Anonimato  
 **Data:** 2026-09-08  
 **Autor:** @Dijkstra (Tech Lead & Arquiteto de Software Sênior)  
 **Stakeholder / CTO & PO:** @domaragao  
@@ -10,9 +10,21 @@
 
 ---
 
-## 1. Catálogo de Requisitos do Sistema
+## 1. Modelo de Domínio e Relacionamentos Acadêmicos
 
-### 1.1 Requisitos Funcionais (RF — Priorização MoSCoW)
+1. **Professor e Disciplinas (1:N):** Um professor pode ministrar uma ou múltiplas disciplinas simultaneamente.
+2. **Disciplina e Turmas (1:N):** Cada disciplina pode ter múltiplas turmas distribuídas por períodos letivos semestrais (sendo dois períodos por ano, ex.: `2026.1`, `2026.2`, `2027.1`, `2027.2`).
+3. **Alunos e Matrículas (N:M):** Cada turma possui sua lista de alunos matriculados. Um mesmo aluno pode estar matriculado em diferentes disciplinas e também em diferentes turmas da mesma disciplina (em períodos letivos iguais ou distintos).
+4. **Criação de Turmas:** No momento do cadastro de uma nova turma, o professor pode:
+   * **Selecionar uma disciplina existente** no catálogo acadêmico; ou
+   * **Criar uma nova disciplina** diretamente no fluxo de cadastro da turma (informando código, nome, ementa/descrição e departamento).
+5. **Adição Contínua de Alunos:** Após a criação da turma, o docente pode continuar adicionando alunos a qualquer momento (em lote ou novos envios), desde que nenhuma avaliação tenha sido submetida ainda na turma (`reviews_count == 0`).
+
+---
+
+## 2. Catálogo de Requisitos do Sistema
+
+### 2.1 Requisitos Funcionais (RF — Priorização MoSCoW)
 
 | ID | Módulo / Épico | Requisito Funcional | Prioridade | User Story | Caso de Uso |
 | :--- | :--- | :--- | :---: | :---: | :---: |
@@ -21,31 +33,33 @@
 | **RF03** | Autenticação | Solicitação de recuperação de senha mediante envio de link/código temporário com validade de 30 minutos. | **MUST** | US02 | UC03 |
 | **RF04** | Autenticação | Encerramento seguro da sessão ativa (Logout e limpeza de estado). | **MUST** | US02 | UC04 |
 | **RF05** | Busca & Catálogo | Busca global textual com auto-complete e debounce para professores e disciplinas na Home. | **MUST** | US03 | UC05 |
-| **RF06** | Busca & Catálogo | Filtragem avançada por departamento, período letivo e faixa de nota média (1 a 5 estrelas). | **SHOULD** | US03 | UC06 |
+| **RF06** | Busca & Catálogo | Filtragem avançada por departamento, período letivo (ex: `2026.1`, `2026.2`) e faixa de nota média (1 a 5 estrelas). | **SHOULD** | US03 | UC06 |
 | **RF07** | Busca & Catálogo | Destaques pedagógicos na Home ("Professores Mais Bem Avaliados" e "Disciplinas Populares"). | **SHOULD** | US03 | UC05 |
 | **RF08** | Perfis Acadêmicos | Exibição de perfil detalhado do docente com nota geral, dificuldade, recomendação (%) e histograma. | **MUST** | US04 | UC07 |
-| **RF09** | Perfis Acadêmicos | Exibição de perfil da disciplina com ementa, créditos, média histórica e lista de docentes associados. | **MUST** | US04 | UC07 |
-| **RF10** | Gestão de Turmas | O professor deve poder cadastrar novas turmas vinculadas às suas disciplinas, informando código da turma e semestre letivo. | **MUST** | US08 | UC12 |
-| **RF11** | Gestão de Turmas | O professor deve poder adicionar alunos à turma em lote (Bulk Import) inserindo múltiplos e-mails separados por vírgula ou quebra de linha. | **MUST** | US08 | UC12 |
-| **RF12** | Gestão de Turmas | O sistema deve bloquear a adição de novos alunos à turma a partir do momento em que a primeira avaliação for submetida. | **MUST** | US08 | UC12 |
-| **RF13** | Gestão de Turmas | O professor deve controlar a abertura das avaliações através de um toggle de liberação (`isEvaluationOpen`), que por padrão inicia desligado. | **MUST** | US08 | UC12 |
-| **RF14** | Gestão de Turmas | O sistema deve impedir a realização de avaliações em turmas com quórum inferior a 5 alunos matriculados. | **MUST** | US05 | UC11 |
-| **RF15** | Gestão de Turmas | O sistema deve omitir do professor o status de acesso/cadastro dos alunos e quais já avaliaram (Cegueira de Acesso Docente). | **MUST** | US08 | UC12 |
-| **RF16** | Motor de Avaliação | Envio de avaliação contendo nota geral (1-5), dificuldade (1-5), recomendação (Sim/Não) e comentário textual (mínimo 20 caracteres), sem tags. | **MUST** | US05 | UC08 |
-| **RF17** | Motor de Avaliação | Expurgo preventivo e desassociação total de qualquer metadado de identificação do autor em reviews anônimas. | **MUST** | US05 | UC11 |
-| **RF18** | Motor de Avaliação | Envio de avaliação nominal quando autorizada na política da turma (`ALLOW_IDENTIFIED`) e com consentimento expresso do estudante. | **COULD** | US06 | UC09 |
-| **RF19** | Moderação & Interação| Voto de utilidade ("Útil" 👍 / Upvote) em avaliações existentes, limitado a 1 voto por usuário/review. | **SHOULD** | US07 | UC10 |
-| **RF20** | Gestão Docente | Configuração da política de privacidade das turmas pelo professor (`Somente Anônimo` vs `Permitir Identificado`). | **SHOULD** | US08 | UC12 |
-| **RF21** | Analytics Docente | Dashboard com Scorecards, Histograma de notas (1-5 estrelas) e Gráfico de evolução semestral temporal. | **SHOULD** | US09 | UC13 |
-| **RF22** | Analytics Docente | Exportação de relatórios analíticos de desempenho docente nos formatos CSV anonimizado e PDF executivo. | **COULD** | US09 | UC14 |
+| **RF09** | Perfis Acadêmicos | Exibição de perfil da disciplina com ementa, créditos, média histórica e lista de turmas/docentes. | **MUST** | US04 | UC07 |
+| **RF10** | Gestão de Turmas | O professor deve poder cadastrar turmas selecionando uma disciplina existente ou criando uma nova disciplina no mesmo fluxo. | **MUST** | US08 | UC12 |
+| **RF11** | Gestão de Turmas | O professor deve poder associar turmas a períodos letivos semestrais no formato padronizado (dois por ano: `AAAA.1` e `AAAA.2`). | **MUST** | US08 | UC12 |
+| **RF12** | Gestão de Turmas | O professor deve poder adicionar alunos à turma em lote (Bulk Import) inserindo múltiplos e-mails separados por vírgula, ponto e vírgula ou quebra de linha. | **MUST** | US08 | UC12 |
+| **RF13** | Gestão de Turmas | O sistema deve permitir a adição contínua de mais alunos à turma enquanto nenhuma avaliação tiver sido realizada. | **MUST** | US08 | UC12 |
+| **RF14** | Gestão de Turmas | O sistema deve bloquear permanentemente a adição de novos alunos à turma a partir do momento em que a primeira avaliação for submetida. | **MUST** | US08 | UC12 |
+| **RF15** | Gestão de Turmas | O professor deve controlar a abertura das avaliações através de um toggle de liberação (`isEvaluationOpen`), que por padrão inicia desligado. | **MUST** | US08 | UC12 |
+| **RF16** | Gestão de Turmas | O sistema deve impedir a realização de avaliações em turmas com quórum inferior a 5 alunos matriculados. | **MUST** | US05 | UC11 |
+| **RF17** | Gestão de Turmas | O sistema deve omitir do professor o status individual de acesso/cadastro dos alunos e quem já realizou avaliação (Cegueira de Acesso Docente). | **MUST** | US08 | UC12 |
+| **RF18** | Motor de Avaliação | Envio de avaliação contendo nota geral (1-5), dificuldade (1-5), recomendação (Sim/Não) e comentário textual (mínimo 20 caracteres). | **MUST** | US05 | UC08 |
+| **RF19** | Motor de Avaliação | Expurgo preventivo e desassociação total de qualquer metadado de identificação do autor em reviews anônimas. | **MUST** | US05 | UC11 |
+| **RF20** | Motor de Avaliação | Envio de avaliação nominal quando autorizada na política da turma (`ALLOW_IDENTIFIED`) e com consentimento expresso do estudante. | **COULD** | US06 | UC09 |
+| **RF21** | Moderação & Interação| Voto de utilidade ("Útil" 👍 / Upvote) em avaliações existentes, limitado a 1 voto por usuário/review. | **SHOULD** | US07 | UC10 |
+| **RF22** | Gestão Docente | Configuração da política de privacidade das turmas pelo professor (`Somente Anônimo` vs `Permitir Identificado`). | **SHOULD** | US08 | UC12 |
+| **RF23** | Analytics Docente | Dashboard com Scorecards, Histograma de notas (1 a 5 estrelas) e Gráfico de evolução semestral temporal. | **SHOULD** | US09 | UC13 |
+| **RF24** | Analytics Docente | Exportação de relatórios analíticos de desempenho docente nos formatos CSV anonimizado e PDF executivo. | **COULD** | US09 | UC14 |
 
 ---
 
-### 1.2 Requisitos Não-Funcionais (RNF)
+### 2.2 Requisitos Não-Funcionais (RNF)
 
 | ID | Categoria | Descrição do Requisito Não-Funcional | Métrica / Critério Técnico |
 | :--- | :--- | :--- | :--- |
-| **RNF01** | **Segurança & Privacidade** | Criptografia de senhas com BCrypt (fator de custo 12) / Argon2id; tokens JWT com HMAC-SHA256; transporte estrito sobre HTTPS/TLS 1.3; isolamento de auditoria de reviews via HMAC-SHA256 (`audit_hash`). | Zero senhas ou identificadores expostos; anonimato protegido contra processos de eliminação. |
+| **RNF01** | **Segurança & Privacidade** | Criptografia de senhas com BCrypt (fator de custo 12) / Argon2id; tokens JWT com HMAC-SHA256; transporte estrito sobre HTTPS/TLS 1.3; isolamento de auditoria de reviews via HMAC-SHA256 (`audit_hash`). | Zero senhas ou identificadores expostos; anonimato blindado contra eliminação. |
 | **RNF02** | **Desempenho & Latência** | Tempo de resposta para consultas de catálogo, busca e visualização de perfis sob carga nominal. | P95 < 300ms. |
 | **RNF03** | **Responsividade & UI** | Interface fluida adaptada para Desktop (1440px) e Mobile (390px) seguindo o tema Bootswatch Flatly. | Conformidade total com o Figma SSOT. |
 | **RNF04** | **Disponibilidade & Integridade** | Modelo relacional PostgreSQL 16+ na 3ª Forma Normal (3FN) com transações ACID e índices otimizados. | 99.9% de uptime em produção. |
@@ -54,26 +68,26 @@
 
 ---
 
-## 2. Jornada do Usuário & Mapeamento de Épicos
+## 3. Jornada do Usuário & Mapeamento de Épicos
 
 ```text
 1. Autenticação & Cadastro (Login / Criação de Conta com Qualquer E-mail Válido / Onboarding)
-   └── 2. Gestão de Turmas e Discentes pelo Professor (Criação de Turma / Bulk Add / Toggle de Liberação / Quórum >= 5)
+   └── 2. Gestão Docente (Criação de Disciplina / Cadastro de Turmas Semestrais / Bulk Add Contínuo de Alunos / Toggle)
         └── 3. Tela Principal & Catálogo de Busca (Home / Filtros / Navegação)
-             └── 4. Perfil Detalhado (Professor / Disciplina / Métricas / Reviews)
-                  └── 5. Motor de Avaliações sem Tags (Avaliação Anônima / Identificada / Upvote)
+             └── 4. Perfil Detalhado (Professor / Disciplina / Histórico de Turmas / Reviews)
+                  └── 5. Motor de Avaliações (Avaliação Anônima / Identificada / Upvote)
                        └── 6. Dashboard Analítico & Relatórios Estruturados (Histograma / Série Temporal / CSV / PDF)
 ```
 
 ---
 
-## 3. Especificação Completa das User Stories
+## 4. Especificação Completa das User Stories
 
 ### Épico 1: Autenticação & Gestão de Acesso
 
 #### 🔹 US01: Criação de Conta / Cadastro de Usuário (Qualquer E-mail Válido)
 * **Como** estudante ou professor
-* **Quero** criar uma conta no Classdoor informando meus dados e qualquer e-mail válido (institucional, Gmail, Outlook, etc.)
+* **Quero** criar uma conta no Classdoor informando meus dados e qualquer e-mail válido (ex: Gmail, Outlook, institucional)
 * **Para que** eu possa acessar a plataforma de forma segura e autenticada sem restrição de domínio.
 
 ##### Critérios de Aceitação (Gherkin / BDD):
@@ -122,7 +136,7 @@
   * **Quando** cessar a digitação por mais de 300ms;
   * **Então** o sistema exibe os resultados de professores e disciplinas correspondentes no grid.
 * **Cenário 2: Aplicação de filtros**
-  * **Dado** que o usuário seleciona filtros por Departamento e Semestre Letivo;
+  * **Dado** que o usuário seleciona filtros por Departamento e Semestre Letivo (ex: `2026.1`);
   * **Quando** a lista atualizar;
   * **Então** apenas os registros que satisfaçam todos os critérios devem ser exibidos.
 * **Cenário 3: Seção de destaques**
@@ -137,7 +151,7 @@
 #### 🔹 US04: Visualização de Perfil do Professor / Disciplina
 * **Como** estudante ou professor
 * **Quero** acessar a página de perfil detalhada de um professor ou disciplina
-* **Para que** eu consulte o histórico de avaliações, indicadores pedagógicos e opiniões da comunidade.
+* **Para que** eu consulte o histórico de turmas, indicadores pedagógicos e opiniões da comunidade.
 
 ##### Critérios de Aceitação (Gherkin / BDD):
 * **Cenário 1: Exibição de scorecards e métricas**
@@ -153,16 +167,16 @@
 
 ### Épico 4: Motor de Avaliações & Blindagem de Anonimato
 
-#### 🔹 US05: Envio de Avaliação 100% Anônima (Sem Tags e com Quórum Mínimo)
+#### 🔹 US05: Envio de Avaliação 100% Anônima (Quórum Mínimo e Validação de Liberação)
 * **Como** estudante autenticado matriculado na turma
-* **Quero** avaliar um professor ou disciplina de forma estritamente anônima sem uso de tags
+* **Quero** avaliar um professor ou disciplina de forma estritamente anônima
 * **Para que** eu emita meu feedback sincero com total proteção contra retaliação e eliminação.
 
 ##### Critérios de Aceitação (Gherkin / BDD):
 * **Cenário 1: Submissão anônima com quórum e liberação atendidos**
   * **Dado** que o estudante está matriculado em uma turma com pelo menos 5 alunos matriculados (`studentsCount >= 5`);
   * **E** o toggle de avaliações da turma está liberado pelo professor (`isEvaluationOpen == true`);
-  * **E** o estudante preenche Nota Geral (1-5), Dificuldade (1-5), Recomendação (Sim/Não) e comentário textual (mínimo 20 e máximo 1000 caracteres), sem tags;
+  * **E** o estudante preenche Nota Geral (1-5), Dificuldade (1-5), Recomendação (Sim/Não) e comentário textual (mínimo 20 e máximo 1000 caracteres);
   * **Quando** submeter a avaliação;
   * **Então** o sistema expurga `user_id` e IP na persistência pública, calcula o `audit_hash` para evitar duplicidade, exibe o autor como *"Estudante Anônimo"* e atualiza as médias em tempo real.
 * **Cenário 2: Tentativa de avaliação com toggle desligado**
@@ -206,35 +220,39 @@
 
 ---
 
-### Épico 5: Gestão Docente de Turmas, Alunos & Políticas
+### Épico 5: Gestão Docente de Disciplinas, Turmas & Discentes
 
-#### 🔹 US08: Gestão de Turmas, Adição de Alunos em Lote e Controle de Anonimato
+#### 🔹 US08: Gestão de Disciplinas, Cadastro de Turmas e Adição Contínua de Alunos
 * **Como** professor autenticado
-* **Quero** criar turmas, adicionar alunos em lote via e-mail, controlar a abertura das avaliações e definir a política de privacidade
-* **Para que** eu gerencie minhas turmas de forma ágil sem comprometer a identidade ou anonimato dos discentes.
+* **Quero** cadastrar novas disciplinas ou selecionar existentes, criar turmas semestrais, adicionar alunos em lote continuamente e controlar a liberação das avaliações
+* **Para que** eu organize minhas turmas com agilidade e garanta a integridade e segurança do processo avaliativo.
 
 ##### Critérios de Aceitação (Gherkin / BDD):
-* **Cenário 1: Criação de turma**
-  * **Dado** que o professor acessa seu painel de gestão;
-  * **Quando** preencher o código da turma (ex: "Turma 01"), selecionar a disciplina e o semestre letivo (ex: "2026.1");
-  * **Então** a turma é criada com status ativo, `isEvaluationOpen = false` e política padrão `ANONYMOUS_ONLY`.
-* **Cenário 2: Adição de alunos em lote (Bulk Import)**
-  * **Dado** que a turma criada ainda **não possui nenhuma avaliação cadastrada** (`reviewsCount == 0`);
-  * **Quando** o professor colar uma lista de e-mails de alunos no campo de texto em lote (separados por vírgula, ponto e vírgula ou quebra de linha);
-  * **Então** o sistema valida o formato de cada e-mail, vincula os alunos à turma e atualiza a contagem total de discentes matriculados.
-* **Cenário 3: Bloqueio de adição de alunos após primeira avaliação (Anti-Eliminação)**
+* **Cenário 1: Cadastro de turma com seleção de disciplina existente**
+  * **Dado** que o professor acessa o painel de criação de turmas;
+  * **Quando** selecionar uma disciplina já existente no catálogo, informar o código da turma (ex: "Turma 01") e o período letivo (ex: "2026.1");
+  * **Então** a turma é criada vinculada à disciplina selecionada, com status ativo, `isEvaluationOpen = false` e contadores zerados.
+* **Cenário 2: Cadastro de turma com criação de nova disciplina**
+  * **Dado** que a disciplina desejada ainda não existe no catálogo;
+  * **Quando** o professor optar por *"Cadastrar Nova Disciplina"*, preencher Código (ex: "CC0202"), Nome, Departamento e Ementa, e definir o código da turma e período letivo (ex: "2026.2");
+  * **Então** o sistema cadastra a nova disciplina no catálogo e instancia a turma correspondente vinculada ao docente.
+* **Cenário 3: Adição contínua de alunos em lote (Bulk Import)**
+  * **Dado** que a turma criada **ainda não possui nenhuma avaliação cadastrada** (`reviewsCount == 0`);
+  * **Quando** o professor colar uma lista de e-mails de alunos (separados por vírgula, ponto e vírgula ou quebra de linha);
+  * **Então** o sistema valida o formato de cada e-mail, vincula os discentes à turma e atualiza a contagem total de matriculados. Novos alunos podem continuar sendo adicionados enquanto `reviewsCount == 0`.
+* **Cenário 4: Bloqueio de adição de alunos após a primeira avaliação**
   * **Dado** que a turma já recebeu pelo menos 1 avaliação (`reviewsCount >= 1`);
   * **Quando** o professor tentar adicionar novos alunos;
   * **Então** o sistema bloqueia a operação exibindo o alerta: *"Não é permitido adicionar novos alunos a uma turma que já recebeu avaliações, visando resguardar o sigilo e anonimato discente."*
-* **Cenário 4: Toggle de liberação de avaliações da turma**
-  * **Dado** que o professor concluiu a adição de todos os alunos da turma e o quórum atingiu no mínimo 5 alunos;
+* **Cenário 5: Toggle de liberação de avaliações**
+  * **Dado** que o professor concluiu a inclusão dos alunos e o quórum atingiu no mínimo 5 alunos;
   * **Quando** o professor ativar o toggle *"Liberar Avaliações para os Alunos"*;
-  * **Então** a turma passa a aceitar submissões de avaliações pelos alunos cadastrados.
-* **Cenário 5: Cegueira de Acesso Docente (*Access Blindness*)**
+  * **Então** a turma passa a aceitar submissões de avaliações pelos discentes matriculados.
+* **Cenário 6: Cegueira de Acesso Docente (*Access Blindness*)**
   * **Dado** que os alunos foram matriculados na turma;
   * **Quando** o professor visualizar a listagem da turma;
   * **Então** o sistema exibe apenas o total numérico de alunos matriculados e a lista de e-mails cadastrados, **sem exibir** status de ativação de conta, último acesso, login na plataforma ou indicador individual de quem avaliou.
-* **Cenário 6: Configuração de política de privacidade**
+* **Cenário 7: Configuração de política de privacidade**
   * **Dado** que o professor acessa as configurações da turma;
   * **Quando** alternar entre `Somente Anônimo (Padrão)` e `Permitir Identificado`;
   * **Então** a regra é persistida com confirmação visual.
@@ -250,7 +268,7 @@
 
 ##### Estrutura Detalhada dos Gráficos no Dashboard:
 1. **Painel de Scorecards Superiores (Métricas Gerais):**
-   * **Nota Média Geral:** Valor numérico de 1.0 a 5.0 estrelas com indicação visual de cor (Bootswatch Flatly).
+   * **Nota Média Geral:** Valor numérico de 1.0 a 5.0 estrelas.
    * **Índice de Dificuldade Média:** Valor de 1.0 a 5.0.
    * **Taxa de Recomendação:** Percentual de 0% a 100% de alunos que recomendam o docente.
    * **Total de Avaliações Recebidas:** Contagem consolidada de reviews válidas.
@@ -266,7 +284,7 @@
 
 ##### Estrutura Detalhada dos Relatórios Exportáveis:
 1. **Relatório em Formato CSV (Tabular Anonimizado):**
-   * Estrutura de colunas sem identificação pessoal:
+   * Estrutura de colunas:
      * `data_avaliacao`: Data e hora da submissão (ISO 8601).
      * `disciplina_codigo`: Código da disciplina (ex: `CC0101`).
      * `disciplina_nome`: Nome da matéria.

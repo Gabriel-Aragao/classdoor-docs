@@ -16,7 +16,7 @@
 
 Conforme determinação do CTO/PO (@domaragao):
 1. **Foco 100% no Frontend:** O desenvolvimento do MVP é iniciado exclusivamente pela camada cliente em **React 19 + Bootswatch Flatly (Bootstrap 5)**.
-2. **Backends Mockados no Cliente:** Não haverá tarefas de Backend até alinhamento prévio. Todas as integrações de rede, autenticação (qualquer e-mail válido), criação de turmas, importação em lote de alunos (Bulk Add), submissão de reviews sem tags e dashboards analíticos estruturados serão atendidos por serviços simulados (`mockAuthService.js`, `mockProfessorService.js`, `mockClassService.js`, `mockReviewService.js`, `mockDashboardService.js`) com persistência em memória e `localStorage`.
+2. **Backends Mockados no Cliente:** Não haverá tarefas de Backend até alinhamento prévio. Todas as integrações de rede, autenticação (qualquer e-mail válido), criação de turmas, importação em lote de alunos (Bulk Add), submissão de reviews e dashboards analíticos estruturados serão atendidos por serviços simulados (`mockAuthService.js`, `mockProfessorService.js`, `mockClassService.js`, `mockReviewService.js`, `mockDashboardService.js`) com persistência em memória e `localStorage`.
 3. **Backlog Aberto e Dinâmico:** As tarefas no Trello não possuem atribuição prévia fixa, permitindo que os desenvolvedores juniores (@andreyrian3 e @jenniferrebecaalvesdebarros) e os agentes especialistas puxem os cards dinamicamente.
 
 ---
@@ -98,7 +98,7 @@ Sprint 4: 23/09/2026 a 30/09/2026 — Gestão de Turmas (Bulk Add/Trava/Toggle),
 
 ### 🌟 Sprint 3 (16/09 a 23/09): Perfis Acadêmicos & Motor de Avaliações
 * **Foco:** US04, US05, US06, US07 (Perfis Detalhados, Reviews sem Tags e Upvotes).
-* **Entregáveis:** `mockReviewService.js`, página de perfil com métricas agregadas e histograma de estrelas (1 a 5), modal de avaliação sem tags com toggle de anonimato (`🛡️ 100% Anônimo` vs nominal), validação de quórum ($\ge 5$) e interação de Upvote ("Útil 👍") com controle de idempotência.
+* **Entregáveis:** `mockReviewService.js`, página de perfil com métricas agregadas e histograma de estrelas (1 a 5), modal de avaliação com toggle de anonimato (`🛡️ 100% Anônimo` vs nominal), validação de quórum (>= 5) e interação de Upvote ("Útil 👍") com controle de idempotência.
 
 ### 🌟 Sprint 4 (23/09 a 30/09): Gestão Docente de Turmas, Dashboard Analítico & Homologação MVP
 * **Foco:** US08 e US09 (Painel Docente, Gestão de Alunos em Lote e Dashboard Analítico).

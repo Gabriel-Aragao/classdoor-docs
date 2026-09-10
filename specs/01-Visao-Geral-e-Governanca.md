@@ -91,7 +91,7 @@ O Classdoor adota uma taxonomia enxuta e estrita de **apenas 2 perfis de usuári
 ## 6. Índice e Guia dos Documentos da Pasta `specs/`
 
 * 🏛️ **[02. Arquitetura, Contratos, Dados e Design System](02-Arquitetura-Contratos-e-Design-System.md):**  
-  Especificação completa da stack React 19 / Spring Boot 3, modelo de dados relacional (PostgreSQL 3FN/ACID), blindagem de anonimato, contratos RESTful (gestão de turmas, bulk add de alunos, avaliações sem tags) e Design Tokens do Figma.
+  Especificação completa da stack React 19 / Spring Boot 3, modelo de dados relacional (PostgreSQL 3FN/ACID), blindagem de anonimato, contratos RESTful (gestão de turmas, bulk add contínuo de alunos, avaliações anônimas) e Design Tokens do Figma.
 * 📋 **[03. Catálogo de Requisitos e User Stories](03-Requisitos-e-User-Stories.md):**  
   Detalhamento dos requisitos funcionais (RF01 a RF22) com priorização MoSCoW, requisitos não-funcionais (RNF01 a RNF06) e especificação completa das User Stories (US01 a US09) com critérios BDD.
 * 🚀 **[04. Planejamento de Sprints e Roadmap](04-Planejamento-Sprints-e-Roadmap.md):**  

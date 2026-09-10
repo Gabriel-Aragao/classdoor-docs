@@ -60,7 +60,7 @@ src/
 │   ├── professors/       # Perfil do professor, listagem e filtros
 │   ├── courses/          # Disciplinas, ementas e turmas
 │   ├── classes/          # Criação de turmas, Bulk Add de alunos, Toggle de avaliação
-│   ├── reviews/          # Criação de review sem tags (anônimo/nominal), feed e upvotes
+│   ├── reviews/          # Criação de review (anônimo/nominal), feed e upvotes
 │   └── dashboard/        # Painel do docente (scorecards, histograma, evolução semestral)
 ├── hooks/                # Custom hooks utilitários
 ├── services/             # Instância Axios e serviços mockados / API
@@ -238,12 +238,13 @@ Table review_upvotes {
 | `GET` | `/api/v1/professors` | US03 | Pública | `200 OK` | Busca paginada de docentes com filtros. |
 | `GET` | `/api/v1/professors/{id}` | US04 | Pública | `200 OK` | Perfil do docente com médias e histograma. |
 | `GET` | `/api/v1/courses` | US03 | Pública | `200 OK` | Busca paginada de disciplinas com filtros. |
+| `POST` | `/api/v1/courses` | US08 | `ROLE_PROFESSOR` | `201 Created` | Cadastro de nova disciplina no catálogo. |
 | `GET` | `/api/v1/courses/{id}` | US04 | Pública | `200 OK` | Perfil detalhado da disciplina e turmas. |
 | `POST` | `/api/v1/courses/{cId}/classes` | US08 | `ROLE_PROFESSOR` | `201 Created` | Criação de nova turma pelo professor. |
-| `POST` | `/api/v1/courses/{cId}/classes/{clId}/students/bulk` | US08 | `ROLE_PROFESSOR` | `200 OK` | Adição em lote de alunos via lista de e-mails. |
+| `POST` | `/api/v1/courses/{cId}/classes/{clId}/students/bulk` | US08 | `ROLE_PROFESSOR` | `200 OK` | Adição contínua em lote de alunos via lista de e-mails. |
 | `PATCH`| `/api/v1/courses/{cId}/classes/{clId}/toggle-evaluation` | US08 | `ROLE_PROFESSOR` | `200 OK` | Abertura/fechamento de avaliações da turma. |
 | `PATCH`| `/api/v1/courses/{cId}/classes/{clId}/policy` | US08 | `ROLE_PROFESSOR` | `200 OK` | Alternância de política (`ANONYMOUS_ONLY` vs `ALLOW_IDENTIFIED`). |
-| `GET` | `/api/v1/reviews` | US04 | Pública | `200 OK` | Feed público paginado de avaliações (sem tags). |
+| `GET` | `/api/v1/reviews` | US04 | Pública | `200 OK` | Feed público paginado de avaliações. |
 | `POST` | `/api/v1/reviews` | US05/06 | `ROLE_STUDENT` | `201 Created` | Submissão de avaliação (valida quórum >= 5 e toggle aberto). |
 | `POST` | `/api/v1/reviews/{id}/useful` | US07 | Autenticado | `200 OK` | Incremento atômico de voto útil. |
 | `GET` | `/api/v1/professors/{id}/analytics` | US09 | `ROLE_PROFESSOR` | `200 OK` | Métricas, histograma de estrelas e evolução temporal. |
