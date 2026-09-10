@@ -12,9 +12,11 @@
 ## 1. Princípios Arquiteturais & Pilares de Engenharia
 
 ### 1.1 Privacidade por Design (*Privacy by Design* & Sigilo Absoluto)
-1. **Anonimato por Padrão (*Default*):** Todas as avaliações no Classdoor são $100\%$ anônimas. Nenhuma chave estrangeira identificável (`user_id`, `student_id`), endereço IP ou User-Agent é persistido publicamente ou associado à avaliação na visão do professor/comunidade.
-2. **Mecanismo Antifraude de Unicidade ($O(1)$ Hash Unidirecional):** Para assegurar a regra de negócio *"um aluno só pode avaliar cada turma uma única vez"* sem registrar a chave do usuário na tabela pública `reviews`, a aplicação computa um hash criptográfico unilateral:
-   $$\text{audit\_hash} = \text{HMAC-SHA256}(\text{APP\_PEPPER}, \text{user\_id} \mathbin{\Vert} \text{class\_id})$$
+1. **Anonimato por Padrão (*Default*):** Todas as avaliações no Classdoor são 100% anônimas. Nenhuma chave estrangeira identificável (`user_id`, `student_id`), endereço IP ou User-Agent é persistido publicamente ou associado à avaliação na visão do professor/comunidade.
+2. **Mecanismo Antifraude de Unicidade (Hash Unidirecional O(1)):** Para assegurar a regra de negócio *"um aluno só pode avaliar cada turma uma única vez"* sem registrar a chave do usuário na tabela pública `reviews`, a aplicação computa um hash criptográfico unilateral:
+   ```text
+   audit_hash = HMAC-SHA256(APP_PEPPER, user_id || class_id)
+   ```
    A unicidade estrita é garantida a nível de banco de dados pela constraint `UNIQUE(audit_hash)` no PostgreSQL.
 3. **Modo Nominal Consentido:** Quando a turma está configurada com a política `ALLOW_IDENTIFIED`, o estudante pode optar por assinar a avaliação com seu nome público mediante consentimento explícito.
 

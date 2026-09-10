@@ -25,7 +25,7 @@
 | **RF07** | Busca & Catálogo | Destaques pedagógicos na Home ("Professores Mais Bem Avaliados" e "Disciplinas Populares"). | **SHOULD** | US03 | UC05 |
 | **RF08** | Perfis Acadêmicos | Exibição de perfil detalhado do docente com nota geral, dificuldade, recomendação (%) e histograma. | **MUST** | US04 | UC07 |
 | **RF09** | Perfis Acadêmicos | Exibição de perfil da disciplina com ementa, créditos, média histórica e lista de docentes associados. | **MUST** | US04 | UC07 |
-| **RF10** | Motor de Avaliação | Envio de avaliações contendo nota geral (1-5), dificuldade (1-5), recomendação (Sim/Não), tags e comentário ($\ge 20$ chars). | **MUST** | US05 | UC08 |
+| **RF10** | Motor de Avaliação | Envio de avaliações contendo nota geral (1-5), dificuldade (1-5), recomendação (Sim/Não), tags e comentário (>= 20 chars). | **MUST** | US05 | UC08 |
 | **RF11** | Motor de Avaliação | Expurgo preventivo e desassociação total de qualquer metadado de identificação do autor em reviews anônimas. | **MUST** | US05 | UC11 |
 | **RF12** | Motor de Avaliação | Envio de avaliação nominal quando autorizada na política da turma e com consentimento expresso do estudante. | **COULD** | US06 | UC09 |
 | **RF13** | Moderação & Interação| Voto de utilidade ("Útil" 👍 / Upvote) em avaliações existentes, limitado a 1 voto por usuário/review. | **SHOULD** | US07 | UC10 |
@@ -40,10 +40,10 @@
 | ID | Categoria | Descrição do Requisito Não-Funcional | Métrica / Critério Técnico |
 | :--- | :--- | :--- | :--- |
 | **RNF01** | **Segurança & Privacidade** | Criptografia de senhas com BCrypt (fator de custo 12) / Argon2id; tokens JWT com HMAC-SHA256; transporte estrito sobre HTTPS/TLS 1.3; isolamento de auditoria de reviews via HMAC-SHA256 (`audit_hash`). | Zero senhas ou identificadores expostos; integridade garantida. |
-| **RNF02** | **Desempenho & Latência** | Tempo de resposta para consultas de catálogo, busca e visualização de perfis sob carga nominal. | $P_{95} < 300\text{ms}$. |
+| **RNF02** | **Desempenho & Latência** | Tempo de resposta para consultas de catálogo, busca e visualização de perfis sob carga nominal. | P95 < 300ms. |
 | **RNF03** | **Responsividade & UI** | Interface fluida adaptada para Desktop (1440px) e Mobile (390px) seguindo o tema Bootswatch Flatly. | Conformidade total com o Figma SSOT. |
-| **RNF04** | **Disponibilidade & Integridade** | Modelo relacional PostgreSQL 16+ na 3ª Forma Normal (3FN) com transações ACID e índices otimizados. | $99.9\%$ de uptime em produção. |
-| **RNF05** | **Acessibilidade (A11y)** | Acessibilidade visual e navegabilidade total por teclado. | Padrão WCAG 2.1 nível AA (contraste $\ge 4.5:1$). |
+| **RNF04** | **Disponibilidade & Integridade** | Modelo relacional PostgreSQL 16+ na 3ª Forma Normal (3FN) com transações ACID e índices otimizados. | 99.9% de uptime em produção. |
+| **RNF05** | **Acessibilidade (A11y)** | Acessibilidade visual e navegabilidade total por teclado. | Padrão WCAG 2.1 nível AA (contraste >= 4.5:1). |
 | **RNF06** | **Compatibilidade** | Suporte sem polyfills pesados nos principais navegadores modernos. | Chrome 120+, Firefox 120+, Safari 17+, Edge 120+. |
 
 ---
@@ -153,7 +153,7 @@
 
 ##### Critérios de Aceitação (Gherkin / BDD):
 * **Cenário 1: Submissão anônima válida**
-  * **Dado** que o estudante autenticado abre o modal de avaliação e preenche Nota Geral (1-5), Dificuldade (1-5), Recomendação (Sim/Não), até 3 tags e comentário ($\ge 20$ e $\le 1000$ caracteres);
+  * **Dado** que o estudante autenticado abre o modal de avaliação e preenche Nota Geral (1-5), Dificuldade (1-5), Recomendação (Sim/Não), até 3 tags e comentário (mínimo 20 e máximo 1000 caracteres);
   * **E** mantém a opção *"🛡️ 100% Anônimo"* ativada;
   * **Quando** submeter a avaliação;
   * **Então** o sistema expurga `user_id` e IP na persistência pública, calcula o `audit_hash` para evitar duplicidade, exibe o autor como *"Estudante Anônimo"* e atualiza as médias em tempo real.

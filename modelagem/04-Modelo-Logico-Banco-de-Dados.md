@@ -357,7 +357,9 @@ Controle transacional de upvotes para evitar múltiplos votos pelo mesmo usuári
 
 1. **Protocolo de Anonimato & Prevenção de Duplicidade:**
    - A coluna `audit_hash` na tabela `reviews` armazena um hash criptográfico unilateral calculado na camada de aplicação:  
-     $$\text{audit\_hash} = \text{HMAC-SHA256}(\text{APP\_PEPPER}, \text{user\_id} \mathbin{\Vert} \text{class\_id})$$
+     ```text
+     audit_hash = HMAC-SHA256(APP_PEPPER, user_id || class_id)
+     ```
    - Isso garante a regra de negócio *"um estudante só pode avaliar cada turma uma única vez"* através da constraint `UNIQUE(audit_hash)`, sem que a tabela `reviews` precise armazenar a chave estrangeira direta `user_id`, preservando o sigilo absoluto e conformidade com a LGPD.
 2. **Estratégia de Exclusão em Cascata (`ON DELETE`):**
    - **`CASCADE`:** Utilizado estritamente nas extensões de perfil 1:1 (`students`, `professors`), políticas (`evaluation_policies`), tabelas associativas (`review_tags`) e votos (`review_upvotes`).
