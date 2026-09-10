@@ -27,6 +27,7 @@ Conforme estabelecido nas especificações de governança e arquitetura do proje
 ## 2. Diagrama Geral de Casos de Uso (UML / PlantUML)
 
 ### 📊 Visualização Gráfica do Diagrama
+
 ![Diagrama de Casos de Uso](./03-Diagrama-Casos-de-Uso.svg)
 
 ---
