@@ -453,19 +453,42 @@ O arquivo do [Figma do Classdoor](https://www.figma.com/design/LxCytRCFqQGshvVnV
 * **Reviews & Analytics:** `bi-star-fill`, `bi-hand-thumbs-up-fill`, `bi-graph-up`, `bi-bar-chart-fill`, `bi-file-earmark-pdf-fill`, `bi-file-earmark-spreadsheet-fill`, `bi-box-arrow-right`.
 
 ### 6.4 Matriz de Telas no Figma (14 Pranchetas Oficiais)
-* **Página 1: Desktop (1440px — Grid 12 colunas):**
-  1. `1A. Desktop - Login (US02)` *(Starting Point)*
-  2. `1B. Desktop - Cadastro (US01)`
-  3. `1C. Desktop - Recuperação de Senha (US02)`
-  4. `2. Home & Busca Global (US03)`
-  5. `3. Perfil de Docente & Reviews (US04 & US07)`
-  6. `4. Modal de Avaliação Anônima & Nominal sem Tags (US05 & US06)`
-  7. `5. Painel Docente, Gestão de Turmas & Dashboard (US08 & US09)`
-* **Página 2: Mobile (390px — Mobile-First):**
-  1. `1A. Mobile - Login (US02)` *(Starting Point)*
-  2. `1B. Mobile - Cadastro de Usuário (US01)`
-  3. `1C. Mobile - Recuperação de Senha (US02)`
-  4. `2. Mobile - Home & Busca Global (US03)`
-  5. `3. Mobile - Perfil Docente & Reviews (US04 & US07)`
-  6. `4. Mobile - Modal de Avaliação (US05 & US06)`
-  7. `5. Mobile - Painel Docente & Dashboard (US08 & US09)`
+
+O design oficial do Classdoor no Figma (`https://www.figma.com/design/LxCytRCFqQGshvVnVnDxum/Classdoor`) é estruturado em **três páginas oficiais**, cobrindo 100% dos requisitos funcionais (RF01 a RF24) e User Stories (US01 a US09) definidos em `specs/03-Requisitos-e-User-Stories.md`:
+
+---
+
+#### 📄 Página 1: Desktop (1440px — Grid 12 Colunas)
+
+| # | Identificação da Tela | User Story | Rota / Viewport | Requisitos Atendidos & Componentes de Interface |
+| :--- | :--- | :---: | :---: | :--- |
+| **1A** | `1A. Desktop - Login (US02)` ⭐ *(Starting Point)* | **US02** | `/login`<br>`1440 × 900 px` | • **Header/Navbar:** Logotipo Classdoor com `bi-mortarboard-fill` (#18BC9C), links "Ajuda & FAQ" e "Sobre o Projeto".<br>• **Card de Login:** Segmented control ("Acessar Conta" ativo / "Criar Nova Conta" inativo), campo E-mail (`estudante@universidade.edu`), campo Senha mascarada, checkbox "Lembrar de mim", link "Esqueci minha senha" e botão "Entrar no Classdoor" (`#2C3E50`).<br>• **Banner de Segurança:** Callout com `bi-shield-lock-fill` (#0369A1) informando isolamento de identidade e anonimato total.<br>• **CTA Secundário:** Botão "Criar Nova Conta" (`#18BC9C`). |
+| **1B** | `1B. Desktop - Cadastro (US01)` | **US01** | `/cadastro`<br>`1440 × 900 px` | • **Header/Navbar:** Padrão institucional Classdoor.<br>• **Card de Cadastro:** Segmented control alternando para criação de conta; campos: Nome Completo, E-mail (suporte a qualquer e-mail válido sem restrição de domínio institucional), Seletor de Perfil Universitário ("Sou Estudante" / "Sou Professor"), Senha com checklist dinâmico de segurança (mínimo 8 caracteres, letras e números).<br>• **Botão Principal:** "Criar Minha Conta" (`#18BC9C`) com feedback de validação e link de retorno para Login. |
+| **1C** | `1C. Desktop - Recuperação de Senha (US02)` | **US02** | `/recuperar-senha`<br>`1440 × 900 px` | • **Header/Navbar:** Padrão institucional Classdoor.<br>• **Card de Recuperação:** Ícone central `bi-key-fill` (#2980B9) em container circular, texto explicativo sobre o envio de link temporário com validade de 30 minutos, campo E-mail, botão "Enviar Link de Recuperação" (`#18BC9C`), botão outline "Voltar para o Login" e banner de segurança `bi-shield-check`. |
+| **2** | `2. Home & Busca Global (US03)` | **US03** | `/`<br>`1440 × 960 px` | • **Navbar Autenticada:** Logo, identificação do usuário com perfil ("Lucas Silva - Estudante") e botão "Sair" (`bi-box-arrow-right`).<br>• **Hero Section:** Título de impacto e caixa de busca global com `bi-search` e debounce de 300ms.<br>• **Sidebar de Filtros Acadêmicos:** Filtro por tipo (Todos, Docentes, Cursos), Departamento (dropdown), Semestre Letivo (`2026.1`, `2026.2`), slider de nota mínima (1.0★ a 5.0★) e botão "Limpar Filtros".<br>• **Grid de Resultados & Destaques:** Cards estruturados com avatar/iniciais, nome do docente/disciplina, departamento, nota média com `bi-star-fill` (#F39C12), volume de reviews, badges institucionais e botão "Ver Perfil Completo". |
+| **3** | `3. Perfil de Docente & Reviews (US04 & US07)` | **US04**<br>**US07** | `/professores/:id`<br>`1440 × 1000 px` | • **Header do Perfil:** Botão "← Voltar à Busca", avatar com iniciais, nome do professor/disciplina, departamento e botão de destaque "⭐ Avaliar Professor" (`#2C3E50`).<br>• **Painel de Scorecards (Métricas):** 4 cards com Nota Média Geral (ex: `4.6 ★`), Taxa de Recomendação (`88%`), Nível de Dificuldade (`3.2 / 5.0`) e Total de Reviews (`42 feedbacks`).<br>• **Gráfico de Histograma:** Distribuição percentual de 1 a 5 estrelas em barras horizontais.<br>• **Feed de Avaliações:** Seletor de ordenação (*Mais Recentes*, *Melhor Avaliadas*, *Mais Úteis*); cards de avaliação contendo badge de anonimato (`bi-shield-check` - "Estudante Anônimo") ou nome público (se nominal autorizado), data, semestre da turma, nota geral, dificuldade, recomendação, parecer qualitativo e botão de interação "Útil 👍" (`bi-hand-thumbs-up-fill` - US07) com contador e idempotência. |
+| **4** | `4. Modal de Avaliação Anônima & Nominal (US05 & US06)` | **US05**<br>**US06** | `/avaliar (Modal)`<br>`1440 × 960 px` | • **Container Modal Sobreposto:** Backdrop escurecido (#000000 com 50% de opacidade) e card central elevado (820px largura).<br>• **Validações de Regra de Negócio:** Quórum mínimo ($\ge 5$ alunos matriculados) e verificação de liberação da turma (`isEvaluationOpen == true`).<br>• **Controles do Formulário:** Seletor interativo de estrelas para Nota Geral (1 a 5 `bi-star-fill`), escala numérica de Dificuldade (1 a 5), botões de Recomendação ("Sim" / "Não"), campo de comentário textual qualitativo com contador de caracteres (mínimo 20 e máximo 1000 caracteres).<br>• **Blindagem de Anonimato:** Callout `bi-shield-check` ("Garantia de Anonimato 100% — Identidade e IP isolados via HMAC-SHA256").<br>• **Opção de Avaliação Nominal:** Seletor condicional à política da turma (`ALLOW_IDENTIFIED`) com checkbox obrigatório de consentimento expresso ("Concordo em exibir meu nome público").<br>• **Ações:** Botão outline "Cancelar" e botão "Enviar Avaliação" (`#18BC9C`). |
+| **5** | `5. Painel Docente, Gestão de Turmas & Dashboard (US08 & US09)` | **US08**<br>**US09** | `/dashboard`<br>`1440 × 960 px` | • **Header:** Identificação docente ("Prof. Dr. Carlos Santos") e controle de logout.<br>• **Módulo de Gestão de Turmas (US08):**<br>&nbsp;&nbsp;– Formulário de cadastro de turma com opção de selecionar disciplina existente ou criar nova disciplina (Código, Nome, Departamento, Ementa).<br>&nbsp;&nbsp;– Associação a período letivo semestral padronizado (`AAAA.1` / `AAAA.2`).<br>&nbsp;&nbsp;– Campo de inclusão de alunos em lote (*Bulk Import* via colagem de e-mails), com adição contínua permitida enquanto `reviewsCount == 0` e bloqueio automático após a 1ª avaliação.<br>&nbsp;&nbsp;– Toggle de controle de liberação de avaliações (`isEvaluationOpen`) com trava de segurança para quórum mínimo de 5 discentes.<br>&nbsp;&nbsp;– Blindagem de Cegueira de Acesso Docente (*Access Blindness* — exibe apenas contagem total e lista de e-mails, sem status individual de quem já avaliou).<br>&nbsp;&nbsp;– Seletor de política de privacidade da turma (`Somente Anônimo` vs `Permitir Identificado`).<br>• **Módulo de Dashboard Analítico & Relatórios (US09):**<br>&nbsp;&nbsp;– Scorecards superiores consolidados (Média Geral, Dificuldade, Recomendação %, Total de Avaliações).<br>&nbsp;&nbsp;– **Gráfico 1 (Histograma):** Distribuição de frequência de notas de 1 a 5 estrelas em barras horizontais.<br>&nbsp;&nbsp;– **Gráfico 2 (Série Temporal Semestral):** Gráfico comparativo da evolução histórica semestral das médias de Nota e Dificuldade ao longo dos períodos letivos.<br>&nbsp;&nbsp;– **Botões de Exportação Estruturada:** "Exportar Relatório CSV" (`bi-file-earmark-spreadsheet-fill`) e "Exportar Relatório PDF" (`bi-file-earmark-pdf-fill`). |
+
+---
+
+#### 📱 Página 2: Mobile (390px — Mobile-First)
+
+| # | Identificação da Tela | User Story | Viewport | Adaptação Ergonômica & Comportamento Responsivo |
+| :--- | :--- | :---: | :---: | :--- |
+| **1A** | `1A. Mobile - Login (US02)` ⭐ *(Starting Point)* | **US02** | `390 × 844 px` | Card de login verticalizado em coluna única, touch targets $\ge 44$px, inputs com preenchimento total de largura, banner de segurança `bi-shield-lock-fill` adaptado e alternância fluida para cadastro. |
+| **1B** | `1B. Mobile - Cadastro de Usuário (US01)` | **US01** | `390 × 844 px` | Formulário de criação de conta otimizado para teclado mobile, suporte a qualquer e-mail válido, seletor tátil de perfil (Estudante/Professor) e checklist de senha compacto. |
+| **1C** | `1C. Mobile - Recuperação de Senha (US02)` | **US02** | `390 × 844 px` | Fluxo enxuto com ícone `bi-key-fill`, campo de e-mail e botão de envio em destaque para rápida recuperação de acesso no celular. |
+| **2** | `2. Mobile - Home & Busca Global (US03)` | **US03** | `390 × 844 px` | Header com busca instantânea colapsável, gaveta/drawer de filtros por departamento e semestre letivo, grid de cards em coluna única com scroll vertical e TabBar de navegação fixa na base. |
+| **3** | `3. Mobile - Perfil Docente & Reviews (US04 & US07)` | **US04**<br>**US07** | `390 × 844 px` | Scorecards de métricas dispostos em carrossel horizontal de 2 colunas, histograma de notas compacto, feed vertical de avaliações com botão de upvote ("Útil 👍" — US07) acessível ao toque e TabBar inferior. |
+| **4** | `4. Mobile - Modal de Avaliação (US05 & US06)` | **US05**<br>**US06** | `390 × 844 px` | Bottom sheet / Modal de tela cheia com quórum mínimo ($\ge 5$), seletor de estrelas tátil com espaçamento ergonômico, campo de comentário adaptado para digitação móvel e banner de anonimato. |
+| **5** | `5. Mobile - Painel Docente & Dashboard (US08 & US09)` | **US08**<br>**US09** | `390 × 844 px` | Painel de gestão de turmas mobile com criação de disciplina/turma no fluxo, adição de discentes em lote, toggle tátil de abertura, scorecards consolidados, histograma, gráfico temporal simplificado e botões full-width de exportação (CSV / PDF). |
+
+---
+
+#### 🎨 Página 3: Design System & Tokens (Figma Component Library)
+* **Design Tokens do Bootswatch Flatly:** 10 variáveis semânticas cadastradas (`color/primary` `#2C3E50`, `color/success` `#18BC9C`, `color/warning` `#F39C12`, `color/danger` `#E74C3C`, `color/info` `#3498DB`, `color/background` `#F8F9FA`, `color/surface` `#FFFFFF`, `color/text-dark` `#2C3E50`, `color/text-muted` `#7B8A8B`, `color/border` `#CED4DA`).
+* **Tipografia:** Família Inter com escalas completas para Display (28px Bold), Headings (22px/18px/16px), Body (14px) e Badges (11px/12px).
+* **Biblioteca de Componentes com AutoLayout:** Botões (`Primary`, `Success`, `Outline`, `Upvote`), Badges de Anonimato, Controles de Formulário, Scorecards de Métricas e Modais.
+* **Vitrine Oficial de 24 Ícones do Bootstrap Icons (`bi-*`):** Todos vetoriais e monocromáticos categorizados em *Autenticação & Segurança*, *Busca & Navegação*, *Tags Pedagógicas* e *Reviews, KPIs & Exportação*.
+
