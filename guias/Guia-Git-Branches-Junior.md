@@ -95,12 +95,26 @@ git commit -m "test(auth): adicionar testes unitarios para validacao de email"
 
 ---
 
-### Passo 4: Publicar sua branch no GitHub
+### Passo 4: Publicar sua branch no GitHub e Obter o Link de Preview da Vercel
 Após terminar e testar seu código localmente (`npm run build` e `npm run lint` no frontend ou `mvn clean test` no backend):
 
 ```bash
 git push -u origin feat/005-tela-login
 ```
+
+#### 🌐 Preview Deploy Automático na Vercel
+Assim que você faz o `git push` de qualquer branch no repositório `classdoor-frontend`, a **Vercel** realiza o build e gera automaticamente uma **URL de Preview** exclusiva para a sua branch.
+
+* **Padrão Oficial de URL da Vercel por Branch:**
+  `https://appclassdor-git-<branch_name>-xiud.vercel.app`
+* **Regra de Conversão do Nome da Branch:**
+  A Vercel converte barras (`/`) e sublinhados em hífens (`-`).
+  * *Exemplo para a branch `feat/005-tela-login`:*  
+    🔗 `https://appclassdor-git-feat-005-tela-login-xiud.vercel.app`
+  * *Exemplo para a branch `feat/006-cadastro-usuario`:*  
+    🔗 `https://appclassdor-git-feat-006-cadastro-usuario-xiud.vercel.app`
+
+> 💡 **Atenção:** Você deve testar a sua URL de preview no navegador antes de abrir o PR para garantir que a aplicação subiu sem erros de deploy.
 
 ---
 
@@ -111,15 +125,18 @@ git push -u origin feat/005-tela-login
    - **`base branch`**: selecione **`dev`** *(NUNCA selecione `main`)*.
    - **`compare branch`**: selecione a sua branch (ex: `feat/005-tela-login`).
 4. **Título do PR:** `[<ID>] Título descritivo da tarefa` (ex: `[005] Implementação da Tela de Login`).
-5. **Descrição do PR:** Preencha o resumo do que foi feito e marque os critérios de aceite atendidos:
+5. **Descrição do PR:** Preencha o resumo do que foi feito, insira o link de preview da Vercel e marque os critérios de aceite atendidos:
    ```markdown
    ## 📌 Resumo da Entrega
    Implementada a tela de login utilizando React 19 e componentes Bootswatch.
 
+   ## 🌐 Link de Preview (Vercel)
+   https://appclassdor-git-feat-005-tela-login-xiud.vercel.app
+
    ## ✅ Critérios de Aceite Atendidos
    - [x] Formulário com campos de E-mail, Senha e Lembrar-me
    - [x] Validação visual de campos obrigatórios
-   - [x] Integração com endpoint POST /api/v1/auth/login
+   - [x] Integração com mockAuthService / API
    - [x] npm run build e npm run lint aprovados
    ```
 6. Clique em **"Create pull request"**.
@@ -129,13 +146,14 @@ git push -u origin feat/005-tela-login
 ### Passo 6: Notificar no Trello e Aguardar o Review do @qa
 1. Vá até o card correspondente no quadro **Dac** do Trello.
 2. Mova o card para a coluna **"Review"**.
-3. Adicione um comentário no card com o link do PR:
+3. Adicione um comentário no card com o link do PR e o link de preview da Vercel:
    ```text
    Tarefa concluída e PR #XX aberto apontando para a branch dev.
    Link do PR: https://github.com/Gabriel-Aragao/classdoor-frontend/pull/XX
+   Link de Preview Vercel: https://appclassdor-git-feat-005-tela-login-xiud.vercel.app
    Critérios de aceite validados e build 100% verde. Pronto para review do @qa.
    ```
-4. O **@qa** realizará a validação dos critérios de qualidade. 
+4. O **@qa** realizará a validação funcional e visual dos critérios de qualidade através da URL de preview. 
    - Se aprovado: o @qa autoriza o merge na `dev` e move o card para **Done**.
    - Se houver ajustes: o @qa apontará as correções no card e você fará novos commits na sua mesma branch.
 
