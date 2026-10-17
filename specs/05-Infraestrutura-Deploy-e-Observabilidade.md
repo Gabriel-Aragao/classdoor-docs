@@ -26,8 +26,8 @@ O ambiente de banco de dados é executado em instâncias **PostgreSQL 16+** isol
    - Destinado aos testes da equipe, homologação de novas features da branch `dev` e depuração de queries.
    - Para garantir autonomia aos desenvolvedores sem comprometer privilégios excessivos, foi estabelecida a role `dev_role` com permissões granulares de acesso.
 
-#### Definição da Role de Desenvolvimento (`dev_role`)
-Para conceder acesso seguro e colaborativo ao banco de desenvolvimento sem expor o superusuário, execute o seguinte script DDL:
+#### Definição da Role de Desenvolvimento (`dev_role`) e Atribuição de Usuários
+Para conceder acesso seguro e colaborativo ao banco de desenvolvimento sem expor o superusuário, execute o seguinte script DDL e garanta que o usuário de login possua a propriedade `INHERIT`:
 
 ```sql
 CREATE ROLE dev_role;
@@ -38,6 +38,10 @@ GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO dev_role;
 GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO dev_role;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO dev_role;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO dev_role;
+
+-- Atribuição da role a um usuário de desenvolvedor com herança ativa (evita erro 42501)
+ALTER ROLE seu_usuario_dev WITH INHERIT;
+GRANT dev_role TO seu_usuario_dev;
 ```
 
 ---
