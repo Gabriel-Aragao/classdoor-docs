@@ -15,6 +15,31 @@ O ecossistema está hospedado em uma VPS Oracle Cloud, protegido e exposto atrav
 | **Logs (Grafana)** | `https://logs.odominoapp.win` | `3001` | N/A | Centralização de observabilidade |
 | **Banco de Dados** | `db.odominoapp.win` | `5432` | PostgreSQL 16 | Acesso seguro via TCP Tunnel |
 
+### 1.1. Arquitetura, Governança e Permissões dos Bancos de Dados (Prod vs. Dev)
+
+O ambiente de banco de dados é executado em instâncias **PostgreSQL 16+** isoladas por base de dados, garantindo separação estrita entre Produção e Desenvolvimento:
+
+1. **Produção (`classdoor_db`):**
+   - Destinado exclusivamente ao uso final e armazenamento transacional validado.
+   - Acesso restrito estritamente às aplicações de produção e superusuários DBA.
+2. **Desenvolvimento / Homologação (`classdoor_dev_db`):**
+   - Destinado aos testes da equipe, homologação de novas features da branch `dev` e depuração de queries.
+   - Para garantir autonomia aos desenvolvedores sem comprometer privilégios excessivos, foi estabelecida a role `dev_role` com permissões granulares de acesso.
+
+#### Definição da Role de Desenvolvimento (`dev_role`)
+Para conceder acesso seguro e colaborativo ao banco de desenvolvimento sem expor o superusuário, execute o seguinte script DDL:
+
+```sql
+CREATE ROLE dev_role;
+
+GRANT CONNECT ON DATABASE classdoor_dev_db TO dev_role;
+GRANT USAGE, CREATE ON SCHEMA public TO dev_role;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO dev_role;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO dev_role;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO dev_role;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO dev_role;
+```
+
 ---
 
 ## 2. ⚙️ Orquestração e Deploy (CI/CD)
